@@ -1,0 +1,14 @@
+# Generated
+data.json
+
+# Dependencies
+node_modules/
+
+# Server-side (local only)
+server.js
+admin.html
+app.js
+
+# OS
+.DS_Store
+*.log
