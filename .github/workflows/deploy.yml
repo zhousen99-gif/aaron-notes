@@ -36,6 +36,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html style.css reader.js data.json _site/
+          cp -r openkosmos _site/openkosmos
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
