@@ -1,4 +1,32 @@
 (async function () {
+  // ===== i18n =====
+  const i18n = {
+    zh: {
+      loading: '加载中...',
+      filterTag: '🏷 筛选标签: ',
+      clearFilter: '清除',
+      entries: ' 篇',
+      updated: '最后更新 ',
+      langLabel: 'EN',
+      langTitle: 'Switch to English',
+      langHref: 'en/',
+    },
+    en: {
+      loading: 'Loading...',
+      filterTag: '🏷 Filter: ',
+      clearFilter: 'Clear',
+      entries: ' entries',
+      updated: 'updated ',
+      langLabel: '中',
+      langTitle: '切换中文',
+      langHref: '../',
+    }
+  };
+
+  // Detect language from data-lang attribute or path
+  const pageLang = document.documentElement.getAttribute('data-lang') || 'zh';
+  const t = i18n[pageLang] || i18n.zh;
+
   // ===== Theme =====
   const html = document.documentElement;
   const themeBtn = document.getElementById('themeToggle');
@@ -31,7 +59,7 @@
     const res = await fetch('data.json');
     data = await res.json();
   } catch (e) {
-    document.getElementById('entries').innerHTML = '<p style="color:var(--text-muted);padding:40px;">加载中...</p>';
+    document.getElementById('entries').innerHTML = `<p style="color:var(--text-muted);padding:40px;">${t.loading}</p>`;
     return;
   }
 
@@ -39,7 +67,7 @@
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   let activeTag = null;
 
-  document.getElementById('contentMeta').textContent = `${meta.totalEntries} entries · updated ${meta.lastUpdated}`;
+  document.getElementById('contentMeta').textContent = `${meta.totalEntries}${t.entries} · ${t.updated}${meta.lastUpdated}`;
 
   // ===== Heatmap =====
   const heatmapEl = document.getElementById('heatmap');
@@ -56,7 +84,7 @@
     else if (count >= 3) cell.classList.add('l3');
     else if (count >= 2) cell.classList.add('l2');
     else if (count >= 1) cell.classList.add('l1');
-    cell.title = `${ds}: ${count} entries`;
+    cell.title = `${ds}: ${count}${t.entries}`;
     heatmapEl.appendChild(cell);
   }
 
@@ -117,7 +145,7 @@
     if (activeTag) {
       const bar = document.createElement('div');
       bar.className = 'filter-bar active';
-      bar.innerHTML = `<span>🏷 筛选标签: <strong>${activeTag}</strong></span><button class="clear-filter">清除</button>`;
+      bar.innerHTML = `<span>${t.filterTag}<strong>${activeTag}</strong></span><button class="clear-filter">${t.clearFilter}</button>`;
       bar.querySelector('.clear-filter').addEventListener('click', () => { activeTag = null; renderEntries(); });
       entriesEl.appendChild(bar);
     }
@@ -135,7 +163,7 @@
       for (const entry of fByDate[date]) {
         const article = document.createElement('article');
         article.className = 'article';
-        const tagsHtml = entry.tags.map(t => `<button class="tag${t === activeTag ? ' active' : ''}" data-tag="${t}">${t}</button>`).join('');
+        const tagsHtml = entry.tags.map(tg => `<button class="tag${tg === activeTag ? ' active' : ''}" data-tag="${tg}">${tg}</button>`).join('');
         article.innerHTML = `
           <div class="article-time">${entry.time}</div>
           <h3>${entry.title}</h3>

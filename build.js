@@ -3,24 +3,32 @@ const path = require('path');
 const matter = require('gray-matter');
 const { marked } = require('marked');
 
-const POSTS_DIR = fs.existsSync(path.join(__dirname, 'posts'))
-  ? path.join(__dirname, 'posts')
-  : path.join(__dirname, '..', 'posts');
-const OUTPUT = path.join(__dirname, 'data.json');
-
 // Configure marked
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-});
+marked.setOptions({ gfm: true, breaks: true });
 
-function buildData() {
+function buildLang(lang) {
+  const isEn = lang === 'en';
+  const POSTS_DIR = isEn
+    ? path.join(__dirname, 'posts', 'en')
+    : path.join(__dirname, 'posts');
+  const OUTPUT = isEn
+    ? path.join(__dirname, 'en', 'data.json')
+    : path.join(__dirname, 'data.json');
+
   if (!fs.existsSync(POSTS_DIR)) {
-    console.error(`Posts directory not found: ${POSTS_DIR}`);
-    process.exit(1);
+    console.warn(`Posts directory not found for [${lang}]: ${POSTS_DIR}, skipping.`);
+    return;
   }
 
-  const files = fs.readdirSync(POSTS_DIR).filter(f => f.endsWith('.md')).sort().reverse();
+  // Ensure output directory exists
+  const outDir = path.dirname(OUTPUT);
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+  const files = fs.readdirSync(POSTS_DIR)
+    .filter(f => f.endsWith('.md') && !f.startsWith('.'))
+    .sort()
+    .reverse();
+
   const entries = [];
 
   for (const file of files) {
@@ -28,7 +36,7 @@ function buildData() {
     const { data: fm, content } = matter(raw);
 
     if (!fm.title || !fm.date) {
-      console.warn(`Skipping ${file}: missing title or date`);
+      console.warn(`[${lang}] Skipping ${file}: missing title or date`);
       continue;
     }
 
@@ -58,17 +66,24 @@ function buildData() {
   });
 
   const now = new Date();
+  const lastUpdated = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+  const siteTitle = isEn ? "Aaron's Lobster Notes" : 'Aaron的龙虾笔记';
+
   const output = {
     meta: {
-      title: 'Aaron的龙虾笔记',
+      title: siteTitle,
       totalEntries: entries.length,
-      lastUpdated: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+      lastUpdated,
+      lang,
     },
     entries,
   };
 
   fs.writeFileSync(OUTPUT, JSON.stringify(output, null, 2), 'utf-8');
-  console.log(`✅ Built ${entries.length} entries → ${OUTPUT}`);
+  console.log(`✅ [${lang}] Built ${entries.length} entries → ${OUTPUT}`);
 }
 
-buildData();
+// Build both languages
+buildLang('zh');
+buildLang('en');
