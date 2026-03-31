@@ -273,152 +273,24 @@
   li { color: var(--text-secondary); margin-bottom: 6px; font-size: 0.9rem; }
   li strong { color: var(--text); }
 </style>
-
-<style id="injected-theme">
-  /* ── Light theme override ── */
-  [data-theme="light"] {
-    --bg: #ffffff !important;
-    --card: #f6f8fa !important;
-    --surface: #f6f8fa !important;
-    --surface-hover: #eef1f5 !important;
-    --border: #d0d7de !important;
-    --blue: #2563eb !important;
-    --cyan: #0e7490 !important;
-    --green: #1a7f37 !important;
-    --orange: #bf8700 !important;
-    --purple: #8250df !important;
-    --red: #cf222e !important;
-    --text: #1a1a2e !important;
-    --text-sec: #656d76 !important;
-    --dim: #656d76 !important;
-    --white: #1a1a2e !important;
-  }
-  [data-theme="light"] body {
-    background: #ffffff !important;
-    color: #1a1a2e !important;
-  }
-  [data-theme="light"] .doc-nav {
-    background: rgba(255,255,255,0.85) !important;
-    border-bottom-color: rgba(208,215,222,0.6) !important;
-  }
-  [data-theme="light"] .doc-nav a { color: #656d76 !important; }
-  [data-theme="light"] .doc-nav a:hover { color: #1a1a2e !important; background: rgba(0,0,0,0.04) !important; }
-  [data-theme="light"] .doc-nav .sep { color: #d0d7de !important; }
-  [data-theme="light"] .doc-nav .current { color: #1a1a2e !important; }
-  [data-theme="light"] .diagram {
-    background: #f6f8fa !important;
-    border-color: #d0d7de !important;
-  }
-  [data-theme="light"] th {
-    background: #f6f8fa !important;
-    color: #1a1a2e !important;
-  }
-  [data-theme="light"] td { border-bottom-color: #d0d7de !important; }
-  [data-theme="light"] tr:hover td { background: rgba(37,99,235,0.04) !important; }
-  [data-theme="light"] .callout { background: rgba(191,135,0,0.04) !important; }
-  [data-theme="light"] .callout.blue { background: rgba(37,99,235,0.04) !important; }
-  [data-theme="light"] .callout.green { background: rgba(26,127,55,0.04) !important; }
-  [data-theme="light"] .callout.purple { background: rgba(130,80,223,0.04) !important; }
-  [data-theme="light"] .callout.cyan { background: rgba(14,116,144,0.04) !important; }
-  [data-theme="light"] .callout.red { background: rgba(207,34,46,0.04) !important; }
-  [data-theme="light"] code {
-    background: rgba(37,99,235,0.06) !important;
-    color: #2563eb !important;
-  }
-  [data-theme="light"] .cover { border-bottom-color: #d0d7de !important; }
-  [data-theme="light"] hr { border-top-color: #d0d7de !important; }
-  [data-theme="light"] .footer { color: #656d76 !important; border-top-color: #d0d7de !important; }
-  [data-theme="light"] .badge { filter: saturate(0.8); }
-  [data-theme="light"] .section-tag { filter: saturate(0.85); }
-
-  /* ── Theme/Lang toggle bar ── */
-  .doc-controls {
-    position: fixed; top: 8px; right: 16px; z-index: 1000;
-    display: flex; gap: 6px; align-items: center;
-  }
-  .doc-ctrl-btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    background: rgba(128,128,128,0.15); backdrop-filter: blur(8px);
-    border: 1px solid rgba(128,128,128,0.2); border-radius: 6px;
-    padding: 4px 10px; cursor: pointer; color: inherit;
-    font-size: 12px; font-weight: 600; text-decoration: none; transition: all 0.2s;
-  }
-  .doc-ctrl-btn:hover { background: rgba(128,128,128,0.25); }
-</style>
-
-<style id="i18n-styles">
-  [data-lang="zh"] .en-only { display: none !important; }
-  [data-lang="en"] .zh-only { display: none !important; }
-</style>
 </head>
-<body data-lang="zh">
-
-<style>
-.doc-nav {
-  position: sticky; top: 0; z-index: 999;
-  background: rgba(13,17,23,0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(48,54,61,0.6);
-  padding: 0 24px;
-}
-.doc-nav-inner {
-  max-width: 960px; margin: 0 auto;
-  display: flex; align-items: center;
-  height: 44px; gap: 6px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-.doc-nav a {
-  display: inline-flex; align-items: center; gap: 5px;
-  color: #8b949e; text-decoration: none;
-  font-size: 13px; font-weight: 500;
-  padding: 4px 10px; border-radius: 6px;
-  transition: all 0.15s;
-}
-.doc-nav a:hover {
-  color: #e6edf3;
-  background: rgba(255,255,255,0.06);
-}
-.doc-nav .sep {
-  color: #30363d; font-size: 14px;
-  margin: 0 2px; user-select: none;
-}
-.doc-nav .current {
-  color: #e6edf3;
-}
-</style>
-
-<nav class="doc-nav">
-  <div class="doc-nav-inner">
-    <a href="../../">
-      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg>
-      Home
-    </a>
-    <span class="sep">/</span>
-    <a href="../">
-      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg>
-      Tech Docs
-    </a>
-    <span class="sep">/</span>
-    <span class="current">Agent Orchestration</span>
-  </div>
-</nav>
-
+<body>
 <div class="container">
 
   <!-- Header -->
   <div class="doc-header">
     <h1>Multi-Level Agent Orchestration</h1>
-    <div class="subtitle"><span class="zh-only">PM Studio 多层级 Agent 编排架构 · 需求与<span class="zh-only">可行</span><span class="en-only">Feasible</span>性分析</span><span class="en-only">PM Studio Multi-Level Agent Orchestration Architecture · Requirements & Feasibility Analysis</span></div>
+    <div class="subtitle">PM Studio 多层级 Agent 编排架构 · 需求与可行性分析</div>
     <div class="meta">Version 0.1 Draft · 2026-03-31</div>
   </div>
 
   <!-- Section 1: Vision -->
   <div class="section">
-    <h2><span class="num">01</span><span class="zh-only">愿景概述</span><span class="en-only">Vision Overview</span></h2>
-    <p><span class="zh-only">构建一个<strong>两级 Agent 编排体系</strong>：<span class="zh-only">用户</span><span class="en-only">User</span>只需与少量 L2 编排 Agent 交互，由 L2 自动<span class="zh-only">拆解任务</span><span class="en-only">Decompose</span>、调度或创建 <span class="zh-only">L1 执行</span><span class="en-only">L1 Executes</span> Agent、监控进度、处理异常，并定期向<span class="zh-only">用户</span><span class="en-only">User</span><span class="zh-only">汇报</span><span class="en-only">Report</span>。</span><span class="en-only">Build a <strong>two-level Agent orchestration system</strong>: users interact only with a few L2 orchestrator Agents, which automatically decompose tasks, schedule or create L1 execution Agents, monitor progress, handle exceptions, and periodically report to users.</span></p>
+    <h2><span class="num">01</span>愿景概述</h2>
+    <p>构建一个<strong>两级 Agent 编排体系</strong>：用户只需与少量 L2 编排 Agent 交互，由 L2 自动拆解任务、调度或创建 L1 执行 Agent、监控进度、处理异常，并定期向用户汇报。</p>
 
     <div class="callout">
-      <span class="zh-only"><strong>核心理念：</strong><span class="zh-only">用户</span><span class="en-only">User</span>不再直接管理大量 Agent，而是通过 L2 "经理" 来管理 L1 "员工"，实现 <strong>任务驱动的自动化编排</strong>。</span><span class="en-only"><strong>Core concept:</strong> Users no longer directly manage numerous Agents. Instead, L2 "managers" manage L1 "workers," achieving <strong>task-driven automated orchestration</strong>.</span>
+      <strong>核心理念：</strong>用户不再直接管理大量 Agent，而是通过 L2 "经理" 来管理 L1 "员工"，实现 <strong>任务驱动的自动化编排</strong>。
     </div>
 
     <!-- Architecture Diagram -->
@@ -461,50 +333,50 @@
         <rect x="160" y="120" width="200" height="110" rx="12" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
         <rect x="160" y="120" width="200" height="32" rx="12" fill="rgba(88,166,255,0.12)"/>
         <text x="260" y="141" text-anchor="middle" fill="#58a6ff" font-size="12" font-family="sans-serif" font-weight="700">L2 Orchestrator A</text>
-        <text x="260" y="165" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif"><span class="zh-only">• 任务拆解 &amp; 分配</span><span class="en-only">• Task decomposition &amp; assignment</span></text>
-        <text x="260" y="181" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif"><span class="zh-only">• 创建 / 配置 L1 Agent</span><span class="en-only">• Create / configure L1 Agents</span></text>
-        <text x="260" y="197" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif"><span class="zh-only">• 监控进度 &amp; 干预</span><span class="en-only">• Monitor progress &amp; intervene</span></text>
-        <text x="260" y="213" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif"><span class="zh-only">• 定期向<span class="zh-only">用户</span><span class="en-only">User</span><span class="zh-only">汇报</span><span class="en-only">Report</span></span><span class="en-only">• Periodic user reports</span></text>
+        <text x="260" y="165" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif">• 任务拆解 &amp; 分配</text>
+        <text x="260" y="181" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif">• 创建 / 配置 L1 Agent</text>
+        <text x="260" y="197" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif">• 监控进度 &amp; 干预</text>
+        <text x="260" y="213" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif">• 定期向用户汇报</text>
 
         <rect x="480" y="120" width="200" height="110" rx="12" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
         <rect x="480" y="120" width="200" height="32" rx="12" fill="rgba(88,166,255,0.12)"/>
         <text x="580" y="141" text-anchor="middle" fill="#58a6ff" font-size="12" font-family="sans-serif" font-weight="700">L2 Orchestrator B</text>
-        <text x="580" y="165" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif"><span class="zh-only">• 另一个任务领域</span><span class="en-only">• Another task domain</span></text>
-        <text x="580" y="181" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif"><span class="zh-only">• 独立管理其 L1 池</span><span class="en-only">• Manages its own L1 pool</span></text>
-        <text x="580" y="197" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif"><span class="zh-only">• 同样的编排<span class="zh-only">能力</span><span class="en-only">Capability</span></span><span class="en-only">• Same orchestration capabilities</span></text>
+        <text x="580" y="165" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif">• 另一个任务领域</text>
+        <text x="580" y="181" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif">• 独立管理其 L1 池</text>
+        <text x="580" y="197" text-anchor="middle" fill="#8b949e" font-size="10.5" font-family="sans-serif">• 同样的编排能力</text>
 
         <!-- L1 Agents under A -->
         <rect x="60" y="300" width="150" height="80" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
         <text x="135" y="327" text-anchor="middle" fill="#3fb950" font-size="11" font-family="sans-serif" font-weight="600">L1 Worker ①</text>
-        <text x="135" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif"><span class="zh-only">已有 · 长期保留</span><span class="en-only">Existing · Permanent</span></text>
-        <text x="135" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">🔧 <span class="zh-only">专项技能</span><span class="en-only">Specialized skills</span></text>
+        <text x="135" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">已有 · 长期保留</text>
+        <text x="135" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">🔧 专项技能</text>
 
         <rect x="235" y="300" width="150" height="80" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
         <text x="310" y="327" text-anchor="middle" fill="#3fb950" font-size="11" font-family="sans-serif" font-weight="600">L1 Worker ②</text>
-        <text x="310" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif"><span class="zh-only">按需创建 · 可能保留</span><span class="en-only">On-demand · May keep</span></text>
-        <text x="310" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">🔧 <span class="zh-only">任务定制</span><span class="en-only">Task-specific</span></text>
+        <text x="310" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">按需创建 · 可能保留</text>
+        <text x="310" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">🔧 任务定制</text>
 
         <!-- L1 Agents under B -->
         <rect x="480" y="300" width="150" height="80" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
         <text x="555" y="327" text-anchor="middle" fill="#3fb950" font-size="11" font-family="sans-serif" font-weight="600">L1 Worker ③</text>
-        <text x="555" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif"><span class="zh-only">已有 · 长期保留</span><span class="en-only">Existing · Permanent</span></text>
-        <text x="555" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">🔧 <span class="zh-only">专项技能</span><span class="en-only">Specialized skills</span></text>
+        <text x="555" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">已有 · 长期保留</text>
+        <text x="555" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">🔧 专项技能</text>
 
         <rect x="655" y="300" width="150" height="80" rx="10" fill="#161b22" stroke="#d29922" stroke-width="1.5" stroke-dasharray="5,3"/>
         <text x="730" y="327" text-anchor="middle" fill="#d29922" font-size="11" font-family="sans-serif" font-weight="600">L1 Worker ④</text>
-        <text x="730" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif"><span class="zh-only">临时创建 · 用完删除</span><span class="en-only">Temporary · Delete after use</span></text>
-        <text x="730" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">⏳ <span class="zh-only">一次性任务</span><span class="en-only">One-time task</span></text>
+        <text x="730" y="345" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">临时创建 · 用完删除</text>
+        <text x="730" y="365" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">⏳ 一次性任务</text>
 
         <!-- Tools layer -->
         <rect x="100" y="430" width="620" height="60" rx="10" fill="rgba(57,210,192,0.06)" stroke="#39d2c0" stroke-width="1" stroke-dasharray="4,3"/>
         <text x="410" y="453" text-anchor="middle" fill="#39d2c0" font-size="11" font-family="sans-serif" font-weight="600">🛠️ Tool Layer</text>
-        <text x="410" y="473" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif"><span class="zh-only">内置工具 (Search, File, Web)  ·  MCP Servers  ·  Claude Code  ·  外部 API</span><span class="en-only">Built-in Tools (Search, File, Web)  ·  MCP Servers  ·  Claude Code  ·  External APIs</span></text>
+        <text x="410" y="473" text-anchor="middle" fill="#8b949e" font-size="10" font-family="sans-serif">内置工具 (Search, File, Web)  ·  MCP Servers  ·  Claude Code  ·  外部 API</text>
 
         <!-- Arrows: User → L2 -->
         <line x1="400" y1="66" x2="280" y2="118" stroke="#bc8cff" stroke-width="1.5" marker-end="url(#arrow)"/>
         <line x1="440" y1="66" x2="560" y2="118" stroke="#bc8cff" stroke-width="1.5" marker-end="url(#arrow)"/>
-        <text x="316" y="88" fill="#bc8cff" font-size="9" font-family="sans-serif"><span class="zh-only">发布任务</span><span class="en-only">Assign Task</span></text>
-        <text x="510" y="88" fill="#bc8cff" font-size="9" font-family="sans-serif"><span class="zh-only">发布任务</span><span class="en-only">Assign Task</span></text>
+        <text x="316" y="88" fill="#bc8cff" font-size="9" font-family="sans-serif">发布任务</text>
+        <text x="510" y="88" fill="#bc8cff" font-size="9" font-family="sans-serif">发布任务</text>
 
         <!-- Arrows: L2A → L1 -->
         <line x1="220" y1="230" x2="145" y2="298" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -515,9 +387,9 @@
         <line x1="620" y1="230" x2="720" y2="298" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
 
         <!-- Labels on L2→L1 arrows -->
-        <text x="155" y="268" fill="#58a6ff" font-size="9" font-family="sans-serif"><span class="zh-only">分配任务</span><span class="en-only">Delegate Task</span></text>
-        <text x="312" y="268" fill="#58a6ff" font-size="9" font-family="sans-serif"><span class="zh-only">创建+分配</span><span class="en-only">Create+Delegate</span></text>
-        <text x="649" y="268" fill="#58a6ff" font-size="9" font-family="sans-serif"><span class="zh-only">创建+分配</span><span class="en-only">Create+Delegate</span></text>
+        <text x="155" y="268" fill="#58a6ff" font-size="9" font-family="sans-serif">分配任务</text>
+        <text x="312" y="268" fill="#58a6ff" font-size="9" font-family="sans-serif">创建+分配</text>
+        <text x="649" y="268" fill="#58a6ff" font-size="9" font-family="sans-serif">创建+分配</text>
 
         <!-- Arrows: L1 → L2 (report back) -->
         <path d="M145,300 Q145,270 200,240" fill="none" stroke="#3fb950" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow-green)"/>
@@ -532,18 +404,18 @@
 
         <!-- L2A report back to user -->
         <path d="M200,120 Q180,90 380,60" fill="none" stroke="#d29922" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow-orange)"/>
-        <text x="220" y="102" fill="#d29922" font-size="9" font-family="sans-serif"><span class="zh-only">定期<span class="zh-only">汇报</span><span class="en-only">Report</span></span><span class="en-only">Periodic Report</span></text>
+        <text x="220" y="102" fill="#d29922" font-size="9" font-family="sans-serif">定期汇报</text>
 
         <!-- Legend -->
         <rect x="570" y="22" width="250" height="48" rx="8" fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
         <line x1="582" y1="42" x2="604" y2="42" stroke="#58a6ff" stroke-width="1.5"/>
-        <text x="608" y="46" fill="#8b949e" font-size="9" font-family="sans-serif"><span class="zh-only">任务下发</span><span class="en-only">Task Dispatch</span></text>
+        <text x="608" y="46" fill="#8b949e" font-size="9" font-family="sans-serif">任务下发</text>
         <line x1="662" y1="42" x2="684" y2="42" stroke="#3fb950" stroke-width="1" stroke-dasharray="3,3"/>
-        <text x="688" y="46" fill="#8b949e" font-size="9" font-family="sans-serif"><span class="zh-only">状态回报</span><span class="en-only">Status Report</span></text>
+        <text x="688" y="46" fill="#8b949e" font-size="9" font-family="sans-serif">状态回报</text>
         <line x1="742" y1="42" x2="764" y2="42" stroke="#d29922" stroke-width="1" stroke-dasharray="3,3"/>
-        <text x="768" y="46" fill="#8b949e" font-size="9" font-family="sans-serif"><span class="zh-only">汇报</span><span class="en-only">Report</span></text>
+        <text x="768" y="46" fill="#8b949e" font-size="9" font-family="sans-serif">汇报</text>
         <rect x="582" y="52" width="10" height="10" rx="2" fill="none" stroke="#d29922" stroke-width="1" stroke-dasharray="3,2"/>
-        <text x="598" y="62" fill="#8b949e" font-size="9" font-family="sans-serif"><span class="zh-only">临时 Agent</span><span class="en-only">Temp Agent</span></text>
+        <text x="598" y="62" fill="#8b949e" font-size="9" font-family="sans-serif">临时 Agent</text>
       </svg>
     </div>
   </div>
@@ -551,11 +423,11 @@
 
   <!-- Section 2: Core Requirements -->
   <div class="section">
-    <h2><span class="num">02</span><span class="zh-only">核心需求拆解</span><span class="en-only">Core Requirements Breakdown</span></h2>
-    <p><span class="zh-only">将整个编排架构拆解为 <strong>7 项关键<span class="zh-only">能力</span><span class="en-only">Capability</span></strong>，每一项都是系统运转的必要条件。</span><span class="en-only">Decompose the entire orchestration architecture into <strong>7 key capabilities</strong>, each a necessary condition for the system to function.</span></p>
+    <h2><span class="num">02</span>核心需求拆解</h2>
+    <p>将整个编排架构拆解为 <strong>7 项关键能力</strong>，每一项都是系统运转的必要条件。</p>
 
     <!-- Task Lifecycle Flow -->
-    <h3><span class="zh-only">任务<span class="zh-only">生命周期</span><span class="en-only">Lifecycle</span></span><span class="en-only">Task Lifecycle</span></h3>
+    <h3>任务生命周期</h3>
     <div class="flow-container">
       <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:840px;display:block;margin:0 auto;">
         <defs>
@@ -566,28 +438,28 @@
 
         <!-- Step boxes -->
         <rect x="10" y="40" width="110" height="50" rx="8" fill="rgba(188,140,255,0.12)" stroke="#bc8cff" stroke-width="1.5"/>
-        <text x="65" y="62" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif" font-weight="600"><span class="zh-only">用户</span><span class="en-only">User</span></text>
-        <text x="65" y="78" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif"><span class="zh-only">发布任务</span><span class="en-only">Assign Task</span></text>
+        <text x="65" y="62" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif" font-weight="600">用户</text>
+        <text x="65" y="78" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif">发布任务</text>
 
         <rect x="155" y="40" width="110" height="50" rx="8" fill="rgba(88,166,255,0.12)" stroke="#58a6ff" stroke-width="1.5"/>
-        <text x="210" y="62" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif" font-weight="600"><span class="zh-only">L2 接收</span><span class="en-only">L2 Receives</span></text>
-        <text x="210" y="78" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif"><span class="zh-only">拆解任务</span><span class="en-only">Decompose</span></text>
+        <text x="210" y="62" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif" font-weight="600">L2 接收</text>
+        <text x="210" y="78" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif">拆解任务</text>
 
         <rect x="300" y="40" width="110" height="50" rx="8" fill="rgba(88,166,255,0.12)" stroke="#58a6ff" stroke-width="1.5"/>
-        <text x="355" y="62" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif" font-weight="600"><span class="zh-only">L2 评估</span><span class="en-only">L2 Evaluates</span></text>
-        <text x="355" y="78" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif"><span class="zh-only">查找/创建 L1</span><span class="en-only">Find/Create L1</span></text>
+        <text x="355" y="62" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif" font-weight="600">L2 评估</text>
+        <text x="355" y="78" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif">查找/创建 L1</text>
 
         <rect x="445" y="40" width="110" height="50" rx="8" fill="rgba(63,185,80,0.12)" stroke="#3fb950" stroke-width="1.5"/>
-        <text x="500" y="62" text-anchor="middle" fill="#3fb950" font-size="10" font-family="sans-serif" font-weight="600"><span class="zh-only">L1 执行</span><span class="en-only">L1 Executes</span></text>
-        <text x="500" y="78" text-anchor="middle" fill="#3fb950" font-size="10" font-family="sans-serif"><span class="zh-only">使用工具完成</span><span class="en-only">Complete w/ Tools</span></text>
+        <text x="500" y="62" text-anchor="middle" fill="#3fb950" font-size="10" font-family="sans-serif" font-weight="600">L1 执行</text>
+        <text x="500" y="78" text-anchor="middle" fill="#3fb950" font-size="10" font-family="sans-serif">使用工具完成</text>
 
         <rect x="590" y="40" width="110" height="50" rx="8" fill="rgba(88,166,255,0.12)" stroke="#58a6ff" stroke-width="1.5"/>
-        <text x="645" y="62" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif" font-weight="600"><span class="zh-only">L2 验收</span><span class="en-only">L2 Validates</span></text>
-        <text x="645" y="78" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif"><span class="zh-only">检查质量</span><span class="en-only">Quality Check</span></text>
+        <text x="645" y="62" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif" font-weight="600">L2 验收</text>
+        <text x="645" y="78" text-anchor="middle" fill="#58a6ff" font-size="10" font-family="sans-serif">检查质量</text>
 
         <rect x="735" y="40" width="95" height="50" rx="8" fill="rgba(188,140,255,0.12)" stroke="#bc8cff" stroke-width="1.5"/>
-        <text x="782" y="62" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif" font-weight="600"><span class="zh-only">汇报</span><span class="en-only">Report</span></text>
-        <text x="782" y="78" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif"><span class="zh-only">交付<span class="zh-only">用户</span><span class="en-only">User</span></span><span class="en-only">Deliver to User</span></text>
+        <text x="782" y="62" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif" font-weight="600">汇报</text>
+        <text x="782" y="78" text-anchor="middle" fill="#bc8cff" font-size="10" font-family="sans-serif">交付用户</text>
 
         <!-- Arrows between steps -->
         <line x1="120" y1="65" x2="153" y2="65" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#fa)"/>
@@ -598,64 +470,64 @@
 
         <!-- Exception flow -->
         <path d="M500,90 L500,130 Q500,140 490,140 L380,140 Q370,140 370,130 L370,110" fill="none" stroke="#f85149" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-red)"/>
-        <text x="440" y="155" text-anchor="middle" fill="#f85149" font-size="9" font-family="sans-serif"><span class="zh-only">遇到问题 → 上报 L2</span><span class="en-only">Issue → Escalate to L2</span></text>
+        <text x="440" y="155" text-anchor="middle" fill="#f85149" font-size="9" font-family="sans-serif">遇到问题 → 上报 L2</text>
 
         <path d="M645,90 L645,170 Q645,180 635,180 L510,180 Q500,180 500,170 L500,92" fill="none" stroke="#d29922" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow-orange)"/>
-        <text x="575" y="195" text-anchor="middle" fill="#d29922" font-size="9" font-family="sans-serif"><span class="zh-only">质量不达标 → 返工</span><span class="en-only">Quality fail → Rework</span></text>
+        <text x="575" y="195" text-anchor="middle" fill="#d29922" font-size="9" font-family="sans-serif">质量不达标 → 返工</text>
       </svg>
     </div>
 
-    <h3><span class="zh-only">七项关键<span class="zh-only">能力</span><span class="en-only">Capability</span></span><span class="en-only">Seven Key Capabilities</span></h3>
+    <h3>七项关键能力</h3>
     <table class="cap-table">
       <thead>
         <tr>
           <th style="width:30px">#</th>
-          <th style="width:180px"><span class="zh-only">能力</span><span class="en-only">Capability</span></th>
-          <th><span class="zh-only">描述</span><span class="en-only">Description</span></th>
-          <th style="width:90px"><span class="zh-only">角色</span><span class="en-only">Role</span></th>
+          <th style="width:180px">能力</th>
+          <th>描述</th>
+          <th style="width:90px">角色</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>C1</td>
-          <td><span class="zh-only"><strong><span class="zh-only">Agent <span class="zh-only">生命周期</span><span class="en-only">Lifecycle</span>管理</span><span class="en-only">Agent Lifecycle Mgmt</span></strong></span><span class="en-only"><strong>Agent Lifecycle Management</strong></span></td>
-          <td><span class="zh-only">L2 能创建、配置、更新、删除 L1 Agent，包括设计 system prompt、选择 model、配置 skills 和 tools</span><span class="en-only">L2 can create, configure, update, and delete L1 Agents, including designing system prompts, selecting models, configuring skills and tools</span></td>
+          <td><strong>Agent 生命周期管理</strong></td>
+          <td>L2 能创建、配置、更新、删除 L1 Agent，包括设计 system prompt、选择 model、配置 skills 和 tools</td>
           <td>L2</td>
         </tr>
         <tr>
           <td>C2</td>
-          <td><span class="zh-only"><strong><span class="zh-only">Agent 发现与适配</span><span class="en-only">Agent Discovery</span>评估</strong></span><span class="en-only"><strong>Agent Discovery & Fitness Assessment</strong></span></td>
-          <td><span class="zh-only">L2 收到任务后，能列举已有 L1 Agent，读取其配置，判断是否适合当前任务</span><span class="en-only">After receiving a task, L2 can list existing L1 Agents, read their configs, and assess suitability for the current task</span></td>
+          <td><strong>Agent 发现与适配评估</strong></td>
+          <td>L2 收到任务后，能列举已有 L1 Agent，读取其配置，判断是否适合当前任务</td>
           <td>L2</td>
         </tr>
         <tr>
           <td>C3</td>
-          <td><span class="zh-only"><strong><span class="zh-only">任务下发</span><span class="en-only">Task Dispatch</span></strong></span><span class="en-only"><strong>Task Dispatch</strong></span></td>
-          <td><span class="zh-only">L2 能向指定 L1 Agent 发送任务指令，创建新的执行 session</span><span class="en-only">L2 can send task instructions to a specific L1 Agent and create a new execution session</span></td>
+          <td><strong>任务下发</strong></td>
+          <td>L2 能向指定 L1 Agent 发送任务指令，创建新的执行 session</td>
           <td>L2 → L1</td>
         </tr>
         <tr>
           <td>C4</td>
-          <td><span class="zh-only"><strong><span class="zh-only">状态回报</span><span class="en-only">Status Report</span>与求助</strong></span><span class="en-only"><strong>Status Reporting & Escalation</strong></span></td>
-          <td><span class="zh-only">L1 能向 L2 <span class="zh-only">汇报</span><span class="en-only">Report</span>任务进度/结果，遇到权限问题或功能<span class="zh-only">缺失</span><span class="en-only">Missing</span>时能上报请求帮助</span><span class="en-only">L1 can report task progress/results to L2, and escalate for help when encountering permission issues or capability gaps</span></td>
+          <td><strong>状态回报与求助</strong></td>
+          <td>L1 能向 L2 汇报任务进度/结果，遇到权限问题或功能缺失时能上报请求帮助</td>
           <td>L1 → L2</td>
         </tr>
         <tr>
           <td>C5</td>
-          <td><span class="zh-only"><strong><span class="zh-only">进度监控与干预</span><span class="en-only">Progress Monitoring</span></strong></span><span class="en-only"><strong>Progress Monitoring & Intervention</strong></span></td>
-          <td><span class="zh-only">L2 能实时查看 L1 的执行状态，必要时注入新指令或中止任务</span><span class="en-only">L2 can view L1 execution status in real-time, inject new instructions or abort tasks when necessary</span></td>
+          <td><strong>进度监控与干预</strong></td>
+          <td>L2 能实时查看 L1 的执行状态，必要时注入新指令或中止任务</td>
           <td>L2</td>
         </tr>
         <tr>
           <td>C6</td>
-          <td><span class="zh-only"><strong><span class="zh-only">定期<span class="zh-only">汇报</span><span class="en-only">Report</span></span><span class="en-only">Periodic Report</span></strong></span><span class="en-only"><strong>Periodic Reporting</strong></span></td>
-          <td><span class="zh-only">L2 能按设定频率向<span class="zh-only">用户</span><span class="en-only">User</span>汇总所有 L1 的任务状态，生成进度报告</span><span class="en-only">L2 can summarize all L1 task statuses to the user at set intervals and generate progress reports</span></td>
+          <td><strong>定期汇报</strong></td>
+          <td>L2 能按设定频率向用户汇总所有 L1 的任务状态，生成进度报告</td>
           <td>L2 → User</td>
         </tr>
         <tr>
           <td>C7</td>
-          <td><span class="zh-only"><strong><span class="zh-only">工具使用与执行</span><span class="en-only">Tool Usage & Execution</span></strong></span><span class="en-only"><strong>Tool Usage & Execution</strong></span></td>
-          <td><span class="zh-only">L1 能使用内置工具、MCP Servers、编程工具等完成实际任务</span><span class="en-only">L1 can use built-in tools, MCP Servers, programming tools, etc. to complete actual tasks</span></td>
+          <td><strong>工具使用与执行</strong></td>
+          <td>L1 能使用内置工具、MCP Servers、编程工具等完成实际任务</td>
           <td>L1</td>
         </tr>
       </tbody>
@@ -665,68 +537,68 @@
 
   <!-- Section 3: Platform Assessment -->
   <div class="section">
-    <h2><span class="num">03</span><span class="zh-only">PM Studio 平台现状评估</span><span class="en-only">PM Studio Platform Assessment</span></h2>
-    <p><span class="zh-only">逐项对照七大<span class="zh-only">能力</span><span class="en-only">Capability</span>，评估 PM Studio 当前版本的支持程度。</span><span class="en-only">Assess PM Studio's current support level against each of the seven capabilities.</span></p>
+    <h2><span class="num">03</span>PM Studio 平台现状评估</h2>
+    <p>逐项对照七大能力，评估 PM Studio 当前版本的支持程度。</p>
 
     <table class="cap-table">
       <thead>
         <tr>
           <th style="width:30px">#</th>
-          <th style="width:160px"><span class="zh-only">能力</span><span class="en-only">Capability</span></th>
+          <th style="width:160px">能力</th>
           <th style="width:90px">状态</th>
-          <th><span class="zh-only">现有支持</span><span class="en-only">Current Support</span></th>
-          <th><span class="zh-only">缺口说明</span><span class="en-only">Gap Description</span></th>
+          <th>现有支持</th>
+          <th>缺口说明</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>C1</td>
-          <td><span class="zh-only">Agent <span class="zh-only">生命周期</span><span class="en-only">Lifecycle</span>管理</span><span class="en-only">Agent Lifecycle Mgmt</span></td>
-          <td><span class="badge badge-warn"><span class="zh-only">⚠ <span class="zh-only">部分</span><span class="en-only">Partial</span></span><span class="en-only">⚠ Partial</span></span></td>
-          <td><span class="zh-only">create_agent_from_config、update_agent 可用</span><span class="en-only">create_agent_from_config, update_agent available</span></td>
-          <td><span class="zh-only"><span class="zh-only">无</span><span class="en-only">None</span> delete_agent API，<span class="zh-only">无</span><span class="en-only">None</span>法"用完删除"</span><span class="en-only">No delete_agent API, cannot "delete after use"</span></td>
+          <td>Agent 生命周期管理</td>
+          <td><span class="badge badge-warn">⚠ 部分</span></td>
+          <td>create_agent_from_config、update_agent 可用</td>
+          <td>无 delete_agent API，无法"用完删除"</td>
         </tr>
         <tr>
           <td>C2</td>
-          <td><span class="zh-only">Agent 发现与适配</span><span class="en-only">Agent Discovery</span></td>
-          <td><span class="badge badge-ok"><span class="zh-only">✓ <span class="zh-only">可行</span><span class="en-only">Feasible</span></span><span class="en-only">✓ Feasible</span></span></td>
-          <td><span class="zh-only">list_agents + 读 profile.json 获取配置</span><span class="en-only">list_agents + read profile.json for configs</span></td>
-          <td><span class="zh-only">缺少结构化<span class="zh-only">能力</span><span class="en-only">Capability</span>标签 (capability tags)，需解析 prompt 推断</span><span class="en-only">Missing structured capability tags; must infer from prompt parsing</span></td>
+          <td>Agent 发现与适配</td>
+          <td><span class="badge badge-ok">✓ 可行</span></td>
+          <td>list_agents + 读 profile.json 获取配置</td>
+          <td>缺少结构化能力标签 (capability tags)，需解析 prompt 推断</td>
         </tr>
         <tr>
           <td>C3</td>
-          <td><span class="zh-only"><span class="zh-only">任务下发</span><span class="en-only">Task Dispatch</span> (L2→L1)</span><span class="en-only">Task Dispatch (L2→L1)</span></td>
-          <td><span class="badge badge-miss"><span class="zh-only">✗ <span class="zh-only">缺失</span><span class="en-only">Missing</span></span><span class="en-only">✗ Missing</span></span></td>
-          <td><span class="zh-only">仅 create_schedule 可定时触发</span><span class="en-only">Only create_schedule for timed triggers</span></td>
-          <td><span class="zh-only"><span class="zh-only">无</span><span class="en-only">None</span>实时 agent-to-agent 消息传递，<span class="zh-only">无</span><span class="en-only">None</span>法按需即时<span class="zh-only">分配任务</span><span class="en-only">Delegate Task</span></span><span class="en-only">No real-time agent-to-agent messaging; cannot assign tasks on demand</span></td>
+          <td>任务下发 (L2→L1)</td>
+          <td><span class="badge badge-miss">✗ 缺失</span></td>
+          <td>仅 create_schedule 可定时触发</td>
+          <td>无实时 agent-to-agent 消息传递，无法按需即时分配任务</td>
         </tr>
         <tr>
           <td>C4</td>
-          <td><span class="zh-only"><span class="zh-only">状态回报</span><span class="en-only">Status Report</span> (L1→L2)</span><span class="en-only">Status Report (L1→L2)</span></td>
-          <td><span class="badge badge-miss"><span class="zh-only">✗ <span class="zh-only">缺失</span><span class="en-only">Missing</span></span><span class="en-only">✗ Missing</span></span></td>
-          <td><span class="zh-only">无</span><span class="en-only">None</span></td>
-          <td><span class="zh-only"><span class="zh-only">无</span><span class="en-only">None</span> callback/事件机制，L1 <span class="zh-only">无</span><span class="en-only">None</span>法主动通知 L2</span><span class="en-only">No callback/event mechanism; L1 cannot proactively notify L2</span></td>
+          <td>状态回报 (L1→L2)</td>
+          <td><span class="badge badge-miss">✗ 缺失</span></td>
+          <td>无</td>
+          <td>无 callback/事件机制，L1 无法主动通知 L2</td>
         </tr>
         <tr>
           <td>C5</td>
-          <td><span class="zh-only">进度监控与干预</span><span class="en-only">Progress Monitoring</span></td>
-          <td><span class="badge badge-miss"><span class="zh-only">✗ <span class="zh-only">缺失</span><span class="en-only">Missing</span></span><span class="en-only">✗ Missing</span></span></td>
-          <td><span class="zh-only">无</span><span class="en-only">None</span></td>
-          <td><span class="zh-only">L2 <span class="zh-only">无</span><span class="en-only">None</span>法读取 L1 session 内容，<span class="zh-only">无</span><span class="en-only">None</span>法注入指令</span><span class="en-only">L2 cannot read L1 session content or inject instructions</span></td>
+          <td>进度监控与干预</td>
+          <td><span class="badge badge-miss">✗ 缺失</span></td>
+          <td>无</td>
+          <td>L2 无法读取 L1 session 内容，无法注入指令</td>
         </tr>
         <tr>
           <td>C6</td>
-          <td><span class="zh-only">定期<span class="zh-only">汇报</span><span class="en-only">Report</span></span><span class="en-only">Periodic Report</span></td>
-          <td><span class="badge badge-ok"><span class="zh-only">✓ <span class="zh-only">可行</span><span class="en-only">Feasible</span></span><span class="en-only">✓ Feasible</span></span></td>
-          <td><span class="zh-only">create_schedule 定时触发 Agent 生成报告</span><span class="en-only">create_schedule triggers Agent report generation on schedule</span></td>
-          <td><span class="zh-only"><span class="zh-only">汇报</span><span class="en-only">Report</span>质量取决于能否获取 L1 状态 (依赖 C4)</span><span class="en-only">Report quality depends on obtaining L1 status (depends on C4)</span></td>
+          <td>定期汇报</td>
+          <td><span class="badge badge-ok">✓ 可行</span></td>
+          <td>create_schedule 定时触发 Agent 生成报告</td>
+          <td>汇报质量取决于能否获取 L1 状态 (依赖 C4)</td>
         </tr>
         <tr>
           <td>C7</td>
-          <td><span class="zh-only">工具使用与执行</span><span class="en-only">Tool Usage & Execution</span></td>
-          <td><span class="badge badge-ok"><span class="zh-only">✓ <span class="zh-only">可行</span><span class="en-only">Feasible</span></span><span class="en-only">✓ Feasible</span></span></td>
-          <td><span class="zh-only">内置工具 + MCP Servers + 外部集成</span><span class="en-only">Built-in tools + MCP Servers + external integrations</span></td>
-          <td><span class="zh-only">已满足需求</span><span class="en-only">Meets requirements</span></td>
+          <td>工具使用与执行</td>
+          <td><span class="badge badge-ok">✓ 可行</span></td>
+          <td>内置工具 + MCP Servers + 外部集成</td>
+          <td>已满足需求</td>
         </tr>
       </tbody>
     </table>
@@ -735,49 +607,49 @@
     <div class="flow-container" style="text-align:center;">
       <svg viewBox="0 0 700 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:inline-block;">
         <!-- 7 capability dots -->
-        <text x="350" y="18" text-anchor="middle" fill="#8b949e" font-size="11" font-family="sans-serif" font-weight="600"><span class="zh-only"><span class="zh-only">能力</span><span class="en-only">Capability</span>覆盖率一览</span><span class="en-only">Capability Coverage Overview</span></text>
+        <text x="350" y="18" text-anchor="middle" fill="#8b949e" font-size="11" font-family="sans-serif" font-weight="600">能力覆盖率一览</text>
 
         <!-- C1 -->
         <circle cx="65" cy="55" r="22" fill="rgba(210,153,34,0.15)" stroke="#d29922" stroke-width="2"/>
         <text x="65" y="52" text-anchor="middle" fill="#d29922" font-size="10" font-family="sans-serif" font-weight="700">C1</text>
-        <text x="65" y="64" text-anchor="middle" fill="#d29922" font-size="8" font-family="sans-serif"><span class="zh-only">部分</span><span class="en-only">Partial</span></text>
-        <text x="65" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif"><span class="zh-only">生命周期</span><span class="en-only">Lifecycle</span></text>
+        <text x="65" y="64" text-anchor="middle" fill="#d29922" font-size="8" font-family="sans-serif">部分</text>
+        <text x="65" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif">生命周期</text>
 
         <!-- C2 -->
         <circle cx="170" cy="55" r="22" fill="rgba(63,185,80,0.15)" stroke="#3fb950" stroke-width="2"/>
         <text x="170" y="52" text-anchor="middle" fill="#3fb950" font-size="10" font-family="sans-serif" font-weight="700">C2</text>
-        <text x="170" y="64" text-anchor="middle" fill="#3fb950" font-size="8" font-family="sans-serif"><span class="zh-only">可行</span><span class="en-only">Feasible</span></text>
-        <text x="170" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif"><span class="zh-only">发现适配</span><span class="en-only">Discovery</span></text>
+        <text x="170" y="64" text-anchor="middle" fill="#3fb950" font-size="8" font-family="sans-serif">可行</text>
+        <text x="170" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif">发现适配</text>
 
         <!-- C3 -->
         <circle cx="275" cy="55" r="22" fill="rgba(248,81,73,0.15)" stroke="#f85149" stroke-width="2"/>
         <text x="275" y="52" text-anchor="middle" fill="#f85149" font-size="10" font-family="sans-serif" font-weight="700">C3</text>
-        <text x="275" y="64" text-anchor="middle" fill="#f85149" font-size="8" font-family="sans-serif"><span class="zh-only">缺失</span><span class="en-only">Missing</span></text>
-        <text x="275" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif"><span class="zh-only">任务下发</span><span class="en-only">Task Dispatch</span></text>
+        <text x="275" y="64" text-anchor="middle" fill="#f85149" font-size="8" font-family="sans-serif">缺失</text>
+        <text x="275" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif">任务下发</text>
 
         <!-- C4 -->
         <circle cx="380" cy="55" r="22" fill="rgba(248,81,73,0.15)" stroke="#f85149" stroke-width="2"/>
         <text x="380" y="52" text-anchor="middle" fill="#f85149" font-size="10" font-family="sans-serif" font-weight="700">C4</text>
-        <text x="380" y="64" text-anchor="middle" fill="#f85149" font-size="8" font-family="sans-serif"><span class="zh-only">缺失</span><span class="en-only">Missing</span></text>
-        <text x="380" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif"><span class="zh-only">状态回报</span><span class="en-only">Status Report</span></text>
+        <text x="380" y="64" text-anchor="middle" fill="#f85149" font-size="8" font-family="sans-serif">缺失</text>
+        <text x="380" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif">状态回报</text>
 
         <!-- C5 -->
         <circle cx="485" cy="55" r="22" fill="rgba(248,81,73,0.15)" stroke="#f85149" stroke-width="2"/>
         <text x="485" y="52" text-anchor="middle" fill="#f85149" font-size="10" font-family="sans-serif" font-weight="700">C5</text>
-        <text x="485" y="64" text-anchor="middle" fill="#f85149" font-size="8" font-family="sans-serif"><span class="zh-only">缺失</span><span class="en-only">Missing</span></text>
-        <text x="485" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif"><span class="zh-only">监控干预</span><span class="en-only">Monitoring</span></text>
+        <text x="485" y="64" text-anchor="middle" fill="#f85149" font-size="8" font-family="sans-serif">缺失</text>
+        <text x="485" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif">监控干预</text>
 
         <!-- C6 -->
         <circle cx="590" cy="55" r="22" fill="rgba(63,185,80,0.15)" stroke="#3fb950" stroke-width="2"/>
         <text x="590" y="52" text-anchor="middle" fill="#3fb950" font-size="10" font-family="sans-serif" font-weight="700">C6</text>
-        <text x="590" y="64" text-anchor="middle" fill="#3fb950" font-size="8" font-family="sans-serif"><span class="zh-only">可行</span><span class="en-only">Feasible</span></text>
-        <text x="590" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif"><span class="zh-only">定期<span class="zh-only">汇报</span><span class="en-only">Report</span></span><span class="en-only">Periodic Report</span></text>
+        <text x="590" y="64" text-anchor="middle" fill="#3fb950" font-size="8" font-family="sans-serif">可行</text>
+        <text x="590" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif">定期汇报</text>
 
         <!-- C7 -->
         <circle cx="640" cy="55" r="22" fill="rgba(63,185,80,0.15)" stroke="#3fb950" stroke-width="2"/>
         <text x="640" y="52" text-anchor="middle" fill="#3fb950" font-size="10" font-family="sans-serif" font-weight="700">C7</text>
-        <text x="640" y="64" text-anchor="middle" fill="#3fb950" font-size="8" font-family="sans-serif"><span class="zh-only">可行</span><span class="en-only">Feasible</span></text>
-        <text x="640" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif"><span class="zh-only">工具执行</span><span class="en-only">Tool Exec</span></text>
+        <text x="640" y="64" text-anchor="middle" fill="#3fb950" font-size="8" font-family="sans-serif">可行</text>
+        <text x="640" y="90" text-anchor="middle" fill="#8b949e" font-size="8" font-family="sans-serif">工具执行</text>
       </svg>
     </div>
   </div>
@@ -785,148 +657,148 @@
 
   <!-- Section 4: Gap Analysis -->
   <div class="section">
-    <h2><span class="num">04</span><span class="zh-only">缺口分析 — 需要新增的平台<span class="zh-only">能力</span><span class="en-only">Capability</span></span><span class="en-only">Gap Analysis — Required New Platform Capabilities</span></h2>
-    <p><span class="zh-only">按优先级排列，<strong>P0 为阻塞项</strong>（没有就<span class="zh-only">无</span><span class="en-only">None</span>法运转），P1 为重要增强，P2 为体验优化。</span><span class="en-only">Prioritized: <strong>P0 = blockers</strong> (system cannot function without them), P1 = important enhancements, P2 = experience improvements.</span></p>
+    <h2><span class="num">04</span>缺口分析 — 需要新增的平台能力</h2>
+    <p>按优先级排列，<strong>P0 为阻塞项</strong>（没有就无法运转），P1 为重要增强，P2 为体验优化。</p>
 
     <div class="gap-grid">
       <!-- P0 items -->
       <div class="gap-card">
-        <h4><span class="priority p0">P0</span><span class="zh-only"><span class="zh-only">Agent 间通信</span><span class="en-only">Inter-Agent Comm</span>协议</span><span class="en-only">Inter-Agent Communication Protocol</span></h4>
-        <p><span class="zh-only">需要 <strong>send_task_to_agent(agent_name, message)</strong> 接口 — L2 在目标 L1 创建新 session 并发送 prompt。这是整个编排架构的基础通道，没有它 L2 就<span class="zh-only">无</span><span class="en-only">None</span>法指挥 L1。</span><span class="en-only">Requires <strong>send_task_to_agent(agent_name, message)</strong> API — L2 creates a new session on target L1 and sends a prompt. This is the foundational channel of the entire orchestration architecture; without it, L2 cannot direct L1.</span></p>
+        <h4><span class="priority p0">P0</span>Agent 间通信协议</h4>
+        <p>需要 <strong>send_task_to_agent(agent_name, message)</strong> 接口 — L2 在目标 L1 创建新 session 并发送 prompt。这是整个编排架构的基础通道，没有它 L2 就无法指挥 L1。</p>
       </div>
       <div class="gap-card">
-        <h4><span class="priority p0">P0</span><span class="zh-only">任务状态机 / 共享存储</span><span class="en-only">Task State Machine / Shared Storage</span></h4>
-        <p><span class="zh-only">需要一个 L1 和 L2 都能读写的 <strong>任务状态对象</strong>（task_id, status, result…），支持 pending → in_progress → completed/failed/escalated 流转。否则 L2 <span class="zh-only">无</span><span class="en-only">None</span>法获知 L1 的工作进展。</span><span class="en-only">Requires a <strong>task state object</strong> readable/writable by both L1 and L2 (task_id, status, result...), supporting pending → in_progress → completed/failed/escalated transitions. Without it, L2 cannot know L1's work progress.</span></p>
+        <h4><span class="priority p0">P0</span>任务状态机 / 共享存储</h4>
+        <p>需要一个 L1 和 L2 都能读写的 <strong>任务状态对象</strong>（task_id, status, result…），支持 pending → in_progress → completed/failed/escalated 流转。否则 L2 无法获知 L1 的工作进展。</p>
       </div>
       <div class="gap-card">
-        <h4><span class="priority p0">P0</span><span class="zh-only">Session 读取<span class="zh-only">能力</span><span class="en-only">Capability</span></span><span class="en-only">Session Read Capability</span></h4>
-        <p><span class="zh-only">L2 需要 <strong>read_agent_session(agent, session_id)</strong> 来查看 L1 的执行过程和输出。这是监控和验收的前提。</span><span class="en-only">L2 needs <strong>read_agent_session(agent, session_id)</strong> to view L1's execution process and output. This is a prerequisite for monitoring and validation.</span></p>
+        <h4><span class="priority p0">P0</span>Session 读取能力</h4>
+        <p>L2 需要 <strong>read_agent_session(agent, session_id)</strong> 来查看 L1 的执行过程和输出。这是监控和验收的前提。</p>
       </div>
 
       <!-- P1 items -->
       <div class="gap-card p1">
-        <h4><span class="priority p1">P1</span><span class="zh-only">Agent 删除 API</span><span class="en-only">Agent Delete API</span></h4>
-        <p><span class="zh-only">需要 <strong>delete_agent(agent_name)</strong> — 对于<span class="zh-only">一次性任务</span><span class="en-only">One-time task</span>创建的临时 L1 Agent，完成后应当能清理删除，避免 agent 列表<span class="zh-only">无</span><span class="en-only">None</span>限膨胀。</span><span class="en-only">Requires <strong>delete_agent(agent_name)</strong> — temporary L1 Agents created for one-time tasks should be cleanable after completion, preventing unbounded agent list growth.</span></p>
+        <h4><span class="priority p1">P1</span>Agent 删除 API</h4>
+        <p>需要 <strong>delete_agent(agent_name)</strong> — 对于一次性任务创建的临时 L1 Agent，完成后应当能清理删除，避免 agent 列表无限膨胀。</p>
       </div>
       <div class="gap-card p1">
-        <h4><span class="priority p1">P1</span><span class="zh-only">Session 干预<span class="zh-only">能力</span><span class="en-only">Capability</span></span><span class="en-only">Session Intervention Capability</span></h4>
-        <p><span class="zh-only">L2 需要能向 L1 <strong>正在执行的 session 注入新指令</strong>，或者 L1 支持执行中途的 checkpoint 机制，到 checkpoint 时检查 L2 是否有新指示。</span><span class="en-only">L2 needs to <strong>inject new instructions into L1's active session</strong>, or L1 should support mid-execution checkpoints where it checks for new L2 directives.</span></p>
+        <h4><span class="priority p1">P1</span>Session 干预能力</h4>
+        <p>L2 需要能向 L1 <strong>正在执行的 session 注入新指令</strong>，或者 L1 支持执行中途的 checkpoint 机制，到 checkpoint 时检查 L2 是否有新指示。</p>
       </div>
       <div class="gap-card p1">
-        <h4><span class="priority p1">P1</span><span class="zh-only">回调 / 事件通知</span><span class="en-only">Callback / Event Notification</span></h4>
-        <p><span class="zh-only">L1 完成任务后能 <strong>自动触发通知</strong> 给 L2（而非 L2 轮询）。类似 webhook 或事件订阅机制。</span><span class="en-only">After L1 completes a task, it should <strong>automatically trigger notifications</strong> to L2 (instead of L2 polling). Similar to webhook or event subscription mechanisms.</span></p>
+        <h4><span class="priority p1">P1</span>回调 / 事件通知</h4>
+        <p>L1 完成任务后能 <strong>自动触发通知</strong> 给 L2（而非 L2 轮询）。类似 webhook 或事件订阅机制。</p>
       </div>
 
       <!-- P2 items -->
       <div class="gap-card p2">
-        <h4><span class="priority p2">P2</span><span class="zh-only">Agent <span class="zh-only">能力</span><span class="en-only">Capability</span>注册表</span><span class="en-only">Agent Capability Registry</span></h4>
-        <p><span class="zh-only">每个 Agent 除了 system prompt，增加结构化的 <strong>capabilities / domain tags</strong>。L2 可通过 search_agents_by_capability(tags) 快速匹配合适的 L1。</span><span class="en-only">Beyond system prompts, each Agent would have structured <strong>capabilities / domain tags</strong>. L2 can quickly match suitable L1s via search_agents_by_capability(tags).</span></p>
+        <h4><span class="priority p2">P2</span>Agent 能力注册表</h4>
+        <p>每个 Agent 除了 system prompt，增加结构化的 <strong>capabilities / domain tags</strong>。L2 可通过 search_agents_by_capability(tags) 快速匹配合适的 L1。</p>
       </div>
       <div class="gap-card p2">
-        <h4><span class="priority p2">P2</span><span class="zh-only">任务执行历史</span><span class="en-only">Task Execution History</span></h4>
-        <p><span class="zh-only">记录每个 Agent 的 <strong>历史任务及成功率</strong>，帮助 L2 做更精准的任务分配决策。</span><span class="en-only">Record each Agent's <strong>historical tasks and success rates</strong>, helping L2 make more precise task assignment decisions.</span></p>
+        <h4><span class="priority p2">P2</span>任务执行历史</h4>
+        <p>记录每个 Agent 的 <strong>历史任务及成功率</strong>，帮助 L2 做更精准的任务分配决策。</p>
       </div>
     </div>
   </div>
 
   <!-- Section 5: Workaround -->
   <div class="section">
-    <h2><span class="num">05</span><span class="zh-only">当前<span class="zh-only">可行</span><span class="en-only">Feasible</span>的 Workaround 方案</span><span class="en-only">Current Feasible Workaround</span></h2>
-    <p><span class="zh-only">在平台尚未提供 <span class="zh-only">Agent 间通信</span><span class="en-only">Inter-Agent Comm</span>的情况下，可以利用 <strong>文件系统 + Schedule 定时任务</strong> 搭建一个"穷人版"编排原型。</span><span class="en-only">Before the platform provides inter-Agent communication, we can use the <strong>file system + scheduled tasks</strong> to build a "poor man's" orchestration prototype.</span></p>
+    <h2><span class="num">05</span>当前可行的 Workaround 方案</h2>
+    <p>在平台尚未提供 Agent 间通信的情况下，可以利用 <strong>文件系统 + Schedule 定时任务</strong> 搭建一个"穷人版"编排原型。</p>
 
     <div class="workaround-box">
-      <h4><span class="zh-only">📁 文件系统作为通信总线</span><span class="en-only">📁 File System as Communication Bus</span></h4>
-      <p><span class="zh-only">所有 Agent 共享一个 workspace 目录，通过 JSON 文件进行异步通信：</span><span class="en-only">All Agents share a workspace directory, communicating asynchronously via JSON files:</span></p>
+      <h4>📁 文件系统作为通信总线</h4>
+      <p>所有 Agent 共享一个 workspace 目录，通过 JSON 文件进行异步通信：</p>
       <div class="file-tree"><span class="dir">shared_workspace/</span>
 ├── <span class="dir">tasks/</span>
-│   ├── <span class="file">task_001.json</span>          <span class="comment"><span class="zh-only"># L2 写入任务定义 (what, who, deadline)</span><span class="en-only"># L2 writes task definition (what, who, deadline)</span></span>
-│   ├── <span class="file">task_001_status.json</span>   <span class="comment"><span class="zh-only"># L1 更新执行状态 (progress, blockers)</span><span class="en-only"># L1 updates execution status (progress, blockers)</span></span>
-│   └── <span class="file">task_001_result.md</span>     <span class="comment"><span class="zh-only"># L1 写入最终交付物</span><span class="en-only"># L1 writes final deliverable</span></span>
+│   ├── <span class="file">task_001.json</span>          <span class="comment"># L2 写入任务定义 (what, who, deadline)</span>
+│   ├── <span class="file">task_001_status.json</span>   <span class="comment"># L1 更新执行状态 (progress, blockers)</span>
+│   └── <span class="file">task_001_result.md</span>     <span class="comment"># L1 写入最终交付物</span>
 ├── <span class="dir">escalations/</span>
-│   └── <span class="file">esc_001.json</span>           <span class="comment"><span class="zh-only"># L1 写入求助请求 (问题<span class="zh-only">描述</span><span class="en-only">Description</span>, 需要什么)</span><span class="en-only"># L1 writes escalation request (issue, what's needed)</span></span>
+│   └── <span class="file">esc_001.json</span>           <span class="comment"># L1 写入求助请求 (问题描述, 需要什么)</span>
 ├── <span class="dir">registry/</span>
-│   └── <span class="file">agents.json</span>            <span class="comment"><span class="zh-only"># <span class="zh-only">Agent <span class="zh-only">能力</span><span class="en-only">Capability</span>注册表</span><span class="en-only">Agent Capability Registry</span> (手动维护)</span><span class="en-only"># Agent capability registry (manually maintained)</span></span>
+│   └── <span class="file">agents.json</span>            <span class="comment"># Agent 能力注册表 (手动维护)</span>
 └── <span class="dir">reports/</span>
-    └── <span class="file">daily_report.md</span>        <span class="comment"><span class="zh-only"># L2 生成的汇总报告</span><span class="en-only"># Summary report generated by L2</span></span></div>
+    └── <span class="file">daily_report.md</span>        <span class="comment"># L2 生成的汇总报告</span></div>
     </div>
 
     <div class="workaround-box">
-      <h4><span class="zh-only">⏱️ Schedule 定时任务作为触发器</span><span class="en-only">⏱️ Scheduled Tasks as Triggers</span></h4>
+      <h4>⏱️ Schedule 定时任务作为触发器</h4>
       <ul>
-        <li><span class="zh-only"><strong>L2 发任务：</strong>写入 task JSON → 用 create_schedule 创建立即执行的任务，让 L1 去读取并执行</span><span class="en-only"><strong>L2 assigns tasks:</strong> Write task JSON → use create_schedule to create an immediate task, letting L1 read and execute</span></li>
-        <li><span class="zh-only"><strong>L1 <span class="zh-only">汇报</span><span class="en-only">Report</span>：</strong>把状态/结果写入文件 → L2 通过定时 schedule 轮询检查</span><span class="en-only"><strong>L1 reports:</strong> Write status/results to files → L2 polls via scheduled tasks</span></li>
-        <li><span class="zh-only"><strong>L2 干预：</strong>写入新的指令文件 → L1 在 prompt 中被要求定期检查指令文件</span><span class="en-only"><strong>L2 intervenes:</strong> Write new instruction files → L1 is prompted to periodically check instruction files</span></li>
-        <li><span class="zh-only"><strong>L2 <span class="zh-only">汇报</span><span class="en-only">Report</span>：</strong>定时 schedule 触发 L2 汇总所有 task 状态，生成报告</span><span class="en-only"><strong>L2 reports:</strong> Scheduled task triggers L2 to summarize all task statuses and generate reports</span></li>
+        <li><strong>L2 发任务：</strong>写入 task JSON → 用 create_schedule 创建立即执行的任务，让 L1 去读取并执行</li>
+        <li><strong>L1 汇报：</strong>把状态/结果写入文件 → L2 通过定时 schedule 轮询检查</li>
+        <li><strong>L2 干预：</strong>写入新的指令文件 → L1 在 prompt 中被要求定期检查指令文件</li>
+        <li><strong>L2 汇报：</strong>定时 schedule 触发 L2 汇总所有 task 状态，生成报告</li>
       </ul>
     </div>
 
     <div class="callout">
-      <span class="zh-only"><strong>⚠️ Workaround 的局限性：</strong>延迟高（非实时）、依赖 Agent 自觉检查文件（<span class="zh-only">无</span><span class="en-only">None</span>真正事件驱动）、状态一致性难保证、调试困难。适合用来<strong>验证概念和流程</strong>，不适合生产级使用。</span><span class="en-only"><strong>⚠️ Workaround limitations:</strong> High latency (not real-time), relies on Agents proactively checking files (no true event-driven), hard to guarantee state consistency, difficult to debug. Suitable for <strong>validating concepts and workflows</strong>, not for production use.</span>
+      <strong>⚠️ Workaround 的局限性：</strong>延迟高（非实时）、依赖 Agent 自觉检查文件（无真正事件驱动）、状态一致性难保证、调试困难。适合用来<strong>验证概念和流程</strong>，不适合生产级使用。
     </div>
   </div>
 
 
   <!-- Section 6: Roadmap -->
   <div class="section">
-    <h2><span class="num">06</span><span class="zh-only">建议路线图</span><span class="en-only">Suggested Roadmap</span></h2>
+    <h2><span class="num">06</span>建议路线图</h2>
 
     <div class="roadmap">
       <div class="roadmap-item active">
-        <h4><span class="zh-only">Phase 1：概念验证 (PoC)</span><span class="en-only">Phase 1: Proof of Concept (PoC)</span><span><span class="zh-only">现在可以做</span><span class="en-only">Actionable now</span></span></h4>
-        <p><span class="zh-only">基于文件系统 + Schedule 机制搭建原型。验证 L2→L1 任务分发、结果收集、异常上报的核心流程是否符合预期。明确真实使用中的痛点和优先级。</span><span class="en-only">Build a prototype using file system + Schedule mechanisms. Validate whether the core workflows of L2→L1 task distribution, result collection, and exception escalation meet expectations. Identify real-world pain points and priorities.</span></p>
+        <h4>Phase 1：概念验证 (PoC)<span>现在可以做</span></h4>
+        <p>基于文件系统 + Schedule 机制搭建原型。验证 L2→L1 任务分发、结果收集、异常上报的核心流程是否符合预期。明确真实使用中的痛点和优先级。</p>
       </div>
       <div class="roadmap-item">
-        <h4><span class="zh-only">Phase 2：平台<span class="zh-only">能力</span><span class="en-only">Capability</span>建设</span><span class="en-only">Phase 2: Platform Capability Building</span><span><span class="zh-only">需要 PM Studio 团队支持</span><span class="en-only">Requires PM Studio team support</span></span></h4>
-        <p><span class="zh-only">推动 P0 <span class="zh-only">能力</span><span class="en-only">Capability</span>的平台级实现：<span class="zh-only"><span class="zh-only">Agent 间通信</span><span class="en-only">Inter-Agent Comm</span>协议</span><span class="en-only">Inter-Agent Communication Protocol</span>、任务状态机、Session 读取 API。这些是从原型走向可靠系统的必要基础设施。</span><span class="en-only">Drive platform-level implementation of P0 capabilities: inter-Agent communication protocol, task state machine, Session read API. These are the essential infrastructure for moving from prototype to reliable system.</span></p>
+        <h4>Phase 2：平台能力建设<span>需要 PM Studio 团队支持</span></h4>
+        <p>推动 P0 能力的平台级实现：Agent 间通信协议、任务状态机、Session 读取 API。这些是从原型走向可靠系统的必要基础设施。</p>
       </div>
       <div class="roadmap-item">
-        <h4><span class="zh-only">Phase 3：增强与规模化</span><span class="en-only">Phase 3: Enhancement & Scale</span><span><span class="zh-only">平台<span class="zh-only">能力</span><span class="en-only">Capability</span>就绪后</span><span class="en-only">After platform capabilities are ready</span></span></h4>
-        <p><span class="zh-only">实现 P1/P2 <span class="zh-only">能力</span><span class="en-only">Capability</span>：Agent 删除、Session 干预、回调通知、<span class="zh-only">能力</span><span class="en-only">Capability</span>注册表。支持更复杂的多 L1 并行任务编排，引入<span class="zh-only">任务执行历史</span><span class="en-only">Task Execution History</span>辅助智能调度。</span><span class="en-only">Implement P1/P2 capabilities: Agent deletion, Session intervention, callback notifications, capability registry. Support more complex parallel multi-L1 task orchestration, introduce task execution history for intelligent scheduling.</span></p>
+        <h4>Phase 3：增强与规模化<span>平台能力就绪后</span></h4>
+        <p>实现 P1/P2 能力：Agent 删除、Session 干预、回调通知、能力注册表。支持更复杂的多 L1 并行任务编排，引入任务执行历史辅助智能调度。</p>
       </div>
       <div class="roadmap-item">
-        <h4><span class="zh-only">Phase 4：智能化</span><span class="en-only">Phase 4: Intelligence</span><span><span class="zh-only">长期目标</span><span class="en-only">Long-term goal</span></span></h4>
-        <p><span class="zh-only">L2 具备自主学习<span class="zh-only">能力</span><span class="en-only">Capability</span> — 根据历史数据自动优化 L1 配置、任务分配策略和干预时机。形成真正的 Agentic Workflow Engine。</span><span class="en-only">L2 gains autonomous learning capabilities — automatically optimizing L1 configurations, task assignment strategies, and intervention timing based on historical data. Forming a true Agentic Workflow Engine.</span></p>
+        <h4>Phase 4：智能化<span>长期目标</span></h4>
+        <p>L2 具备自主学习能力 — 根据历史数据自动优化 L1 配置、任务分配策略和干预时机。形成真正的 Agentic Workflow Engine。</p>
       </div>
     </div>
   </div>
 
   <!-- Section 7: Comparison -->
   <div class="section">
-    <h2><span class="num">07</span><span class="zh-only">与业界方案对比</span><span class="en-only">Industry Comparison</span></h2>
-    <p><span class="zh-only">当前主流的 Multi-Agent 编排<span class="zh-only">框架</span><span class="en-only">Framework</span>，供参考对比：</span><span class="en-only">Current mainstream Multi-Agent orchestration frameworks for reference:</span></p>
+    <h2><span class="num">07</span>与业界方案对比</h2>
+    <p>当前主流的 Multi-Agent 编排框架，供参考对比：</p>
     <table class="cap-table">
       <thead>
         <tr>
-          <th><span class="zh-only">框架</span><span class="en-only">Framework</span></th>
-          <th><span class="zh-only">编排模式</span><span class="en-only">Orchestration Mode</span></th>
-          <th><span class="zh-only">Agent 间通信</span><span class="en-only">Inter-Agent Comm</span></th>
-          <th><span class="zh-only">与 PM Studio 的差异</span><span class="en-only">Difference from PM Studio</span></th>
+          <th>框架</th>
+          <th>编排模式</th>
+          <th>Agent 间通信</th>
+          <th>与 PM Studio 的差异</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td><strong>CrewAI</strong></td>
-          <td><span class="zh-only"><span class="zh-only">角色</span><span class="en-only">Role</span>定义 + 顺序/并行流程</span><span class="en-only">Role definition + Sequential/parallel flows</span></td>
-          <td><span class="zh-only">内存共享 + 委托</span><span class="en-only">Memory sharing + delegation</span></td>
-          <td><span class="zh-only">代码<span class="zh-only">框架</span><span class="en-only">Framework</span>，非 GUI；通信内置在进程中</span><span class="en-only">Code framework, not GUI; communication built into process</span></td>
+          <td>角色定义 + 顺序/并行流程</td>
+          <td>内存共享 + 委托</td>
+          <td>代码框架，非 GUI；通信内置在进程中</td>
         </tr>
         <tr>
           <td><strong>AutoGen</strong></td>
-          <td><span class="zh-only">对话式协作</span><span class="en-only">Conversational collaboration</span></td>
-          <td><span class="zh-only">Agent 间直接消息</span><span class="en-only">Direct agent-to-agent messaging</span></td>
-          <td><span class="zh-only">MS 出品；聚焦 Agent 对话而非任务编排</span><span class="en-only">MS product; focuses on Agent conversation rather than task orchestration</span></td>
+          <td>对话式协作</td>
+          <td>Agent 间直接消息</td>
+          <td>MS 出品；聚焦 Agent 对话而非任务编排</td>
         </tr>
         <tr>
           <td><strong>LangGraph</strong></td>
-          <td><span class="zh-only">状态图 (Graph)</span><span class="en-only">State graph</span></td>
-          <td><span class="zh-only">共享状态 + 边条件</span><span class="en-only">Shared state + edge conditions</span></td>
-          <td><span class="zh-only">编程式定义流程，灵活但门槛高</span><span class="en-only">Programmatic flow definition; flexible but high barrier</span></td>
+          <td>状态图 (Graph)</td>
+          <td>共享状态 + 边条件</td>
+          <td>编程式定义流程，灵活但门槛高</td>
         </tr>
         <tr>
           <td><strong>PM Studio (目标)</strong></td>
-          <td><span class="zh-only">层级编排 (L2/L1)</span><span class="en-only">Hierarchical orchestration (L2/L1)</span></td>
-          <td><span class="zh-only">🔴 待建设</span><span class="en-only">🔴 To be built</span></td>
-          <td><span class="zh-only">GUI 驱动，低代码；需补齐通信基础设施</span><span class="en-only">GUI-driven, low-code; needs communication infrastructure</span></td>
+          <td>层级编排 (L2/L1)</td>
+          <td>🔴 待建设</td>
+          <td>GUI 驱动，低代码；需补齐通信基础设施</td>
         </tr>
       </tbody>
     </table>
@@ -936,47 +808,11 @@
   <div style="text-align:center; padding:40px 0 20px; border-top:1px solid var(--border); margin-top:48px;">
     <p style="font-size:0.8rem; color:var(--text-secondary);">
       Multi-Level Agent Orchestration · PM Studio Architecture Proposal<br/>
-      <span class="zh-only">Generated by Agent优化师 · 2026-03-31</span><span class="en-only">Generated by Agent Optimizer · 2026-03-31</span>
+      Generated by Agent优化师 · 2026-03-31
     </p>
   </div>
 
 </div><!-- /container -->
-
-<div class="doc-controls">
-  <button class="doc-ctrl-btn" id="docLangToggle" title="Switch language">EN</button>
-  <button class="doc-ctrl-btn" id="docThemeToggle" title="Toggle theme">🌓</button>
-</div>
-<script>
-(function(){
-  var html = document.documentElement;
-  function setDocTheme(t) {
-    html.setAttribute('data-theme', t);
-    localStorage.setItem('docs-theme', t);
-  }
-  var s = localStorage.getItem('docs-theme') || localStorage.getItem('theme');
-  if (s) setDocTheme(s);
-  else if (!window.matchMedia('(prefers-color-scheme: dark)').matches) setDocTheme('light');
-  
-  // Language toggle
-  var langBtn = document.getElementById('docLangToggle');
-  if (langBtn) {
-    var body = document.body;
-    function setDocLang(l) {
-      body.setAttribute('data-lang', l);
-      localStorage.setItem('docs-lang', l);
-      langBtn.textContent = l === 'zh' ? 'EN' : '中';
-    }
-    var savedLang = localStorage.getItem('docs-lang');
-    if (savedLang) setDocLang(savedLang);
-    langBtn.addEventListener('click', function() {
-      setDocLang(body.getAttribute('data-lang') === 'zh' ? 'en' : 'zh');
-    });
-  }
-  document.getElementById('docThemeToggle').addEventListener('click', function() {
-    setDocTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  });
-})();
-</script>
 </body>
 </html>
 
