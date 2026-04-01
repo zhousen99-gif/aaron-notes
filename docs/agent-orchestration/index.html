@@ -274,21 +274,32 @@
   li strong { color: var(--text); }
 </style>
 
+
+
+<style id="doc-nav-styles">
+.doc-nav { position: sticky; top: 0; z-index: 999; background: rgba(13,17,23,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(48,54,61,0.6); padding: 0 24px; }
+.doc-nav-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; height: 44px; gap: 6px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+.doc-nav a { display: inline-flex; align-items: center; gap: 5px; color: #8b949e; text-decoration: none; font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 6px; transition: all 0.15s; }
+.doc-nav a:hover { color: #e6edf3; background: rgba(255,255,255,0.06); }
+.doc-nav .sep { color: #30363d; font-size: 14px; margin: 0 2px; user-select: none; }
+.doc-nav .current { color: #e6edf3; }
+.doc-controls { position: fixed; top: 8px; right: 16px; z-index: 1000; display: flex; gap: 6px; align-items: center; }
+.doc-ctrl-btn { display: inline-flex; align-items: center; justify-content: center; background: rgba(128,128,128,0.15); backdrop-filter: blur(8px); border: 1px solid rgba(128,128,128,0.2); border-radius: 6px; padding: 4px 10px; cursor: pointer; color: inherit; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+.doc-ctrl-btn:hover { background: rgba(128,128,128,0.25); }
+</style>
 <style id="injected-theme">
-  /* Light theme override */
   [data-theme="light"] {
-    --bg: #ffffff !important;
-    --surface: #f6f8fa !important;
-    --surface-hover: #eef1f5 !important;
-    --border: #d0d7de !important;
-    --text: #1a1a2e !important;
-    --text-secondary: #656d76 !important;
-    --accent-blue: #2563eb !important;
-    --accent-green: #1a7f37 !important;
-    --accent-red: #cf222e !important;
-    --accent-orange: #bf8700 !important;
-    --accent-purple: #8250df !important;
-    --accent-cyan: #0e7490 !important;
+    --bg: #ffffff !important; --surface: #f6f8fa !important;
+    --surface-hover: #eef1f5 !important; --border: #d0d7de !important;
+    --text: #1a1a2e !important; --text-secondary: #656d76 !important;
+    --accent-blue: #2563eb !important; --accent-green: #1a7f37 !important;
+    --accent-red: #cf222e !important; --accent-orange: #bf8700 !important;
+    --accent-purple: #8250df !important; --accent-cyan: #0e7490 !important;
+    --blue: #2563eb !important; --cyan: #0e7490 !important;
+    --green: #1a7f37 !important; --orange: #bf8700 !important;
+    --purple: #8250df !important; --red: #cf222e !important;
+    --card: #f6f8fa !important; --dim: #656d76 !important;
+    --white: #1a1a2e !important; --text-sec: #656d76 !important;
   }
   [data-theme="light"] body { background: #ffffff !important; color: #1a1a2e !important; }
   [data-theme="light"] .doc-nav { background: rgba(255,255,255,0.85) !important; border-bottom-color: rgba(208,215,222,0.6) !important; }
@@ -300,20 +311,25 @@
   [data-theme="light"] td { border-bottom-color: #d0d7de !important; }
   [data-theme="light"] tr:hover td { background: rgba(37,99,235,0.04) !important; }
   [data-theme="light"] .badge { filter: saturate(0.8); }
-
-  /* Theme toggle bar */
-  .doc-controls {
-    position: fixed; top: 8px; right: 16px; z-index: 1000;
-    display: flex; gap: 6px; align-items: center;
-  }
-  .doc-ctrl-btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    background: rgba(128,128,128,0.15); backdrop-filter: blur(8px);
-    border: 1px solid rgba(128,128,128,0.2); border-radius: 6px;
-    padding: 4px 10px; cursor: pointer; color: inherit;
-    font-size: 12px; font-weight: 600; text-decoration: none; transition: all 0.2s;
-  }
-  .doc-ctrl-btn:hover { background: rgba(128,128,128,0.25); }
+  [data-theme="light"] .diagram { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .callout { background: rgba(191,135,0,0.04) !important; }
+  [data-theme="light"] .callout.blue { background: rgba(37,99,235,0.04) !important; }
+  [data-theme="light"] .callout.green { background: rgba(26,127,55,0.04) !important; }
+  [data-theme="light"] .callout.purple { background: rgba(130,80,223,0.04) !important; }
+  [data-theme="light"] code { background: rgba(37,99,235,0.06) !important; color: #2563eb !important; }
+  [data-theme="light"] .cover { border-bottom-color: #d0d7de !important; }
+  [data-theme="light"] hr { border-top-color: #d0d7de !important; }
+  [data-theme="light"] .footer { color: #656d76 !important; border-top-color: #d0d7de !important; }
+  [data-theme="light"] .section-tag { filter: saturate(0.85); }
+  [data-theme="light"] .arch-diagram { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .flow-container { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .gap-card { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .workaround-box { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .file-tree { background: #eef1f5 !important; }
+</style>
+<style id="i18n-styles">
+  [data-lang="zh"] .en-only { display: none !important; }
+  [data-lang="en"] .zh-only { display: none !important; }
 </style>
 </head>
 <body>
@@ -344,21 +360,7 @@
 .doc-nav .current { color: #e6edf3; }
 </style>
 
-<nav class="doc-nav">
-  <div class="doc-nav-inner">
-    <a href="../../">
-      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg>
-      Home
-    </a>
-    <span class="sep">/</span>
-    <a href="../">
-      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg>
-      Tech Docs
-    </a>
-    <span class="sep">/</span>
-    <span class="current">Agent Orchestration</span>
-  </div>
-</nav>
+
 <div class="container">
 
   <!-- Header -->
@@ -370,7 +372,7 @@
 
   <!-- Section 1: Vision -->
   <div class="section">
-    <h2><span class="num">01</span>愿景概述</h2>
+    <h2><span class="num">01</span><span class="zh-only">愿景概述</span><span class="en-only">Vision Overview</span></h2>
     <p>构建一个<strong>两级 Agent 编排体系</strong>：用户只需与少量 L2 编排 Agent 交互，由 L2 自动拆解任务、调度或创建 L1 执行 Agent、监控进度、处理异常，并定期向用户汇报。</p>
 
     <div class="callout">
@@ -507,11 +509,11 @@
 
   <!-- Section 2: Core Requirements -->
   <div class="section">
-    <h2><span class="num">02</span>核心需求拆解</h2>
+    <h2><span class="num">02</span><span class="zh-only">核心需求拆解</span><span class="en-only">Core Requirements</span></h2>
     <p>将整个编排架构拆解为 <strong>7 项关键能力</strong>，每一项都是系统运转的必要条件。</p>
 
     <!-- Task Lifecycle Flow -->
-    <h3>任务生命周期</h3>
+    <h3><span class="zh-only">任务生命周期</span><span class="en-only">Task Lifecycle</span></h3>
     <div class="flow-container">
       <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:840px;display:block;margin:0 auto;">
         <defs>
@@ -561,14 +563,14 @@
       </svg>
     </div>
 
-    <h3>七项关键能力</h3>
+    <h3><span class="zh-only">七项关键能力</span><span class="en-only">Seven Key Capabilities</span></h3>
     <table class="cap-table">
       <thead>
         <tr>
           <th style="width:30px">#</th>
-          <th style="width:180px">能力</th>
-          <th>描述</th>
-          <th style="width:90px">角色</th>
+          <th style="width:180px"><span class="zh-only">能力</span><span class="en-only">Capability</span></th>
+          <th><span class="zh-only">描述</span><span class="en-only">Description</span></th>
+          <th style="width:90px"><span class="zh-only">角色</span><span class="en-only">Role</span></th>
         </tr>
       </thead>
       <tbody>
@@ -621,17 +623,17 @@
 
   <!-- Section 3: Platform Assessment -->
   <div class="section">
-    <h2><span class="num">03</span>PM Studio 平台现状评估</h2>
+    <h2><span class="num">03</span><span class="zh-only">PM Studio 平台现状评估</span><span class="en-only">PM Studio Platform Assessment</span></h2>
     <p>逐项对照七大能力，评估 PM Studio 当前版本的支持程度。</p>
 
     <table class="cap-table">
       <thead>
         <tr>
           <th style="width:30px">#</th>
-          <th style="width:160px">能力</th>
-          <th style="width:90px">状态</th>
-          <th>现有支持</th>
-          <th>缺口说明</th>
+          <th style="width:160px"><span class="zh-only">能力</span><span class="en-only">Capability</span></th>
+          <th style="width:90px"><span class="zh-only">状态</span><span class="en-only">Status</span></th>
+          <th><span class="zh-only">现有支持</span><span class="en-only">Current Support</span></th>
+          <th><span class="zh-only">缺口说明</span><span class="en-only">Gap</span></th>
         </tr>
       </thead>
       <tbody>
@@ -741,7 +743,7 @@
 
   <!-- Section 4: Gap Analysis -->
   <div class="section">
-    <h2><span class="num">04</span>缺口分析 — 需要新增的平台能力</h2>
+    <h2><span class="num">04</span><span class="zh-only">缺口分析 — 需要新增的平台能力</span><span class="en-only">Gap Analysis — Required Platform Capabilities</span></h2>
     <p>按优先级排列，<strong>P0 为阻塞项</strong>（没有就无法运转），P1 为重要增强，P2 为体验优化。</p>
 
     <div class="gap-grid">
@@ -787,7 +789,7 @@
 
   <!-- Section 5: Workaround -->
   <div class="section">
-    <h2><span class="num">05</span>当前可行的 Workaround 方案</h2>
+    <h2><span class="num">05</span><span class="zh-only">当前可行的 Workaround 方案</span><span class="en-only">Current Feasible Workaround</span></h2>
     <p>在平台尚未提供 Agent 间通信的情况下，可以利用 <strong>文件系统 + Schedule 定时任务</strong> 搭建一个"穷人版"编排原型。</p>
 
     <div class="workaround-box">
@@ -824,7 +826,7 @@
 
   <!-- Section 6: Roadmap -->
   <div class="section">
-    <h2><span class="num">06</span>建议路线图</h2>
+    <h2><span class="num">06</span><span class="zh-only">建议路线图</span><span class="en-only">Suggested Roadmap</span></h2>
 
     <div class="roadmap">
       <div class="roadmap-item active">
@@ -848,15 +850,15 @@
 
   <!-- Section 7: Comparison -->
   <div class="section">
-    <h2><span class="num">07</span>与业界方案对比</h2>
+    <h2><span class="num">07</span><span class="zh-only">与业界方案对比</span><span class="en-only">Industry Comparison</span></h2>
     <p>当前主流的 Multi-Agent 编排框架，供参考对比：</p>
     <table class="cap-table">
       <thead>
         <tr>
-          <th>框架</th>
-          <th>编排模式</th>
-          <th>Agent 间通信</th>
-          <th>与 PM Studio 的差异</th>
+          <th><span class="zh-only">框架</span><span class="en-only">Framework</span></th>
+          <th><span class="zh-only">编排模式</span><span class="en-only">Orchestration Mode</span></th>
+          <th><span class="zh-only">Agent 间通信</span><span class="en-only">Inter-Agent Comm</span></th>
+          <th><span class="zh-only">与 PM Studio 的差异</span><span class="en-only">Diff from PM Studio</span></th>
         </tr>
       </thead>
       <tbody>
@@ -892,29 +894,16 @@
   <div style="text-align:center; padding:40px 0 20px; border-top:1px solid var(--border); margin-top:48px;">
     <p style="font-size:0.8rem; color:var(--text-secondary);">
       Multi-Level Agent Orchestration · PM Studio Architecture Proposal<br/>
-      Generated by Agent优化师 · 2026-03-31
+      <span class="zh-only">Generated by Agent优化师 · 2026-03-31</span><span class="en-only">Generated by Agent Optimizer · 2026-03-31</span>
     </p>
   </div>
 
 </div><!-- /container -->
 
-<div class="doc-controls">
-  <button class="doc-ctrl-btn" id="docThemeToggle" title="Toggle theme">🌓</button>
-</div>
+
+<div class="doc-controls"><button class="doc-ctrl-btn" id="docLangToggle" title="Switch language">EN</button><button class="doc-ctrl-btn" id="docThemeToggle" title="Toggle theme">🌓</button></div>
 <script>
-(function(){
-  var html = document.documentElement;
-  function setDocTheme(t) {
-    html.setAttribute('data-theme', t);
-    localStorage.setItem('docs-theme', t);
-  }
-  var s = localStorage.getItem('docs-theme') || localStorage.getItem('theme');
-  if (s) setDocTheme(s);
-  else if (!window.matchMedia('(prefers-color-scheme: dark)').matches) setDocTheme('light');
-  document.getElementById('docThemeToggle').addEventListener('click', function() {
-    setDocTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  });
-})();
+(function(){var h=document.documentElement;function st(t){h.setAttribute('data-theme',t);localStorage.setItem('docs-theme',t);}var s=localStorage.getItem('docs-theme')||localStorage.getItem('theme');if(s)st(s);else if(!window.matchMedia('(prefers-color-scheme:dark)').matches)st('light');var lb=document.getElementById('docLangToggle');if(lb){var b=document.body;function sl(l){b.setAttribute('data-lang',l);localStorage.setItem('docs-lang',l);lb.textContent=l==='zh'?'EN':'中';}var sv=localStorage.getItem('docs-lang');if(sv)sl(sv);lb.addEventListener('click',function(){sl(b.getAttribute('data-lang')==='zh'?'en':'zh');});}document.getElementById('docThemeToggle').addEventListener('click',function(){st(h.getAttribute('data-theme')==='dark'?'light':'dark');});})();
 </script>
 </body>
 </html>
