@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 成本优化设计深度解析</title>
+<link rel="stylesheet" href="../nav.css">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface-hover: #1c2333;
+    --border: #30363d; --text: #e6edf3; --text-secondary: #8b949e;
+    --accent-blue: #58a6ff; --accent-green: #3fb950; --accent-red: #f85149;
+    --accent-orange: #d29922; --accent-purple: #bc8cff; --accent-cyan: #39d2c0;
+  }
+  [data-theme="light"] {
+    --bg: #ffffff !important; --surface: #f6f8fa !important;
+    --surface-hover: #eef1f5 !important; --border: #d0d7de !important;
+    --text: #1a1a2e !important; --text-secondary: #656d76 !important;
+    --accent-blue: #2563eb !important; --accent-green: #1a7f37 !important;
+    --accent-red: #cf222e !important; --accent-orange: #bf8700 !important;
+    --accent-purple: #8250df !important; --accent-cyan: #0e7490 !important;
+  }
+  [data-theme="light"] body { background: #ffffff !important; color: #1a1a2e !important; }
+  [data-theme="light"] th { background: #f6f8fa !important; color: #1a1a2e !important; }
+  [data-theme="light"] td { border-bottom-color: #d0d7de !important; }
+  [data-theme="light"] tr:hover td { background: rgba(37,99,235,0.04) !important; }
+  [data-lang="zh"] .en-only { display: none !important; }
+  [data-lang="en"] .zh-only { display: none !important; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; padding: 0 20px 40px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+  .doc-header { text-align: center; padding: 20px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+  .doc-header h1 {
+    font-size: 2rem; font-weight: 700; margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .doc-header .subtitle { font-size: 1rem; color: var(--text-secondary); }
+  .doc-header .meta { margin-top: 16px; font-size: 0.8rem; color: var(--text-secondary); }
+  .section { margin-bottom: 56px; }
+  .section h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .section h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin: 28px 0 12px; }
+  p { margin-bottom: 14px; color: var(--text-secondary); }
+  p strong, li strong { color: var(--text); }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  th { background: var(--surface); color: var(--accent-blue); text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--border); font-weight: 600; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  tr:hover td { background: var(--surface-hover); }
+  code { background: rgba(88,166,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: var(--accent-cyan); }
+  pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 16px 0; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: var(--text); }
+  ul, ol { margin: 10px 0 14px 20px; }
+  li { color: var(--text-secondary); margin-bottom: 6px; font-size: 0.9rem; }
+  .callout { background: var(--surface); border-left: 4px solid var(--accent-blue); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; }
+  .callout.warn { border-left-color: var(--accent-orange); }
+  .callout.green { border-left-color: var(--accent-green); }
+  .callout p { margin-bottom: 0; }
+  .diagram-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+  .diagram-box svg { display: block; margin: 0 auto; }
+</style>
+</head>
+<body data-lang="zh">
+<div class="site-topbar"><div class="crumbs"><a href="../../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg> Home</a><span class="sep">/</span><a href="../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg> Tech Docs</a><span class="sep">/</span><span class="current"><span class="zh-only">Claude Code 成本优化</span><span class="en-only">Claude Code Cost Optimization</span></span></div><div class="controls"><button class="ctrl" id="siteLangToggle">EN</button><button class="ctrl" id="siteThemeToggle">🌓</button></div></div>
+<div class="container">
+
+<!-- Header -->
+<div class="doc-header">
+  <h1><span class="zh-only">Claude Code 成本优化设计深度解析</span><span class="en-only">Deep Dive into Claude Code's Cost Optimization Design</span></h1>
+  <p class="subtitle"><span class="zh-only">基于泄露源码的七大成本控制策略全面剖析</span><span class="en-only">A Comprehensive Analysis of Seven Cost Control Strategies from the Leaked Source Code</span></p>
+  <p class="meta"><span class="zh-only">分析日期：2026-04-02 · 源码来源：Claude Code npm source map 泄露 · 分析基础：行为规格文档 + Rust 重实现</span><span class="en-only">Analysis Date: 2026-04-02 · Source: Claude Code npm source map leak · Based on: Behavioral spec docs + Rust reimplementation</span></p>
+</div>
+
+<!-- Intro -->
+<div class="section">
+  <h2><span class="zh-only">引言</span><span class="en-only">Introduction</span></h2>
+  <p><span class="zh-only">Claude Code 的成本优化不是某一个单点优化，而是一套<strong>贯穿整个架构的系统工程</strong>。从 Prompt Cache 分段、上下文三层压缩、工具结果预算控制，到 Effort 级别调节和 Fast Mode 模型切换——每一层都在精确地控制 token 消耗。本文将这些设计拆解为七大核心策略，逐一深入分析。</span><span class="en-only">Claude Code's cost optimization isn't a single-point improvement — it's a <strong>systematic engineering effort woven throughout the entire architecture</strong>. From prompt cache segmentation and three-tier context compression, to tool result budget control, effort level adjustment, and Fast Mode model switching — every layer precisely controls token consumption. This article breaks down these designs into seven core strategies, each analyzed in depth.</span></p>
+
+  <div class="callout">
+    <p><span class="zh-only"><strong>背景</strong>：2026年3月31日，Anthropic 因构建配置失误将 source map 打包在 npm 发布包中，导致 Claude Code 约 1,906 个文件、800K+ 行原始 TypeScript 源码全部暴露。本分析基于社区 clean-room 处理后的行为规格文档（spec/）和 Rust 重实现（src-rust/）。</span><span class="en-only"><strong>Background</strong>: On March 31, 2026, Anthropic accidentally included source map files in the npm package, exposing approximately 1,906 files and 800K+ lines of original TypeScript source code for Claude Code. This analysis is based on the community's clean-room behavioral specification documents (spec/) and Rust reimplementation (src-rust/).</span></p>
+  </div>
+</div>
+
+<!-- Section 1: Prompt Cache -->
+<div class="section">
+  <h2><span class="zh-only">一、Prompt Cache 分段缓存——最大的成本杠杆</span><span class="en-only">1. Prompt Cache Segmentation — The Biggest Cost Lever</span></h2>
+
+  <h3><span class="zh-only">问题背景</span><span class="en-only">Problem Context</span></h3>
+  <p><span class="zh-only">Anthropic API 按 token 计费。System prompt 在<strong>每一次 API 请求</strong>中都会被发送。Claude Code 的 system prompt 包含身份定义、能力描述、安全指令、工具使用指南、代码风格规则等，体量庞大。如果每次请求都重新处理这些 token，成本和延迟都会非常高。</span><span class="en-only">The Anthropic API charges per token. The system prompt is sent with <strong>every single API request</strong>. Claude Code's system prompt includes identity definitions, capability descriptions, security instructions, tool usage guidelines, code style rules, and more — it's substantial in size. Reprocessing these tokens every request results in significant cost and latency.</span></p>
+
+  <h3><span class="zh-only">解决方案：双区分段 + Global Scope 缓存</span><span class="en-only">Solution: Dual-Zone Segmentation + Global Scope Caching</span></h3>
+  <p><span class="zh-only">Claude Code 使用 <code>SYSTEM_PROMPT_DYNAMIC_BOUNDARY</code>（值为 <code>__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__</code>）标记将 system prompt 分为两个区域：</span><span class="en-only">Claude Code uses a <code>SYSTEM_PROMPT_DYNAMIC_BOUNDARY</code> marker (value: <code>__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__</code>) to split the system prompt into two zones:</span></p>
+
+  <table>
+    <tr><th><span class="zh-only">区域</span><span class="en-only">Zone</span></th><th><span class="zh-only">内容</span><span class="en-only">Content</span></th><th><span class="zh-only">缓存策略</span><span class="en-only">Cache Strategy</span></th></tr>
+    <tr><td><strong><span class="zh-only">静态区（边界前）</span><span class="en-only">Static Zone (Before Boundary)</span></strong></td><td><span class="zh-only">身份定义、能力描述、安全指令、工具指南、代码风格、输出效率指导、Coordinator Mode 指令、Custom Instructions</span><span class="en-only">Identity, capabilities, safety instructions, tool guidelines, code style, output efficiency, Coordinator Mode, custom instructions</span></td><td><code>scope: 'global'</code> — <span class="zh-only">跨组织、跨用户共享缓存</span><span class="en-only">cross-org, cross-user shared cache</span></td></tr>
+    <tr><td><strong><span class="zh-only">动态区（边界后）</span><span class="en-only">Dynamic Zone (After Boundary)</span></strong></td><td><span class="zh-only">会话引导、CLAUDE.md 记忆、环境信息、语言偏好、MCP 指令、Scratchpad、Token 预算</span><span class="en-only">Session guidance, CLAUDE.md memory, env info, language preference, MCP instructions, scratchpad, token budget</span></td><td><span class="zh-only">每请求独立，不参与缓存</span><span class="en-only">Per-request, not cached</span></td></tr>
+  </table>
+
+  <p><span class="zh-only"><strong>关键 beta header</strong>：<code>'prompt-caching-scope-2026-01-05'</code> 启用后，静态区可设为 <code>scope: 'global'</code>——<strong>全球所有 Claude Code 用户的请求共享同一份缓存</strong>。根据 Anthropic 公开定价，prompt cache 的 cache read 价格比 cache creation 低约 <strong>90%</strong>。</span><span class="en-only"><strong>Key beta header</strong>: <code>'prompt-caching-scope-2026-01-05'</code> enables the static zone to use <code>scope: 'global'</code> — <strong>all Claude Code users worldwide share the same cache</strong>. According to Anthropic's public pricing, prompt cache reads cost approximately <strong>90% less</strong> than cache creation.</span></p>
+
+  <table>
+    <tr><th><span class="zh-only">场景</span><span class="en-only">Scenario</span></th><th><span class="zh-only">每次请求的 Prompt 成本</span><span class="en-only">Prompt Cost per Request</span></th><th><span class="zh-only">估算节省</span><span class="en-only">Estimated Savings</span></th></tr>
+    <tr><td><span class="zh-only">无缓存</span><span class="en-only">No caching</span></td><td><span class="zh-only">5,000 tokens × 全价</span><span class="en-only">5,000 tokens × full price</span></td><td><span class="zh-only">基线</span><span class="en-only">Baseline</span></td></tr>
+    <tr><td><span class="zh-only">Per-session 缓存</span><span class="en-only">Per-session cache</span></td><td><span class="zh-only">首次全价，后续 5,000 × 10%</span><span class="en-only">First full price, then 5,000 × 10%</span></td><td>~80-90%</td></tr>
+    <tr><td><strong>Global scope <span class="zh-only">缓存</span><span class="en-only">cache</span></strong></td><td><span class="zh-only">几乎所有请求 5,000 × 10%</span><span class="en-only">Nearly all requests at 5,000 × 10%</span></td><td><strong>~90%+</strong></td></tr>
+  </table>
+
+  <h3><span class="zh-only">防止意外 Cache Break 的监控系统</span><span class="en-only">Monitoring System to Prevent Unexpected Cache Breaks</span></h3>
+  <p><span class="zh-only">Anthropic 建了一个专门的<strong>缓存命中率监控系统</strong>（<code>promptCacheBreakDetection.ts</code>）来守护这个收益。检测流程：请求前通过 <code>recordPromptState()</code> 快照当前 prompt 状态；请求后通过 <code>checkResponseForCacheBreak()</code> 比对缓存 token 使用量。</span><span class="en-only">Anthropic built a dedicated <strong>cache hit rate monitoring system</strong> (<code>promptCacheBreakDetection.ts</code>) to protect this benefit. Detection flow: before the request, <code>recordPromptState()</code> snapshots the current prompt state; after the response, <code>checkResponseForCacheBreak()</code> compares cache token usage.</span></p>
+
+  <table>
+    <tr><th><span class="zh-only">参数</span><span class="en-only">Parameter</span></th><th><span class="zh-only">值</span><span class="en-only">Value</span></th><th><span class="zh-only">作用</span><span class="en-only">Purpose</span></th></tr>
+    <tr><td><code>CACHE_TTL_1HOUR_MS</code></td><td>3,600,000 ms</td><td><span class="zh-only">缓存的预期 TTL（1小时）</span><span class="en-only">Expected cache TTL (1 hour)</span></td></tr>
+    <tr><td><code>MIN_CACHE_MISS_TOKENS</code></td><td>2,000</td><td><span class="zh-only">低于此值的 miss 不告警</span><span class="en-only">Misses below this threshold are ignored</span></td></tr>
+    <tr><td><span class="zh-only">95% 阈值</span><span class="en-only">95% threshold</span></td><td>cache reads ≤ 5% expected</td><td><span class="zh-only">触发告警的严重程度阈值</span><span class="en-only">Severity threshold to trigger alert</span></td></tr>
+    <tr><td><code>MAX_TRACKED_SOURCES</code></td><td>10</td><td><span class="zh-only">最多追踪 10 个不同的 query source</span><span class="en-only">Track up to 10 different query sources</span></td></tr>
+  </table>
+  <p><span class="zh-only">当检测到 cache break 时，系统将 prompt 内容写成 <strong>diff 文件</strong>到 <code>~/.claude/tmp/cache-break-*.diff</code>，并发送 <code>tengu_prompt_cache_break</code> 分析事件。这是一个<strong>运维级的生产监控</strong>。</span><span class="en-only">When a cache break is detected, the system writes prompt content as <strong>diff files</strong> to <code>~/.claude/tmp/cache-break-*.diff</code> and sends a <code>tengu_prompt_cache_break</code> analytics event. This is <strong>production-grade operational monitoring</strong>.</span></p>
+
+  <h3><span class="zh-only">时间锚定：防止自然变化导致缓存失效</span><span class="en-only">Time Anchoring: Preventing Natural Changes from Invalidating Cache</span></h3>
+  <table>
+    <tr><th><span class="zh-only">函数</span><span class="en-only">Function</span></th><th><span class="zh-only">变化频率</span><span class="en-only">Change Frequency</span></th><th><span class="zh-only">使用位置</span><span class="en-only">Usage</span></th><th><span class="zh-only">设计意图</span><span class="en-only">Design Intent</span></th></tr>
+    <tr><td><code>getSessionStartDate()</code></td><td><span class="zh-only">会话内不变</span><span class="en-only">Invariant within session</span></td><td>system prompt <code>env_info_simple</code></td><td><span class="zh-only">避免午夜 cache break</span><span class="en-only">Avoid cache break at midnight</span></td></tr>
+    <tr><td><code>getLocalMonthYear()</code></td><td><span class="zh-only">月变</span><span class="en-only">Monthly</span></td><td><span class="zh-only">工具提示词</span><span class="en-only">Tool prompts</span></td><td><span class="zh-only">最小化变化频率</span><span class="en-only">Minimize change frequency</span></td></tr>
+    <tr><td><code>CLAUDE_CODE_OVERRIDE_DATE</code></td><td><span class="zh-only">手动覆盖</span><span class="en-only">Manual override</span></td><td><span class="zh-only">ant-only 测试</span><span class="en-only">ant-only testing</span></td><td><span class="zh-only">可控的日期注入</span><span class="en-only">Controlled date injection</span></td></tr>
+  </table>
+  <p><span class="zh-only"><code>getSessionStartDate</code> 是一个 <strong>memoized</strong> 函数——会话开始时锁定日期，即使跨越午夜也不变。这避免了午夜 00:00 时日期变化导致 prompt 内容变化、进而引发 cache break 的问题。</span><span class="en-only"><code>getSessionStartDate</code> is a <strong>memoized</strong> function — it locks the date at session start, remaining unchanged even past midnight. This prevents the date change at 00:00 from altering prompt content and causing a cache break.</span></p>
+
+  <h3><span class="zh-only">Beta Header Latch 机制</span><span class="en-only">Beta Header Latch Mechanism</span></h3>
+  <p><span class="zh-only">多个 beta header 使用 <strong>latch（闩锁）</strong>模式——一旦在会话中激活就保持不变：</span><span class="en-only">Multiple beta headers use a <strong>latch</strong> pattern — once activated during a session, they stay on:</span></p>
+  <table>
+    <tr><th>Latch</th><th><span class="zh-only">作用</span><span class="en-only">Purpose</span></th></tr>
+    <tr><td><code>afkModeHeaderLatched</code></td><td><span class="zh-only">AFK Mode beta header 一旦激活就保持</span><span class="en-only">AFK Mode beta header stays on once activated</span></td></tr>
+    <tr><td><code>fastModeHeaderLatched</code></td><td><span class="zh-only">Fast Mode beta header 一旦激活就保持</span><span class="en-only">Fast Mode beta header stays on once activated</span></td></tr>
+    <tr><td><code>cacheEditingHeaderLatched</code></td><td><span class="zh-only">Cache-editing beta header 一旦激活就保持</span><span class="en-only">Cache-editing beta header stays on once activated</span></td></tr>
+  </table>
+  <p><span class="zh-only"><strong>为什么用 latch？</strong> Beta header 影响 API 请求结构。如果同一会话中 beta 在 on/off 之间切换，会导致 prompt cache key 变化——<strong>每次切换都是一次 cache break</strong>。latch 确保一旦 beta 被激活，会话内保持不变。</span><span class="en-only"><strong>Why use latches?</strong> Beta headers affect API request structure. If a beta toggles on/off within a session, the prompt cache key changes — <strong>every toggle is a cache break</strong>. Latches ensure once a beta is activated, it remains constant for the session.</span></p>
+
+  <h3><span class="zh-only">1 小时 Cache TTL 优化</span><span class="en-only">1-Hour Cache TTL Optimization</span></h3>
+  <p><span class="zh-only">标准缓存返回 <code>{ type: 'ephemeral' }</code>；启用 1h TTL 后返回 <code>{ type: 'ephemeral', ttl: 3600 }</code>。通过 GrowthBook A/B 测试（<code>tengu_prompt_cache_1h_config</code>）验证效果，并使用会话级 latch（<code>STATE.promptCache1hAllowlist</code> 和 <code>STATE.promptCache1hEligible</code>）防止会话中途因配额变化而翻转。</span><span class="en-only">Standard caching returns <code>{ type: 'ephemeral' }</code>; with 1h TTL enabled, it returns <code>{ type: 'ephemeral', ttl: 3600 }</code>. Effectiveness is verified via GrowthBook A/B testing (<code>tengu_prompt_cache_1h_config</code>), and session-level latches (<code>STATE.promptCache1hAllowlist</code> and <code>STATE.promptCache1hEligible</code>) prevent mid-session flips due to quota changes.</span></p>
+</div>
+
+
+<!-- Section 2: Three-Tier Context Compression -->
+<div class="section">
+  <h2><span class="zh-only">二、三层上下文压缩——精细的 Token 回收</span><span class="en-only">2. Three-Tier Context Compression — Precise Token Reclamation</span></h2>
+
+  <p><span class="zh-only">当对话越来越长，token 消耗不断增加。Claude Code 用三层递进的压缩机制来<strong>回收上下文空间</strong>，每层的成本和效果不同，系统<strong>总是先尝试最便宜的方案</strong>。</span><span class="en-only">As conversations grow longer, token consumption keeps increasing. Claude Code uses three progressive compression tiers to <strong>reclaim context space</strong>, each with different costs and effects. The system <strong>always tries the cheapest approach first</strong>.</span></p>
+
+  <table>
+    <tr><th><span class="zh-only">层级</span><span class="en-only">Tier</span></th><th><span class="zh-only">名称</span><span class="en-only">Name</span></th><th><span class="zh-only">LLM 成本</span><span class="en-only">LLM Cost</span></th><th><span class="zh-only">机制</span><span class="en-only">Mechanism</span></th><th><span class="zh-only">Token 回收量</span><span class="en-only">Token Recovery</span></th></tr>
+    <tr><td>🟢 L1</td><td>Microcompact</td><td><strong><span class="zh-only">零</span><span class="en-only">Zero</span></strong></td><td><span class="zh-only">清除旧工具结果（server-side 或 client-side）</span><span class="en-only">Clear old tool results (server-side or client-side)</span></td><td>40K–140K tokens</td></tr>
+    <tr><td>🟡 L2</td><td>Session Memory Compact</td><td><span class="zh-only">一次 LLM 调用</span><span class="en-only">One LLM call</span></td><td><span class="zh-only">二分查找保留边界 + LLM 摘要旧段</span><span class="en-only">Binary search for retention boundary + LLM summary of old segments</span></td><td>10K–40K tokens</td></tr>
+    <tr><td>🔴 L3</td><td>Full Compact</td><td><span class="zh-only">重量级 LLM 调用</span><span class="en-only">Heavy LLM call</span></td><td><span class="zh-only">LLM 生成整个对话的摘要，替换历史</span><span class="en-only">LLM generates full conversation summary, replaces history</span></td><td><span class="zh-only">大幅回收</span><span class="en-only">Major reclamation</span></td></tr>
+  </table>
+
+  <h3><span class="zh-only">L1 Microcompact 详解（零 LLM 成本）</span><span class="en-only">L1 Microcompact Detail (Zero LLM Cost)</span></h3>
+  <p><span class="zh-only"><strong>API Microcompact</strong>（<code>apiMicrocompact.ts</code>）：使用 API 原生的 <code>cache_edits</code> 功能在服务端清除旧工具结果，不修改客户端消息。默认触发阈值 <code>MAX_INPUT_TOKENS = 180,000</code>，目标压缩到 <code>TARGET_INPUT_TOKENS = 40,000</code>。</span><span class="en-only"><strong>API Microcompact</strong> (<code>apiMicrocompact.ts</code>): Uses the API's native <code>cache_edits</code> feature to clear old tool results server-side without modifying client messages. Default trigger threshold is <code>MAX_INPUT_TOKENS = 180,000</code>, targeting compression to <code>TARGET_INPUT_TOKENS = 40,000</code>.</span></p>
+
+  <p><span class="zh-only"><strong>Time-based Microcompact</strong>：当用户<strong>空闲超过 60 分钟</strong>后回来，系统推断 API 的 prompt cache 已过期（1h TTL），此时做更激进的清理——直接在客户端将旧的工具结果替换为 <code>'[Old tool result content cleared]'</code>。同时触发 <code>thinkingClearLatched</code>，只保留最后 1 轮的 thinking（旧 thinking 对后续对话价值极低但占用大量 token）。</span><span class="en-only"><strong>Time-based Microcompact</strong>: When the user returns after being <strong>idle for over 60 minutes</strong>, the system infers the API's prompt cache has expired (1h TTL) and performs more aggressive cleanup — directly replacing old tool results on the client side with <code>'[Old tool result content cleared]'</code>. It also triggers <code>thinkingClearLatched</code>, keeping only the last 1 round of thinking (old thinking has minimal value but consumes significant tokens).</span></p>
+
+  <p><span class="zh-only">可清除的工具结果：Shell 工具（stdout/stderr）、FileRead（文件内容）、Glob/Grep（搜索结果）、WebFetch/WebSearch（网页内容）。可清除的工具使用：FileEdit、FileWrite、NotebookEdit。</span><span class="en-only">Clearable tool results: Shell tools (stdout/stderr), FileRead (file content), Glob/Grep (search results), WebFetch/WebSearch (web content). Clearable tool uses: FileEdit, FileWrite, NotebookEdit.</span></p>
+
+  <h3><span class="zh-only">L2 Session Memory Compact 详解</span><span class="en-only">L2 Session Memory Compact Detail</span></h3>
+  <p><span class="zh-only">使用<strong>二分查找算法</strong>确定保留边界点，确保 [boundary, end] 范围内的 token 数在 <code>minTokens: 10,000</code> 到 <code>maxTokens: 40,000</code> 之间。关键安全措施：<code>adjustIndexToPreserveAPIInvariants()</code> 确保不在 <code>tool_use</code> / <code>tool_result</code> 之间切断——否则 API 会因为孤立的 <code>tool_use</code> 没有对应 <code>tool_result</code> 而报错。由 GrowthBook gate <code>tengu_session_memory</code> + <code>tengu_sm_compact</code> 联合控制。</span><span class="en-only">Uses a <strong>binary search algorithm</strong> to determine the retention boundary, ensuring token count within [boundary, end] is between <code>minTokens: 10,000</code> and <code>maxTokens: 40,000</code>. Key safety measure: <code>adjustIndexToPreserveAPIInvariants()</code> ensures the cut point doesn't fall between <code>tool_use</code> and <code>tool_result</code> — otherwise the API would error on orphaned <code>tool_use</code> without matching <code>tool_result</code>. Controlled by GrowthBook gates <code>tengu_session_memory</code> + <code>tengu_sm_compact</code>.</span></p>
+
+  <h3><span class="zh-only">L3 Full Compact 详解</span><span class="en-only">L3 Full Compact Detail</span></h3>
+  <p><span class="zh-only">最后的手段——触发阈值为上下文使用达到 <strong>90%</strong> 时自动触发。使用 LLM 生成对话摘要，写入 <code>&lt;compact_summary&gt;</code> 标签的合成消息。前缀 <code>NO_TOOLS_PREAMBLE</code> <strong>严格禁止</strong>压缩模型调用任何工具。触发后调用 <code>runPostCompactCleanup()</code> 清除所有 system prompt section 缓存、classifier 审批、推测检查、beta tracing 状态等。</span><span class="en-only">The last resort — automatically triggered when context usage reaches <strong>90%</strong>. Uses an LLM to generate a conversation summary, written as a synthetic <code>&lt;compact_summary&gt;</code> message. The <code>NO_TOOLS_PREAMBLE</code> prefix <strong>strictly forbids</strong> the compaction model from calling any tools. After triggering, <code>runPostCompactCleanup()</code> clears all system prompt section caches, classifier approvals, speculative checks, beta tracing state, and more.</span></p>
+</div>
+
+<!-- Section 3: Tool Result Budget -->
+<div class="section">
+  <h2><span class="zh-only">三、工具结果的 Token 预算控制</span><span class="en-only">3. Tool Result Token Budget Control</span></h2>
+
+  <p><span class="zh-only">工具执行返回的结果可能非常大（比如读取一个大文件），如果不加限制，一次工具调用就可能填满整个上下文窗口。Claude Code 使用<strong>多层限制体系</strong>：</span><span class="en-only">Tool execution results can be very large (e.g., reading a large file). Without limits, a single tool call could fill the entire context window. Claude Code uses a <strong>multi-layer limit system</strong>:</span></p>
+
+  <table>
+    <tr><th><span class="zh-only">限制常量</span><span class="en-only">Limit Constant</span></th><th><span class="zh-only">值</span><span class="en-only">Value</span></th><th><span class="zh-only">防御场景</span><span class="en-only">Defense Scenario</span></th></tr>
+    <tr><td><code>DEFAULT_MAX_RESULT_SIZE_CHARS</code></td><td>50,000 <span class="zh-only">字符</span><span class="en-only">chars</span></td><td><span class="zh-only">单个工具结果过大 → 持久化到磁盘，只保留摘要</span><span class="en-only">Single tool result too large → persist to disk, keep summary only</span></td></tr>
+    <tr><td><code>MAX_TOOL_RESULT_TOKENS</code></td><td>100,000 tokens</td><td><span class="zh-only">Token 级别硬上限 → 截断</span><span class="en-only">Token-level hard cap → truncation</span></td></tr>
+    <tr><td><code>MAX_TOOL_RESULT_BYTES</code></td><td>400,000 bytes</td><td><span class="zh-only">字节级硬上限（4 bytes/token）</span><span class="en-only">Byte-level hard cap (4 bytes/token)</span></td></tr>
+    <tr><td><code>MAX_TOOL_RESULTS_PER_MESSAGE_CHARS</code></td><td>200,000 <span class="zh-only">字符</span><span class="en-only">chars</span></td><td><span class="zh-only"><strong>聚合限制</strong>——防止 N 个并行工具各返回大结果，合计爆 token</span><span class="en-only"><strong>Aggregate limit</strong> — prevents N parallel tools each returning large results</span></td></tr>
+    <tr><td><code>TOOL_SUMMARY_MAX_LENGTH</code></td><td>50 <span class="zh-only">字符</span><span class="en-only">chars</span></td><td><span class="zh-only">压缩视图中的摘要长度</span><span class="en-only">Summary length in compact views</span></td></tr>
+  </table>
+
+  <div class="callout green">
+    <p><span class="zh-only"><strong>聚合限制的设计背景</strong>：Claude Code 支持并行工具调用。如果 10 个并行 Grep 搜索各返回 40K 字符，合计 400K——足以填满大半个上下文。<code>MAX_TOOL_RESULTS_PER_MESSAGE_CHARS = 200,000</code> 就是防这个场景。该值还可通过 GrowthBook flag <code>tengu_hawthorn_window</code> 动态调整。</span><span class="en-only"><strong>Aggregate limit design context</strong>: Claude Code supports parallel tool calls. If 10 parallel Grep searches each return 40K chars, that's 400K total — enough to fill most of the context. <code>MAX_TOOL_RESULTS_PER_MESSAGE_CHARS = 200,000</code> prevents this. The value can be dynamically adjusted via GrowthBook flag <code>tengu_hawthorn_window</code>.</span></p>
+  </div>
+
+  <h3><span class="zh-only">Tool Result Summarization 提醒</span><span class="en-only">Tool Result Summarization Prompt</span></h3>
+  <p><span class="zh-only">在 system prompt 的动态区注入提醒，让 Claude <strong>在工具结果被清除之前主动摘录关键信息</strong>到回复中。这是一个<strong>认知层面的优化</strong>——通过 prompt 工程让模型自己参与 token 管理：</span><span class="en-only">A reminder is injected in the system prompt's dynamic zone, asking Claude to <strong>proactively extract key information from tool results before they're cleared</strong>. This is a <strong>cognitive-level optimization</strong> — using prompt engineering to make the model participate in token management:</span></p>
+  <pre><code>When working with tool results, write down any important information you might
+need later in your response, as the original tool result may be cleared later.</code></pre>
+</div>
+
+
+<!-- Section 4: Effort Control -->
+<div class="section">
+  <h2><span class="zh-only">四、Effort 控制——按需调节 Thinking Token</span><span class="en-only">4. Effort Control — On-Demand Thinking Token Adjustment</span></h2>
+
+  <p><span class="zh-only">Extended thinking（深度思考）会消耗大量额外 token，而不是所有任务都需要深度思考。Effort 系统让用户可以<strong>精细控制 thinking token 的消耗</strong>：</span><span class="en-only">Extended thinking consumes significant additional tokens, but not every task requires deep thinking. The Effort system allows users to <strong>precisely control thinking token consumption</strong>:</span></p>
+
+  <table>
+    <tr><th><span class="zh-only">级别</span><span class="en-only">Level</span></th><th><span class="zh-only">符号</span><span class="en-only">Symbol</span></th><th><span class="zh-only">Thinking Token 消耗</span><span class="en-only">Thinking Token Usage</span></th><th><span class="zh-only">适用场景</span><span class="en-only">Use Case</span></th></tr>
+    <tr><td><code>low</code></td><td>○</td><td><span class="zh-only">最少</span><span class="en-only">Minimal</span></td><td><span class="zh-only">简单问答、格式转换</span><span class="en-only">Simple Q&A, format conversion</span></td></tr>
+    <tr><td><code>medium</code></td><td>◐</td><td><span class="zh-only">适中</span><span class="en-only">Moderate</span></td><td><span class="zh-only">常规编码任务</span><span class="en-only">Routine coding tasks</span></td></tr>
+    <tr><td><code>high</code></td><td>●</td><td><span class="zh-only">较多</span><span class="en-only">Extended</span></td><td><span class="zh-only">复杂重构、架构设计</span><span class="en-only">Complex refactoring, architecture design</span></td></tr>
+    <tr><td><code>max</code></td><td>◉</td><td><span class="zh-only">最大（仅 Opus 4.6）</span><span class="en-only">Maximum (Opus 4.6 only)</span></td><td><span class="zh-only">极复杂推理、深度规划</span><span class="en-only">Extremely complex reasoning, deep planning</span></td></tr>
+    <tr><td><code>auto</code></td><td>—</td><td><span class="zh-only">模型自行决定</span><span class="en-only">Model decides</span></td><td><span class="zh-only">默认模式</span><span class="en-only">Default mode</span></td></tr>
+  </table>
+
+  <p><span class="zh-only"><strong>实现方式</strong>：<code>configureEffortParams()</code> 函数根据 effort 级别设置 <code>thinking_budget</code>（thinking token 预算），通过 <code>effort-2025-11-24</code> beta header 传递给 API。</span><span class="en-only"><strong>Implementation</strong>: <code>configureEffortParams()</code> sets <code>thinking_budget</code> based on the effort level, passed to the API via the <code>effort-2025-11-24</code> beta header.</span></p>
+
+  <div class="callout">
+    <p><span class="zh-only"><strong>成本影响</strong>：thinking token 虽然不显示给用户，但仍然计费。一个 <code>max</code> effort 的请求可能消耗 <code>low</code> effort 的 <strong>10 倍以上</strong>的 token。通过让用户主动选择 effort 级别，系统将成本决策权交给了用户。</span><span class="en-only"><strong>Cost impact</strong>: Although thinking tokens aren't displayed to users, they're still billed. A <code>max</code> effort request can consume <strong>over 10x</strong> the tokens of <code>low</code> effort. By letting users choose the effort level, the system hands cost decisions to the user.</span></p>
+  </div>
+</div>
+
+<!-- Section 5: Fast Mode -->
+<div class="section">
+  <h2><span class="zh-only">五、Fast Mode（Penguin Mode 🐧）——模型级别的成本阶梯</span><span class="en-only">5. Fast Mode (Penguin Mode 🐧) — Model-Level Cost Tiers</span></h2>
+
+  <p><span class="zh-only">Fast Mode 的内部代号是 <strong>Penguin Mode</strong>——API 端点、配置键、Kill Switch 全是企鹅相关命名：</span><span class="en-only">Fast Mode's internal codename is <strong>Penguin Mode</strong> — the API endpoint, config keys, and kill switches all use penguin-related naming:</span></p>
+  <pre><code>endpoint = `${getOauthConfig().BASE_API_URL}/api/claude_code_penguin_mode`
+config key: penguinModeOrgEnabled
+kill switch: tengu_penguins_off
+analytics event: tengu_org_penguin_mode_fetch_failed</code></pre>
+
+  <table>
+    <tr><th><span class="zh-only">特性</span><span class="en-only">Feature</span></th><th><span class="zh-only">标准模式</span><span class="en-only">Standard Mode</span></th><th>Fast Mode</th></tr>
+    <tr><td><span class="zh-only">模型</span><span class="en-only">Model</span></td><td>Opus 4.6 / Sonnet 4.6</td><td><span class="zh-only">更快的变体</span><span class="en-only">Faster variant</span></td></tr>
+    <tr><td><span class="zh-only">延迟</span><span class="en-only">Latency</span></td><td><span class="zh-only">标准</span><span class="en-only">Standard</span></td><td><span class="zh-only">更低</span><span class="en-only">Lower</span></td></tr>
+    <tr><td><span class="zh-only">成本</span><span class="en-only">Cost</span></td><td><span class="zh-only">标准</span><span class="en-only">Standard</span></td><td><span class="zh-only">更低</span><span class="en-only">Lower</span></td></tr>
+    <tr><td>Beta Header</td><td>—</td><td><code>fast-mode-2026-02-01</code></td></tr>
+  </table>
+
+  <p><span class="zh-only"><strong>冷却机制</strong>：Fast Mode 有使用冷却期——防止滥用或触发速率限制。<code>onCooldownTriggered</code> / <code>onCooldownExpired</code> 事件驱动 UI 更新（闪电符号 ↯ 变暗）。<strong>组织级控制</strong>：<code>penguinModeOrgEnabled</code> 可在组织级别启用/禁用，组织管理员关闭后用户个人设置自动失效。</span><span class="en-only"><strong>Cooldown mechanism</strong>: Fast Mode has usage cooldowns to prevent abuse and rate limiting. <code>onCooldownTriggered</code> / <code>onCooldownExpired</code> events drive UI updates (lightning bolt ↯ dims). <strong>Organization-level control</strong>: <code>penguinModeOrgEnabled</code> can be enabled/disabled at the org level — when admins disable it, user settings are automatically overridden.</span></p>
+</div>
+
+<!-- Section 6: Tool Schema Cache -->
+<div class="section">
+  <h2><span class="zh-only">六、Tool Schema Cache——减少 Prompt 中的 Schema Token</span><span class="en-only">6. Tool Schema Cache — Reducing Schema Tokens in Prompts</span></h2>
+
+  <p><span class="zh-only">每次 API 请求都需要发送可用工具的 JSON Schema。40+ 个工具的完整 schema 可能占用<strong>数千 token</strong>。</span><span class="en-only">Every API request needs to send the JSON Schema of available tools. The complete schemas of 40+ tools can consume <strong>thousands of tokens</strong>.</span></p>
+
+  <p><span class="zh-only"><code>toolSchemaCache.ts</code> 将编译后的工具 schema <strong>缓存在内存中</strong>，避免每次请求都重新序列化。只有当工具列表变化（如 MCP 服务器连接/断开）时才重新构建。</span><span class="en-only"><code>toolSchemaCache.ts</code> <strong>caches compiled tool schemas in memory</strong>, avoiding re-serialization on every request. Schemas are only rebuilt when the tool list changes (e.g., MCP server connect/disconnect).</span></p>
+
+  <p><span class="zh-only">配合 <code>token-efficient-tools-2026-03-28</code> beta header，API 端使用<strong>更紧凑的工具 schema 编码</strong>——用更少的 token 表示相同的工具定义。这是服务端 + 客户端协同的优化。</span><span class="en-only">Combined with the <code>token-efficient-tools-2026-03-28</code> beta header, the API uses <strong>more compact tool schema encoding</strong> — representing the same tool definitions with fewer tokens. This is a coordinated server-side + client-side optimization.</span></p>
+</div>
+
+<!-- Section 7: Output Efficiency -->
+<div class="section">
+  <h2><span class="zh-only">七、输出效率控制——限制模型的"废话"</span><span class="en-only">7. Output Efficiency Control — Limiting Model Verbosity</span></h2>
+
+  <h3><span class="zh-only">内部员工的长度锚点</span><span class="en-only">Internal Employee Length Anchors</span></h3>
+  <p><span class="zh-only">对于 <code>USER_TYPE === 'ant'</code>（Anthropic 内部员工），system prompt 中注入了<strong>严格的输出长度限制</strong>：</span><span class="en-only">For <code>USER_TYPE === 'ant'</code> (Anthropic internal employees), the system prompt injects <strong>strict output length limits</strong>:</span></p>
+  <table>
+    <tr><th><span class="zh-only">场景</span><span class="en-only">Context</span></th><th><span class="zh-only">长度限制</span><span class="en-only">Length Limit</span></th></tr>
+    <tr><td><span class="zh-only">工具调用之间的文本</span><span class="en-only">Text between tool calls</span></td><td>≤ 25 <span class="zh-only">词</span><span class="en-only">words</span></td></tr>
+    <tr><td><span class="zh-only">最终响应</span><span class="en-only">Final response</span></td><td>≤ 100 <span class="zh-only">词</span><span class="en-only">words</span></td></tr>
+  </table>
+  <p><span class="zh-only"><strong>为什么只对内部用户限制？</strong> Output token 也是成本。内部员工大量使用 Claude Code 进行日常开发，减少冗余输出可以显著降低内部消耗。对外部用户则保持正常长度，保证用户体验。</span><span class="en-only"><strong>Why limit only internal users?</strong> Output tokens are also a cost. Internal employees use Claude Code extensively for daily development — reducing redundant output significantly lowers internal consumption. External users keep normal output length to maintain user experience.</span></p>
+
+  <h3><span class="zh-only">Output Style 的成本影响</span><span class="en-only">Cost Impact of Output Styles</span></h3>
+  <table>
+    <tr><th>Output Style</th><th><span class="zh-only">Token 消耗趋势</span><span class="en-only">Token Consumption Trend</span></th><th><span class="zh-only">核心指令</span><span class="en-only">Core Instruction</span></th></tr>
+    <tr><td><code>Concise</code></td><td>↓↓ <span class="zh-only">最低</span><span class="en-only">Lowest</span></td><td>"maximally concise, skip preamble, lead with the answer"</td></tr>
+    <tr><td><code>Default</code></td><td><span class="zh-only">标准</span><span class="en-only">Standard</span></td><td>—</td></tr>
+    <tr><td><code>Formal</code></td><td>↑ <span class="zh-only">略高</span><span class="en-only">Slightly higher</span></td><td>"formal, professional tone, precise technical language"</td></tr>
+    <tr><td><code>Explanatory</code></td><td>↑↑ <span class="zh-only">最高</span><span class="en-only">Highest</span></td><td>"be thorough and educational, include reasoning, alternatives, pitfalls"</td></tr>
+    <tr><td><code>Learning</code></td><td>↑↑ <span class="zh-only">最高</span><span class="en-only">Highest</span></td><td>"explain concepts as you implement, point out patterns and best practices"</td></tr>
+  </table>
+
+  <h3><span class="zh-only">Token Budget 与自动停止</span><span class="en-only">Token Budget and Auto-Stop</span></h3>
+  <p><span class="zh-only">当使用 <code>+500k auto-continue</code> 功能时，系统通过 <code>checkTokenBudget()</code> 持续监控 token 消耗：</span><span class="en-only">When using the <code>+500k auto-continue</code> feature, the system continuously monitors token consumption via <code>checkTokenBudget()</code>:</span></p>
+  <table>
+    <tr><th><span class="zh-only">常量</span><span class="en-only">Constant</span></th><th><span class="zh-only">值</span><span class="en-only">Value</span></th><th><span class="zh-only">逻辑</span><span class="en-only">Logic</span></th></tr>
+    <tr><td><code>COMPLETION_THRESHOLD</code></td><td>0.9</td><td><span class="zh-only">消耗 90% 预算 → 自动停止</span><span class="en-only">90% budget consumed → auto-stop</span></td></tr>
+    <tr><td><code>DIMINISHING_THRESHOLD</code></td><td>500 tokens</td><td><span class="zh-only">连续两轮增量 &lt; 500 tokens → 边际收益递减 → 停止</span><span class="en-only">Two consecutive rounds with delta &lt; 500 tokens → diminishing returns → stop</span></td></tr>
+  </table>
+
+  <div class="callout warn">
+    <p><span class="zh-only"><strong>边际收益递减检测</strong>：当 <code>continuationCount ≥ 3</code> 且连续两轮的 token 增量都低于 500，系统判定模型陷入"反复修改但没有实质进展"的状态，自动截断。这防止了<strong>无限循环的 token 浪费</strong>。</span><span class="en-only"><strong>Diminishing returns detection</strong>: When <code>continuationCount ≥ 3</code> and token deltas in two consecutive rounds are both below 500, the system determines the model is stuck in "repeated modifications without substantial progress" and auto-stops. This prevents <strong>infinite loop token waste</strong>.</span></p>
+  </div>
+</div>
+
+
+<!-- Section 8: Cost Tracking + Summary Matrix + Design Philosophy -->
+<div class="section">
+  <h2><span class="zh-only">成本追踪与可见性</span><span class="en-only">Cost Tracking and Visibility</span></h2>
+
+  <p><span class="zh-only">Claude Code 的成本追踪不仅仅是记账，更是让成本<strong>对用户可见</strong>。每次会话结束时展示详细的成本分项：</span><span class="en-only">Claude Code's cost tracking isn't just accounting — it makes costs <strong>visible to users</strong>. Detailed cost breakdowns are shown at the end of each session:</span></p>
+
+  <pre><code>Total cost:            $X.XXXX
+Total duration (API):  Xs
+Total duration (wall): Xs
+Total code changes:    N lines added, N lines removed
+Usage by model:
+   claude-sonnet-4-6:  N input, N output, N cache read, N cache write ($X.XXXX)</code></pre>
+
+  <p><span class="zh-only"><strong>注意 <code>cache read</code> 和 <code>cache write</code> 是分开展示的</strong>——用户可以直接看到 prompt cache 为他们省了多少钱。追踪粒度包括：每模型的输入/输出 token、cache read/write token、Web 搜索次数、美元成本、API 耗时、工具耗时、代码变更行数等。所有数据通过 OpenTelemetry counters 同步到监控系统。</span><span class="en-only"><strong>Note that <code>cache read</code> and <code>cache write</code> are shown separately</strong> — users can directly see how much prompt cache saves them. Tracking granularity includes: per-model input/output tokens, cache read/write tokens, web search count, USD cost, API duration, tool duration, lines of code changed, and more. All data is synced to monitoring systems via OpenTelemetry counters.</span></p>
+</div>
+
+<!-- Summary Matrix -->
+<div class="section">
+  <h2><span class="zh-only">成本优化全景矩阵</span><span class="en-only">Cost Optimization Overview Matrix</span></h2>
+
+  <table>
+    <tr>
+      <th><span class="zh-only">优化维度</span><span class="en-only">Dimension</span></th>
+      <th><span class="zh-only">机制</span><span class="en-only">Mechanism</span></th>
+      <th><span class="zh-only">估计节省</span><span class="en-only">Est. Savings</span></th>
+      <th><span class="zh-only">用户可见性</span><span class="en-only">User Visibility</span></th>
+    </tr>
+    <tr><td><strong>Prompt Cache (Global)</strong></td><td><span class="zh-only">静态/动态分段 + <code>scope: global</code></span><span class="en-only">Static/dynamic segmentation + <code>scope: global</code></span></td><td>80-90% prompt tokens</td><td><span class="zh-only">透明（cost tracker 展示 cache read）</span><span class="en-only">Transparent (cost tracker shows cache read)</span></td></tr>
+    <tr><td><strong><span class="zh-only">时间锚定</span><span class="en-only">Time Anchoring</span></strong></td><td><span class="zh-only">日期 memoize / 月份粒度</span><span class="en-only">Date memoize / monthly granularity</span></td><td><span class="zh-only">避免不必要的 cache break</span><span class="en-only">Avoids unnecessary cache breaks</span></td><td><span class="zh-only">透明</span><span class="en-only">Transparent</span></td></tr>
+    <tr><td><strong>Beta Header Latch</strong></td><td><span class="zh-only">会话内锁定 beta 状态</span><span class="en-only">Session-locked beta state</span></td><td><span class="zh-only">防止 beta 切换导致 cache break</span><span class="en-only">Prevents cache break from beta toggles</span></td><td><span class="zh-only">透明</span><span class="en-only">Transparent</span></td></tr>
+    <tr><td><strong>Microcompact</strong></td><td><span class="zh-only">清除旧工具结果（零 LLM 成本）</span><span class="en-only">Clear old tool results (zero LLM cost)</span></td><td><span class="zh-only">回收 40-140K tokens</span><span class="en-only">Reclaims 40-140K tokens</span></td><td><code>[Old tool result content cleared]</code></td></tr>
+    <tr><td><strong>Session Memory Compact</strong></td><td><span class="zh-only">二分查找 + LLM 摘要</span><span class="en-only">Binary search + LLM summary</span></td><td><span class="zh-only">回收 10-40K tokens</span><span class="en-only">Reclaims 10-40K tokens</span></td><td><span class="zh-only">压缩通知</span><span class="en-only">Compaction notification</span></td></tr>
+    <tr><td><strong>Full Compact</strong></td><td><span class="zh-only">LLM 摘要整个对话</span><span class="en-only">LLM summarizes full conversation</span></td><td><span class="zh-only">大幅回收空间</span><span class="en-only">Major space reclamation</span></td><td><span class="zh-only">compact boundary 消息</span><span class="en-only">Compact boundary message</span></td></tr>
+    <tr><td><strong><span class="zh-only">工具结果限制</span><span class="en-only">Tool Result Limits</span></strong></td><td>50K / 100K / 200K <span class="zh-only">多层限制</span><span class="en-only">multi-tier limits</span></td><td><span class="zh-only">防止单次工具调用爆 token</span><span class="en-only">Prevents single tool calls from exploding tokens</span></td><td><span class="zh-only">截断标记</span><span class="en-only">Truncation markers</span></td></tr>
+    <tr><td><strong>Tool Schema Cache</strong></td><td><span class="zh-only">缓存 JSON schema + Token-efficient encoding</span><span class="en-only">Cached JSON schema + token-efficient encoding</span></td><td><span class="zh-only">减少 schema token</span><span class="en-only">Reduces schema tokens</span></td><td><span class="zh-only">透明</span><span class="en-only">Transparent</span></td></tr>
+    <tr><td><strong>Effort <span class="zh-only">控制</span><span class="en-only">Control</span></strong></td><td>low / medium / high / max / auto</td><td><span class="zh-only">low 可节省 90%+ thinking token</span><span class="en-only">Low can save 90%+ thinking tokens</span></td><td><span class="zh-only">用户主动选择</span><span class="en-only">User's active choice</span></td></tr>
+    <tr><td><strong>Fast Mode</strong></td><td><span class="zh-only">切换更快更便宜的模型</span><span class="en-only">Switch to faster, cheaper model</span></td><td><span class="zh-only">模型级成本降低</span><span class="en-only">Model-level cost reduction</span></td><td><span class="zh-only">用户主动选择</span><span class="en-only">User's active choice</span></td></tr>
+    <tr><td><strong><span class="zh-only">长度锚点</span><span class="en-only">Length Anchors</span></strong></td><td>ant-only: ≤25 / ≤100 <span class="zh-only">词</span><span class="en-only">words</span></td><td><span class="zh-only">减少 output token</span><span class="en-only">Reduces output tokens</span></td><td><span class="zh-only">仅内部用户</span><span class="en-only">Internal users only</span></td></tr>
+    <tr><td><strong><span class="zh-only">边际收益递减</span><span class="en-only">Diminishing Returns</span></strong></td><td><span class="zh-only">连续增量 &lt;500 tokens → 停止</span><span class="en-only">Consecutive delta &lt;500 tokens → stop</span></td><td><span class="zh-only">防止无效循环浪费</span><span class="en-only">Prevents infinite loop waste</span></td><td><span class="zh-only">自动</span><span class="en-only">Automatic</span></td></tr>
+  </table>
+</div>
+
+<!-- Design Philosophy -->
+<div class="section">
+  <h2><span class="zh-only">设计哲学总结</span><span class="en-only">Design Philosophy Summary</span></h2>
+
+  <h3><span class="zh-only">1. "成本即架构"</span><span class="en-only">1. "Cost as Architecture"</span></h3>
+  <p><span class="zh-only">不是事后加优化，而是从架构设计阶段就将成本作为一等公民。<code>DANGEROUS_</code> 命名约定（标记会破坏缓存的函数）、prompt cache break detector、latch 机制——这些都是把成本影响<strong>编码到 API 设计中</strong>，让开发者在写代码时就感知到成本后果。</span><span class="en-only">Not an afterthought optimization, but treating cost as a first-class citizen from the architecture design phase. The <code>DANGEROUS_</code> naming convention (marking functions that break cache), prompt cache break detector, and latch mechanism — all of these <strong>encode cost implications into the API design</strong>, making developers aware of cost consequences as they write code.</span></p>
+
+  <h3><span class="zh-only">2. "渐进式降级"</span><span class="en-only">2. "Progressive Degradation"</span></h3>
+  <p><span class="zh-only">从零成本的 Microcompact → 单次 LLM 调用的 Session Memory Compact → 重量级的 Full Compact，系统<strong>总是先尝试最便宜的方案</strong>。只有前一层不够时才触发下一层。这种分层策略确保了大多数情况下只需要最低成本的压缩。</span><span class="en-only">From zero-cost Microcompact → single LLM call Session Memory Compact → heavy Full Compact, the system <strong>always tries the cheapest approach first</strong>. The next tier triggers only when the previous one isn't sufficient. This layered strategy ensures most cases require only the lowest-cost compression.</span></p>
+
+  <h3><span class="zh-only">3. "让用户参与成本决策"</span><span class="en-only">3. "User-Participated Cost Decisions"</span></h3>
+  <p><span class="zh-only">Effort 控制、Output Style、Fast Mode——这些不是自动的，而是<strong>把选择权交给用户</strong>。cost tracker 的展示（包括 cache read/write 分项）让用户能看到自己的钱花在了哪里，从而做出知情的选择。这种透明性本身就是一种成本治理策略。</span><span class="en-only">Effort control, Output Style, Fast Mode — these aren't automatic but <strong>hand the choice to users</strong>. The cost tracker display (including cache read/write breakdowns) lets users see where their money goes, enabling informed decisions. This transparency itself is a cost governance strategy.</span></p>
+</div>
+
+</div>
+<script src="../nav.js"></script>
+</body>
+</html>
+
