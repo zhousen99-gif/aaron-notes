@@ -265,59 +265,10 @@
   [data-lang="zh"] .en-only { display: none !important; }
   [data-lang="en"] .zh-only { display: none !important; }
 </style>
+<link rel="stylesheet" href="../nav.css">
 </head>
 <body data-lang="zh">
-
-<style>
-.doc-nav {
-  position: sticky; top: 0; z-index: 999;
-  background: rgba(13,17,23,0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(48,54,61,0.6);
-  padding: 0 24px;
-}
-.doc-nav-inner {
-  max-width: 960px; margin: 0 auto;
-  display: flex; align-items: center;
-  height: 44px; gap: 6px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-.doc-nav a {
-  display: inline-flex; align-items: center; gap: 5px;
-  color: #8b949e; text-decoration: none;
-  font-size: 13px; font-weight: 500;
-  padding: 4px 10px; border-radius: 6px;
-  transition: all 0.15s;
-}
-.doc-nav a:hover {
-  color: #e6edf3;
-  background: rgba(255,255,255,0.06);
-}
-.doc-nav .sep {
-  color: #30363d; font-size: 14px;
-  margin: 0 2px; user-select: none;
-}
-.doc-nav .current {
-  color: #e6edf3;
-}
-</style>
-
-<nav class="doc-nav">
-  <div class="doc-nav-inner">
-    <a href="../../">
-      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg>
-      Home
-    </a>
-    <span class="sep">/</span>
-    <a href="../">
-      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg>
-      Tech Docs
-    </a>
-    <span class="sep">/</span>
-    <span class="current">OpenKosmos Architecture</span>
-  </div>
-</nav>
-
+<div class="site-topbar"><div class="crumbs"><a href="../../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg> Home</a><span class="sep">/</span><a href="../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg> Tech Docs</a><span class="sep">/</span><span class="current">OpenKosmos</span></div><div class="controls"><button class="ctrl" id="siteLangToggle">EN</button><button class="ctrl" id="siteThemeToggle">🌓</button></div></div>
 <div class="container">
 
 <!-- ═══════ COVER ═══════ -->
@@ -526,18 +477,14 @@
 
 </div>
 
-<div class="doc-controls">
-  <button class="doc-ctrl-btn" id="docLangToggle" title="Switch language">EN</button>
-  <button class="doc-ctrl-btn" id="docThemeToggle" title="Toggle theme">🌓</button>
-</div>
 <script>
 (function(){
   var html = document.documentElement;
   function setDocTheme(t) {
     html.setAttribute('data-theme', t);
-    localStorage.setItem('docs-theme', t);
+    localStorage.setItem('site-theme', t);
   }
-  var s = localStorage.getItem('docs-theme') || localStorage.getItem('theme');
+  var s = (localStorage.getItem('site-theme')||localStorage.getItem('docs-theme')) || localStorage.getItem('theme');
   if (s) setDocTheme(s);
   else if (!window.matchMedia('(prefers-color-scheme: dark)').matches) setDocTheme('light');
   
@@ -546,10 +493,10 @@
     var body = document.body;
     function setDocLang(l) {
       body.setAttribute('data-lang', l);
-      localStorage.setItem('docs-lang', l);
+      localStorage.setItem('site-lang', l);
       langBtn.textContent = l === 'zh' ? 'EN' : '中';
     }
-    var savedLang = localStorage.getItem('docs-lang');
+    var savedLang = (localStorage.getItem('site-lang')||localStorage.getItem('docs-lang'));
     if (savedLang) setDocLang(savedLang);
     langBtn.addEventListener('click', function() {
       setDocLang(body.getAttribute('data-lang') === 'zh' ? 'en' : 'zh');
@@ -560,5 +507,6 @@
   });
 })();
 </script>
+<script src="../nav.js"></script>
 </body>
 </html>

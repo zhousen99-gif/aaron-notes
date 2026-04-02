@@ -126,25 +126,14 @@
     .card { padding: 20px; }
   }
 </style>
+<link rel="stylesheet" href="nav.css">
 </head>
 <body data-lang="zh">
+<div class="site-topbar"><div class="crumbs"><a href="../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg> Home</a><span class="sep">/</span><span class="current">Tech Docs</span></div><div class="controls"><button class="ctrl" id="siteLangToggle">EN</button><button class="ctrl" id="siteThemeToggle">🌓</button></div></div>
 <div class="glow"></div>
 <div class="container">
 
   <div class="page-header">
-    <div class="top-bar">
-      <a href="../" class="back">
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"/></svg>
-        <span class="zh-only">返回笔记</span><span class="en-only">Back to Notes</span>
-      </a>
-      <div class="top-controls">
-        <button class="ctrl-btn" id="langToggle" title="Switch language">EN</button>
-        <button class="ctrl-btn" id="themeToggle" title="Toggle theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" style="display:none"><path fill="currentColor" d="M12 7a5 5 0 100 10 5 5 0 000-10zm0-3a1 1 0 01-1-1V1a1 1 0 112 0v2a1 1 0 01-1 1zm0 18a1 1 0 01-1-1v-2a1 1 0 112 0v2a1 1 0 01-1 1zm9-9a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM6 12a1 1 0 01-1 1H3a1 1 0 110-2h2a1 1 0 011 1z"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12.1 22c-5.5 0-10-4.5-10-10 0-4.8 3.4-8.8 8.1-9.8.5-.1 1 .1 1.3.5.3.4.2.9-.1 1.3C10.1 5.5 9.1 7.6 9.1 10c0 4.4 3.6 8 8 8 .4 0 .8 0 1.2-.1.5-.1 1 .1 1.3.5.3.4.2 1-.1 1.3-2 1.5-4.4 2.3-7.4 2.3z"/></svg>
-        </button>
-      </div>
-    </div>
     <h1>Tech Docs</h1>
     <p class="zh-only">架构深度解析、设计分析与技术探索。</p>
     <p class="en-only">Architecture deep dives, design analyses, and technical explorations.</p>
@@ -212,40 +201,6 @@
   <div class="page-footer">Aaron's Notes · Tech Docs</div>
 </div>
 
-<script>
-(function() {
-  const html = document.documentElement;
-  const body = document.body;
-
-  // Theme
-  const themeBtn = document.getElementById('themeToggle');
-  function setTheme(t) {
-    html.setAttribute('data-theme', t);
-    localStorage.setItem('docs-theme', t);
-    themeBtn.querySelector('.icon-sun').style.display = t === 'dark' ? 'block' : 'none';
-    themeBtn.querySelector('.icon-moon').style.display = t === 'dark' ? 'none' : 'block';
-  }
-  const savedTheme = localStorage.getItem('docs-theme') || localStorage.getItem('theme');
-  if (savedTheme) setTheme(savedTheme);
-  else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
-  else setTheme('light');
-  themeBtn.addEventListener('click', () => {
-    setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  });
-
-  // Language
-  const langBtn = document.getElementById('langToggle');
-  function setLang(l) {
-    body.setAttribute('data-lang', l);
-    localStorage.setItem('docs-lang', l);
-    langBtn.textContent = l === 'zh' ? 'EN' : '中';
-  }
-  const savedLang = localStorage.getItem('docs-lang');
-  if (savedLang) setLang(savedLang);
-  langBtn.addEventListener('click', () => {
-    setLang(body.getAttribute('data-lang') === 'zh' ? 'en' : 'zh');
-  });
-})();
-</script>
+<script src="nav.js"></script>
 </body>
 </html>

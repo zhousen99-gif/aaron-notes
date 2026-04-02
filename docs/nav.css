@@ -1,0 +1,66 @@
+/* ══════════════════════════════════════
+   Shared top bar for all /docs/ pages
+   ══════════════════════════════════════ */
+.site-topbar {
+  position: sticky; top: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 44px; padding: 0 24px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(208,215,222,0.6);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+[data-theme="dark"] .site-topbar {
+  background: rgba(13,17,23,0.85);
+  border-bottom-color: rgba(48,54,61,0.6);
+}
+
+/* Breadcrumb */
+.site-topbar .crumbs {
+  display: flex; align-items: center; gap: 6px;
+}
+.site-topbar .crumbs a {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: #656d76; text-decoration: none;
+  font-size: 13px; font-weight: 500;
+  padding: 3px 6px; border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.site-topbar .crumbs a:hover {
+  color: #1a1a2e; background: rgba(0,0,0,0.04);
+}
+[data-theme="dark"] .site-topbar .crumbs a { color: #8b949e; }
+[data-theme="dark"] .site-topbar .crumbs a:hover { color: #e6edf3; background: rgba(255,255,255,0.06); }
+.site-topbar .crumbs .sep {
+  color: #d0d7de; font-size: 14px; user-select: none;
+}
+[data-theme="dark"] .site-topbar .crumbs .sep { color: #30363d; }
+.site-topbar .crumbs .current {
+  color: #1a1a2e; font-size: 13px; font-weight: 500;
+}
+[data-theme="dark"] .site-topbar .crumbs .current { color: #e6edf3; }
+
+/* Controls */
+.site-topbar .controls {
+  display: flex; gap: 6px; align-items: center;
+}
+.site-topbar .ctrl {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid #d0d7de; border-radius: 6px;
+  padding: 3px 10px; cursor: pointer;
+  color: #656d76; font-size: 12px; font-weight: 600;
+  transition: border-color 0.15s, color 0.15s;
+}
+.site-topbar .ctrl:hover {
+  border-color: #2563eb; color: #2563eb;
+}
+[data-theme="dark"] .site-topbar .ctrl {
+  border-color: rgba(128,128,128,0.3); color: #8b949e;
+}
+[data-theme="dark"] .site-topbar .ctrl:hover {
+  border-color: #58a6ff; color: #58a6ff;
+}
+
+/* i18n */
+[data-lang="zh"] .en-only { display: none !important; }
+[data-lang="en"] .zh-only { display: none !important; }

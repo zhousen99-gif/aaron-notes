@@ -24,7 +24,8 @@
   };
 
   // Detect language from data-lang attribute or path
-  const pageLang = document.documentElement.getAttribute('data-lang') || 'zh';
+  const pageLang = localStorage.getItem('site-lang') || document.documentElement.getAttribute('data-lang') || 'zh';
+  document.body.setAttribute('data-lang', pageLang);
   const t = i18n[pageLang] || i18n.zh;
 
   // ===== Theme =====
@@ -34,13 +35,13 @@
 
   function setTheme(t) {
     html.setAttribute('data-theme', t);
-    localStorage.setItem('theme', t);
+    localStorage.setItem('site-theme', t);
     hljsLink.href = t === 'dark'
       ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'
       : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
   }
 
-  const saved = localStorage.getItem('theme');
+  const saved = localStorage.getItem('site-theme');
   if (saved) setTheme(saved);
   else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
 

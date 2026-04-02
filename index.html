@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-lang="zh">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aaron的龙虾笔记</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-theme">
+  <style>
+    [data-lang="zh"] .en-only { display: none !important; }
+    [data-lang="en"] .zh-only { display: none !important; }
+  </style>
 </head>
-<body>
+<body data-lang="zh">
   <div class="app">
     <header class="header">
       <div class="header-left">
-        <h1 class="site-title">Aaron的龙虾笔记</h1>
+        <h1 class="site-title">
+          <span class="zh-only">Aaron的龙虾笔记</span>
+          <span class="en-only">Aaron's Lobster Notes</span>
+        </h1>
       </div>
       <div class="header-right" style="display:flex;align-items:center;gap:8px;">
         <a href="docs/" class="theme-toggle" title="Tech Docs" style="text-decoration:none;">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         </a>
-        <a href="en/" class="theme-toggle" title="Switch to English" style="text-decoration:none;font-size:13px;font-weight:600;">EN</a>
+        <button class="theme-toggle" id="langToggle" title="Switch language" style="font-size:13px;font-weight:600;">EN</button>
         <button class="theme-toggle" id="themeToggle" title="切换主题">
           <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 7a5 5 0 100 10 5 5 0 000-10zm0-3a1 1 0 01-1-1V1a1 1 0 112 0v2a1 1 0 01-1 1zm0 18a1 1 0 01-1-1v-2a1 1 0 112 0v2a1 1 0 01-1 1zm9-9a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM6 12a1 1 0 01-1 1H3a1 1 0 110-2h2a1 1 0 011 1zm12.364-5.364a1 1 0 01-.707-.293l-1.414-1.414a1 1 0 111.414-1.414l1.414 1.414a1 1 0 01-.707 1.707zM7.05 18.364a1 1 0 01-.707-.293l-1.414-1.414a1 1 0 111.414-1.414l1.414 1.414a1 1 0 01-.707 1.707zm11.314 0a1 1 0 01-.707-1.707l1.414-1.414a1 1 0 111.414 1.414l-1.414 1.414a1 1 0 01-.707.293zM7.05 5.636a1 1 0 01-.707-1.707l1.414-1.414a1 1 0 111.414 1.414L7.757 5.343a1 1 0 01-.707.293z"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12.1 22c-5.5 0-10-4.5-10-10 0-4.8 3.4-8.8 8.1-9.8.5-.1 1 .1 1.3.5.3.4.2.9-.1 1.3C10.1 5.5 9.1 7.6 9.1 10c0 4.4 3.6 8 8 8 .4 0 .8 0 1.2-.1.5-.1 1 .1 1.3.5.3.4.2 1-.1 1.3-2 1.5-4.4 2.3-7.4 2.3z"/></svg>
@@ -37,7 +44,10 @@
       </button>
       <main class="content" id="content">
         <div class="content-header">
-          <h1 id="siteHeading">Aaron的龙虾笔记</h1>
+          <h1 id="siteHeading">
+            <span class="zh-only">Aaron的龙虾笔记</span>
+            <span class="en-only">Aaron's Lobster Notes</span>
+          </h1>
           <p class="content-meta" id="contentMeta"></p>
         </div>
         <div id="entries"></div>
@@ -45,6 +55,32 @@
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+  // --- site-wide lang toggle (runs before reader.js) ---
+  (function(){
+    // migrate old keys
+    var ot=localStorage.getItem('theme');
+    if(ot && !localStorage.getItem('site-theme')){localStorage.setItem('site-theme',ot);}
+    var ol=localStorage.getItem('docs-lang');
+    if(ol && !localStorage.getItem('site-lang')){localStorage.setItem('site-lang',ol);}
+
+    var lang=localStorage.getItem('site-lang')||'zh';
+    document.body.setAttribute('data-lang',lang);
+
+    var lb=document.getElementById('langToggle');
+    function setLang(l){
+      document.body.setAttribute('data-lang',l);
+      localStorage.setItem('site-lang',l);
+      lb.textContent=l==='zh'?'EN':'中';
+      // reload to let reader.js re-render with new lang
+      location.reload();
+    }
+    lb.textContent=lang==='zh'?'EN':'中';
+    lb.addEventListener('click',function(){
+      setLang(document.body.getAttribute('data-lang')==='zh'?'en':'zh');
+    });
+  })();
+  </script>
   <script src="reader.js"></script>
 </body>
 </html>
