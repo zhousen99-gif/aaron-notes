@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 泄露源码架构解读 | Aaron's Notes</title>
+<link rel="stylesheet" href="../nav.css">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface-hover: #1c2333;
+    --border: #30363d; --text: #e6edf3; --text-secondary: #8b949e;
+    --accent-blue: #58a6ff; --accent-green: #3fb950; --accent-red: #f85149;
+    --accent-orange: #d29922; --accent-purple: #bc8cff; --accent-cyan: #39d2c0;
+  }
+  [data-theme="light"] {
+    --bg: #ffffff !important; --surface: #f6f8fa !important;
+    --surface-hover: #eef1f5 !important; --border: #d0d7de !important;
+    --text: #1a1a2e !important; --text-secondary: #656d76 !important;
+    --accent-blue: #2563eb !important; --accent-green: #1a7f37 !important;
+    --accent-red: #cf222e !important; --accent-orange: #bf8700 !important;
+    --accent-purple: #8250df !important; --accent-cyan: #0e7490 !important;
+  }
+  [data-theme="light"] body { background: #ffffff !important; color: #1a1a2e !important; }
+  [data-theme="light"] th { background: #f6f8fa !important; color: #1a1a2e !important; }
+  [data-theme="light"] td { border-bottom-color: #d0d7de !important; }
+  [data-theme="light"] tr:hover td { background: rgba(37,99,235,0.04) !important; }
+  [data-theme="light"] .arch-box { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .arch-box .layer-title { color: #2563eb !important; }
+  [data-theme="light"] .arch-box .layer-desc { color: #656d76 !important; }
+  [data-theme="light"] .highlight-box { background: #f6f8fa !important; border-left-color: #2563eb !important; }
+  [data-theme="light"] .subsystem-card { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .subsystem-card:hover { border-color: #2563eb !important; }
+  [data-theme="light"] .flow-step { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .star { color: #bf8700 !important; }
+  [data-lang="zh"] .en-only { display: none !important; }
+  [data-lang="en"] .zh-only { display: none !important; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; padding: 0 20px 40px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+  .doc-header { text-align: center; padding: 20px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+  .doc-header h1 {
+    font-size: 2rem; font-weight: 700; margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .doc-header .subtitle { font-size: 1rem; color: var(--text-secondary); }
+  .doc-header .meta { margin-top: 16px; font-size: 0.8rem; color: var(--text-secondary); }
+  .section { margin-bottom: 56px; }
+  .section h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .section h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin: 28px 0 12px; }
+  p { margin-bottom: 14px; color: var(--text-secondary); }
+  p strong { color: var(--text); }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  th { background: var(--surface); color: var(--accent-blue); text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--border); font-weight: 600; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  tr:hover td { background: var(--surface-hover); }
+  code { background: rgba(88,166,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: var(--accent-cyan); }
+  ul { margin: 10px 0 14px 20px; }
+  li { color: var(--text-secondary); margin-bottom: 6px; font-size: 0.9rem; }
+  li strong { color: var(--text); }
+  blockquote { border-left: 3px solid var(--accent-purple); padding: 12px 16px; margin: 16px 0; background: rgba(188,140,255,0.05); color: var(--text-secondary); font-style: italic; border-radius: 0 6px 6px 0; }
+
+  /* Architecture diagram */
+  .arch-diagram { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+  .arch-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; transition: border-color 0.2s; }
+  .arch-box:hover { border-color: var(--accent-blue); }
+  .layer-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .layer-desc { font-size: 0.85rem; color: var(--text-secondary); }
+  .arch-arrow { text-align: center; color: var(--text-secondary); font-size: 1.2rem; }
+
+  /* Subsystem cards */
+  .subsystem-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .subsystem-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; transition: border-color 0.2s, transform 0.2s; }
+  .subsystem-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+  .subsystem-card h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .subsystem-card p { font-size: 0.85rem; margin-bottom: 10px; }
+  .subsystem-card ul { margin: 8px 0 0 16px; }
+  .subsystem-card li { font-size: 0.82rem; }
+  .star { color: var(--accent-orange); }
+
+  /* Data flow */
+  .flow-steps { display: flex; flex-direction: column; gap: 8px; margin: 20px 0; }
+  .flow-step { display: flex; align-items: flex-start; gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; }
+  .flow-num { font-size: 0.8rem; font-weight: 700; color: var(--accent-blue); background: rgba(88,166,255,0.1); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .flow-text { font-size: 0.88rem; color: var(--text-secondary); }
+  .flow-text strong { color: var(--text); }
+
+  /* Highlight box */
+  .highlight-box { background: var(--surface); border-left: 3px solid var(--accent-blue); padding: 16px 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .highlight-box p { margin-bottom: 8px; }
+  .highlight-box p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body data-lang="zh">
+<div class="site-topbar"><div class="crumbs"><a href="../../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg> Home</a><span class="sep">/</span><a href="../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg> Tech Docs</a><span class="sep">/</span><span class="current"><span class="zh-only">Claude Code 源码解读</span><span class="en-only">Claude Code Source Analysis</span></span></div><div class="controls"><button class="ctrl" id="siteLangToggle">EN</button><button class="ctrl" id="siteThemeToggle">🌓</button></div></div>
+<div class="container">
+
+  <!-- ======== HEADER ======== -->
+  <div class="doc-header">
+    <h1>
+      <span class="zh-only">Claude Code 泄露源码架构解读</span>
+      <span class="en-only">Claude Code Leaked Source Architecture Analysis</span>
+    </h1>
+    <div class="subtitle">
+      <span class="zh-only">深入解析 Anthropic Claude Code 的内部设计——从一次 npm Source Map 事故说起</span>
+      <span class="en-only">Deep dive into Anthropic Claude Code internals — born from an npm source map incident</span>
+    </div>
+    <div class="meta">
+      <span class="zh-only">2026-04-02 · 基于 Kuberwastaken/claude-code 仓库 Clean-Room 规格文档分析</span>
+      <span class="en-only">2026-04-02 · Based on Kuberwastaken/claude-code clean-room spec analysis</span>
+    </div>
+  </div>
+
+  <!-- ======== SECTION 1: 事件背景 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">📰 事件背景</span>
+      <span class="en-only">📰 Incident Background</span>
+    </h2>
+    <p>
+      <span class="zh-only">2026年3月31日，Anthropic 在发布 Claude Code 的 npm 包时，因构建配置失误将 <strong>source map 文件（.map）</strong> 包含在发布包中。<code>.map</code> 文件的 <code>sourcesContent</code> 字段直接嵌入了完整原始 TypeScript 源码，导致约 <strong>1,906 个文件、800K+ 行代码</strong>全部暴露。</span>
+      <span class="en-only">On March 31, 2026, Anthropic accidentally included <strong>source map files (.map)</strong> in the published npm package of Claude Code. The <code>sourcesContent</code> field in the <code>.map</code> files contained the complete original TypeScript source — roughly <strong>1,906 files and 800K+ lines of code</strong> were exposed.</span>
+    </p>
+    <p>
+      <span class="zh-only">泄露原因：Bun 打包工具默认生成 source map，团队未在 <code>.npmignore</code> 中排除 <code>*.map</code> 文件，也未配置 bundler 关闭生产环境 source map 生成。</span>
+      <span class="en-only">Root cause: Bun bundler generates source maps by default. The team failed to exclude <code>*.map</code> in <code>.npmignore</code> or disable source map generation for production builds.</span>
+    </p>
+    <blockquote>
+      <span class="zh-only">讽刺的是，Claude Code 内部有一套名为 <strong>Undercover Mode</strong> 的子系统，专门防止 AI 在 commit / PR 中泄露内部信息——然而源码本身却通过一个 <code>.map</code> 文件暴露了。</span>
+      <span class="en-only">Ironically, Claude Code has an internal subsystem called <strong>Undercover Mode</strong> specifically designed to prevent the AI from leaking internal info in commits / PRs — yet the source itself was exposed via a <code>.map</code> file.</span>
+    </blockquote>
+  </div>
+
+  <!-- ======== SECTION 2: 仓库性质 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">📦 仓库性质（Clean-Room 处理）</span>
+      <span class="en-only">📦 Repository Nature (Clean-Room Process)</span>
+    </h2>
+    <p>
+      <span class="zh-only">分析对象仓库 <strong>Kuberwastaken/claude-code</strong>（3.2k stars）<strong>并不包含原始 TypeScript 源码</strong>，而是进行了 Clean-Room 两阶段处理：</span>
+      <span class="en-only">The analyzed repository <strong>Kuberwastaken/claude-code</strong> (3.2k stars) <strong>does not contain the original TypeScript source</strong>. It went through a two-phase clean-room process:</span>
+    </p>
+    <table>
+      <tr>
+        <th><span class="zh-only">阶段</span><span class="en-only">Phase</span></th>
+        <th><span class="zh-only">目录</span><span class="en-only">Directory</span></th>
+        <th><span class="zh-only">内容</span><span class="en-only">Content</span></th>
+      </tr>
+      <tr>
+        <td><span class="zh-only">Phase 1 — 规格提取</span><span class="en-only">Phase 1 — Spec Extraction</span></td>
+        <td><code>spec/</code></td>
+        <td><span class="zh-only">AI agent 分析泄露源码，生成了 14 份行为规格文档（~990KB），不携带原始代码</span><span class="en-only">An AI agent analyzed the leaked source and produced 14 behavioral spec docs (~990KB), carrying no original code</span></td>
+      </tr>
+      <tr>
+        <td><span class="zh-only">Phase 2 — Rust 重实现</span><span class="en-only">Phase 2 — Rust Reimplementation</span></td>
+        <td><code>src-rust/</code></td>
+        <td><span class="zh-only">另一个 AI agent 仅根据规格文档用 Rust 重新实现，从未引用原始 TypeScript</span><span class="en-only">A separate AI agent reimplemented in Rust from specs alone, never referencing original TypeScript</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ======== SECTION 3: 项目统计 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">📊 项目统计</span>
+      <span class="en-only">📊 Project Stats</span>
+    </h2>
+    <table>
+      <tr>
+        <th><span class="zh-only">指标</span><span class="en-only">Metric</span></th>
+        <th><span class="zh-only">原始 TypeScript 项目</span><span class="en-only">Original TypeScript Project</span></th>
+        <th><span class="zh-only">Clean-Room 仓库</span><span class="en-only">Clean-Room Repository</span></th>
+      </tr>
+      <tr><td><span class="zh-only">文件数</span><span class="en-only">Files</span></td><td>~1,902</td><td>81</td></tr>
+      <tr><td><span class="zh-only">代码行数</span><span class="en-only">Lines of Code</span></td><td>800K+</td><td>~52K</td></tr>
+      <tr><td><span class="zh-only">主要语言</span><span class="en-only">Primary Language</span></td><td>TypeScript / TSX</td><td>Rust + Markdown</td></tr>
+      <tr><td><span class="zh-only">React 组件</span><span class="en-only">React Components</span></td><td>389</td><td>—</td></tr>
+      <tr><td><span class="zh-only">React Hooks</span><span class="en-only">React Hooks</span></td><td>104</td><td>—</td></tr>
+      <tr><td><span class="zh-only">工具数量</span><span class="en-only">Tools</span></td><td>40+</td><td>33 (Rust)</td></tr>
+      <tr><td><span class="zh-only">斜杠命令</span><span class="en-only">Slash Commands</span></td><td>100+</td><td>—</td></tr>
+    </table>
+  </div>
+
+
+  <!-- ======== SECTION 4: 整体架构 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">🏗️ 整体架构</span>
+      <span class="en-only">🏗️ Overall Architecture</span>
+    </h2>
+    <p>
+      <span class="zh-only">Claude Code 不是一个简单的 CLI 工具，而是一个完整的终端应用程序。它用 React（通过自定义 Ink 终端渲染器 + Yoga flexbox 布局引擎）驱动 UI，核心由查询引擎、工具系统、权限系统和多 Agent 编排构成。</span>
+      <span class="en-only">Claude Code is not a simple CLI tool — it's a full terminal application. It uses React (via a custom Ink terminal renderer + Yoga flexbox layout engine) to drive the UI, with a query engine, tool system, permission system, and multi-agent orchestration at its core.</span>
+    </p>
+
+    <div class="zh-only">
+    <div class="arch-diagram">
+      <div class="arch-box" style="border-left: 3px solid var(--accent-purple);">
+        <div class="layer-title" style="color: var(--accent-purple);">用户界面层</div>
+        <div class="layer-desc">Ink TUI（React 终端渲染器 + Yoga 布局） · 389 个 React 组件 · 104 个 Hooks</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-blue);">
+        <div class="layer-title" style="color: var(--accent-blue);">应用层</div>
+        <div class="layer-desc">main.tsx（4,683 行入口） · 100+ 斜杠命令 · 插件/技能系统</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-green);">
+        <div class="layer-title" style="color: var(--accent-green);">核心引擎</div>
+        <div class="layer-desc">query.ts + QueryEngine.ts 查询循环 · 40+ 工具 · 权限系统（4级风险 + YOLO classifier）</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-orange);">
+        <div class="layer-title" style="color: var(--accent-orange);">服务层</div>
+        <div class="layer-desc">Claude API 客户端 · Dream 记忆巩固 · Multi-Agent 编排 · Session Memory</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-cyan);">
+        <div class="layer-title" style="color: var(--accent-cyan);">传输层</div>
+        <div class="layer-desc">CLI（本地） · Bridge（远程 JWT + WebSocket/SSE） · IDE 集成（VS Code / JetBrains）</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="en-only">
+    <div class="arch-diagram">
+      <div class="arch-box" style="border-left: 3px solid var(--accent-purple);">
+        <div class="layer-title" style="color: var(--accent-purple);">UI Layer</div>
+        <div class="layer-desc">Ink TUI (React terminal renderer + Yoga layout) · 389 React components · 104 Hooks</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-blue);">
+        <div class="layer-title" style="color: var(--accent-blue);">Application Layer</div>
+        <div class="layer-desc">main.tsx (4,683-line entry) · 100+ slash commands · Plugin/Skills system</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-green);">
+        <div class="layer-title" style="color: var(--accent-green);">Core Engine</div>
+        <div class="layer-desc">query.ts + QueryEngine.ts query loop · 40+ tools · Permission system (4-level risk + YOLO classifier)</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-orange);">
+        <div class="layer-title" style="color: var(--accent-orange);">Services Layer</div>
+        <div class="layer-desc">Claude API client · Dream memory consolidation · Multi-Agent orchestration · Session Memory</div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-box" style="border-left: 3px solid var(--accent-cyan);">
+        <div class="layer-title" style="color: var(--accent-cyan);">Transport Layer</div>
+        <div class="layer-desc">CLI (local) · Bridge (remote JWT + WebSocket/SSE) · IDE integration (VS Code / JetBrains)</div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ======== SECTION 5: 数据流 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">🔄 数据流：一次用户交互</span>
+      <span class="en-only">🔄 Data Flow: A User Turn</span>
+    </h2>
+
+    <div class="zh-only">
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-text">用户在 <strong>PromptInput</strong> 中输入提示或命令</div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-text">如果是斜杠命令，分派到 <strong>Command Registry</strong>；否则进入 <strong>query.ts</strong></div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-text"><strong>QueryEngine</strong> 构建 API 请求：System Prompt + 消息历史 + 可用工具 + Token 预算</div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-text">向 Claude API 发起<strong>流式请求</strong>，实时接收 text / thinking / tool_use 内容块</div></div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-text">遇到 <strong>tool_use</strong> 时：权限检查 → 执行工具 → 将结果反馈回 API（循环）</div></div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-text">循环终止条件：无更多工具调用 / stop hook 触发 / Token 预算耗尽</div></div>
+      <div class="flow-step"><div class="flow-num">7</div><div class="flow-text">渲染最终响应，更新<strong>历史记录</strong>，追踪<strong>成本</strong></div></div>
+    </div>
+    </div>
+
+    <div class="en-only">
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-text">User types into <strong>PromptInput</strong></div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-text">Slash commands go to <strong>Command Registry</strong>; regular prompts go to <strong>query.ts</strong></div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-text"><strong>QueryEngine</strong> builds API request: System Prompt + message history + available tools + token budget</div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-text"><strong>Streams</strong> response from Claude API — receives text / thinking / tool_use blocks in real time</div></div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-text">On <strong>tool_use</strong>: permission check → execute tool → feed result back to API (loop)</div></div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-text">Loop exits on: no more tool calls / stop hook / token budget exhausted</div></div>
+      <div class="flow-step"><div class="flow-num">7</div><div class="flow-text">Render final response, update <strong>history</strong>, track <strong>cost</strong></div></div>
+    </div>
+    </div>
+  </div>
+
+
+  <!-- ======== SECTION 6: 十大核心子系统 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">⚙️ 十大核心子系统</span>
+      <span class="en-only">⚙️ Ten Core Subsystems</span>
+    </h2>
+
+    <div class="subsystem-grid">
+
+      <!-- 1. System Prompt -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐⭐⭐</span> <span class="zh-only">System Prompt 架构</span><span class="en-only">System Prompt Architecture</span></h4>
+        <p><span class="zh-only">不是单一字符串，而是<strong>模块化、可缓存的分段式组合</strong>。</span><span class="en-only">Not a single string — a <strong>modular, cacheable segmented composition</strong>.</span></p>
+        <ul>
+          <li><span class="zh-only"><code>SYSTEM_PROMPT_DYNAMIC_BOUNDARY</code> 将 prompt 分为静态段和动态段</span><span class="en-only"><code>SYSTEM_PROMPT_DYNAMIC_BOUNDARY</code> splits prompt into static and dynamic segments</span></li>
+          <li><span class="zh-only"><code>DANGEROUS_uncachedSystemPromptSection()</code> 标记不可缓存的 volatile 段</span><span class="en-only"><code>DANGEROUS_uncachedSystemPromptSection()</code> marks volatile uncacheable segments</span></li>
+          <li><span class="zh-only"><code>CYBER_RISK_INSTRUCTION</code> 由安全团队专门管理</span><span class="en-only"><code>CYBER_RISK_INSTRUCTION</code> managed by the Safeguards team</span></li>
+        </ul>
+      </div>
+
+      <!-- 2. Tool System -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐⭐⭐</span> <span class="zh-only">工具系统（40+）</span><span class="en-only">Tool System (40+)</span></h4>
+        <p><span class="zh-only">通过 <code>getAllBaseTools()</code> 注册，经<strong>多层过滤</strong>后暴露给模型。</span><span class="en-only">Registered via <code>getAllBaseTools()</code>, filtered through <strong>multiple layers</strong> before model exposure.</span></p>
+        <ul>
+          <li><span class="zh-only">Feature gate → User type → 环境变量 → 权限规则</span><span class="en-only">Feature gate → User type → Env vars → Permission rules</span></li>
+          <li><span class="zh-only">内部工具：<code>ConfigTool</code>、<code>TungstenTool</code></span><span class="en-only">Internal tools: <code>ConfigTool</code>, <code>TungstenTool</code></span></li>
+          <li><span class="zh-only"><code>toolSchemaCache.ts</code> 做 JSON schema 缓存</span><span class="en-only"><code>toolSchemaCache.ts</code> caches JSON schemas</span></li>
+        </ul>
+      </div>
+
+      <!-- 3. Permission System -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐⭐⭐</span> <span class="zh-only">权限与安全系统</span><span class="en-only">Permission &amp; Security</span></h4>
+        <p><span class="zh-only">四种权限模式，每个工具动作有风险等级。</span><span class="en-only">Four permission modes with risk levels per tool action.</span></p>
+        <ul>
+          <li><span class="zh-only"><strong>default</strong>（交互提示）/ <strong>auto</strong>（ML 审批）/ <strong>bypass</strong> / <strong>yolo</strong></span><span class="en-only"><strong>default</strong> (interactive) / <strong>auto</strong> (ML approve) / <strong>bypass</strong> / <strong>yolo</strong></span></li>
+          <li><span class="zh-only">YOLO classifier — 基于 ML 的快速权限决策</span><span class="en-only">YOLO classifier — ML-based fast permission decisions</span></li>
+          <li><span class="zh-only">路径遍历防护：URL 编码、Unicode 归一化</span><span class="en-only">Path traversal defense: URL encoding, Unicode normalization</span></li>
+        </ul>
+      </div>
+
+      <!-- 4. Multi-Agent -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐⭐⭐</span> <span class="zh-only">Multi-Agent 编排</span><span class="en-only">Multi-Agent Orchestration</span></h4>
+        <p><span class="zh-only">Coordinator Mode 的四阶段流程。</span><span class="en-only">Coordinator Mode's four-phase workflow.</span></p>
+        <ul>
+          <li><span class="zh-only"><strong>Research</strong>（Worker 并行）→ <strong>Synthesis</strong>（Coordinator）</span><span class="en-only"><strong>Research</strong> (Workers parallel) → <strong>Synthesis</strong> (Coordinator)</span></li>
+          <li><span class="zh-only"><strong>Implementation</strong>（Worker）→ <strong>Verification</strong>（Worker）</span><span class="en-only"><strong>Implementation</strong> (Workers) → <strong>Verification</strong> (Workers)</span></li>
+          <li><span class="zh-only"><code>&lt;task-notification&gt;</code> XML 通信 + 共享 scratchpad</span><span class="en-only"><code>&lt;task-notification&gt;</code> XML messaging + shared scratchpad</span></li>
+        </ul>
+      </div>
+
+      <!-- 5. Dream -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐⭐</span> <span class="zh-only">Dream 记忆巩固</span><span class="en-only">Dream Memory Consolidation</span></h4>
+        <p><span class="zh-only">三门触发 + 四阶段执行的后台记忆系统。</span><span class="en-only">Three-gate trigger + four-phase background memory system.</span></p>
+        <ul>
+          <li><span class="zh-only">触发：时间门（≥24h）+ 会话门（≥5 次）+ 锁门</span><span class="en-only">Trigger: time gate (≥24h) + session gate (≥5) + lock gate</span></li>
+          <li><span class="zh-only">执行：Orient → Gather → Consolidate → Prune</span><span class="en-only">Execution: Orient → Gather → Consolidate → Prune</span></li>
+          <li><span class="zh-only"><code>MEMORY.md</code> 保持在 200 行 / ~25KB 内</span><span class="en-only"><code>MEMORY.md</code> kept within 200 lines / ~25KB</span></li>
+        </ul>
+      </div>
+
+      <!-- 6. KAIROS -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐⭐</span> <span class="zh-only">KAIROS — 始终在线</span><span class="en-only">KAIROS — Always-On Claude</span></h4>
+        <p><span class="zh-only">将 Claude 变为持续运行的后台 Agent。</span><span class="en-only">Transforms Claude into a persistent background agent.</span></p>
+        <ul>
+          <li><span class="zh-only">append-only 日志 + 定期 <code>&lt;tick&gt;</code> 提示</span><span class="en-only">Append-only log + periodic <code>&lt;tick&gt;</code> prompts</span></li>
+          <li><span class="zh-only">15 秒阻塞预算——超时延后执行</span><span class="en-only">15-second blocking budget — timeouts deferred</span></li>
+          <li><span class="zh-only">Brief Mode 极简输出，避免刷屏</span><span class="en-only">Brief Mode for minimal output, avoiding spam</span></li>
+        </ul>
+      </div>
+
+      <!-- 7. ULTRAPLAN -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐</span> <span class="zh-only">ULTRAPLAN 远程规划</span><span class="en-only">ULTRAPLAN Remote Planning</span></h4>
+        <p><span class="zh-only">将复杂规划卸载到远程云容器。</span><span class="en-only">Offloads complex planning to remote cloud containers.</span></p>
+        <ul>
+          <li><span class="zh-only">使用 Opus 4.6 模型，最多思考 <strong>30 分钟</strong></span><span class="en-only">Uses Opus 4.6 model, up to <strong>30 minutes</strong> of thinking</span></li>
+          <li><span class="zh-only">浏览器 UI 实时观看并审批</span><span class="en-only">Browser UI for real-time observation and approval</span></li>
+          <li><span class="zh-only"><code>__ULTRAPLAN_TELEPORT_LOCAL__</code> 哨兵值传送结果</span><span class="en-only"><code>__ULTRAPLAN_TELEPORT_LOCAL__</code> sentinel teleports results back</span></li>
+        </ul>
+      </div>
+
+      <!-- 8. Bridge -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐⭐</span> <span class="zh-only">Bridge 远程控制</span><span class="en-only">Bridge Remote Control</span></h4>
+        <p><span class="zh-only">JWT 认证的双向通信协议。</span><span class="en-only">JWT-authenticated bidirectional communication protocol.</span></p>
+        <ul>
+          <li><span class="zh-only">WebSocket / SSE / Hybrid 三种传输模式</span><span class="en-only">WebSocket / SSE / Hybrid transport modes</span></li>
+          <li><span class="zh-only">claude.ai 网页 ↔ 本地 CLI 双向集成</span><span class="en-only">claude.ai web ↔ local CLI bidirectional integration</span></li>
+          <li><span class="zh-only">VS Code / JetBrains IDE 直连</span><span class="en-only">VS Code / JetBrains IDE direct connect</span></li>
+        </ul>
+      </div>
+
+      <!-- 9. Buddy -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐</span> <span class="zh-only">Buddy 宠物系统</span><span class="en-only">Buddy Pet System</span></h4>
+        <p><span class="zh-only">一个终端里的电子宠物系统（Tamagotchi）。</span><span class="en-only">A Tamagotchi-style virtual pet living in your terminal.</span></p>
+        <ul>
+          <li><span class="zh-only">18 个物种 · 5 级稀有度 · 闪光变体</span><span class="en-only">18 species · 5 rarity tiers · shiny variants</span></li>
+          <li><span class="zh-only">Gacha 抽卡 + Mulberry32 PRNG</span><span class="en-only">Gacha system + Mulberry32 PRNG</span></li>
+          <li><span class="zh-only">ASCII 动画 + AI 生成灵魂描述</span><span class="en-only">ASCII animation + AI-generated soul descriptions</span></li>
+        </ul>
+      </div>
+
+      <!-- 10. Feature Gating -->
+      <div class="subsystem-card">
+        <h4><span class="star">⭐</span> <span class="zh-only">Feature Gating 体系</span><span class="en-only">Feature Gating System</span></h4>
+        <p><span class="zh-only">编译期 + 运行时双层特性门控。</span><span class="en-only">Compile-time + runtime dual-layer feature gating.</span></p>
+        <ul>
+          <li><span class="zh-only">编译期：Bun <code>feature()</code> + 死代码消除</span><span class="en-only">Compile-time: Bun <code>feature()</code> + dead code elimination</span></li>
+          <li><span class="zh-only">运行时：GrowthBook + <code>tengu_</code> 前缀 flag</span><span class="en-only">Runtime: GrowthBook + <code>tengu_</code> prefixed flags</span></li>
+          <li><span class="zh-only"><code>getFeatureValue_CACHED_MAY_BE_STALE()</code> 避免阻塞</span><span class="en-only"><code>getFeatureValue_CACHED_MAY_BE_STALE()</code> avoids blocking</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ======== SECTION 7: 未发布模型线索 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">🔮 未发布模型与内部代号</span>
+      <span class="en-only">🔮 Unreleased Models &amp; Internal Codenames</span>
+    </h2>
+    <table>
+      <tr>
+        <th><span class="zh-only">模型/代号</span><span class="en-only">Model / Codename</span></th>
+        <th><span class="zh-only">线索</span><span class="en-only">Evidence</span></th>
+      </tr>
+      <tr>
+        <td><strong>Capybara</strong></td>
+        <td><span class="zh-only">新模型族，已到 v2，有 <code>capybara-v2-fast</code> 变体，支持 1M 上下文</span><span class="en-only">New model family, at v2, with <code>capybara-v2-fast</code> variant, supports 1M context</span></td>
+      </tr>
+      <tr>
+        <td><strong>Opus 4.7</strong></td>
+        <td><span class="zh-only">已被代码引用</span><span class="en-only">Referenced in code</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sonnet 4.8</strong></td>
+        <td><span class="zh-only">已被代码引用</span><span class="en-only">Referenced in code</span></td>
+      </tr>
+      <tr>
+        <td><strong>Tengu（天狗）</strong></td>
+        <td><span class="zh-only">Claude Code 项目内部代号，用于 feature flag 前缀 <code>tengu_</code></span><span class="en-only">Claude Code project internal codename, used in feature flag prefix <code>tengu_</code></span></td>
+      </tr>
+      <tr>
+        <td><strong>Penguin 🐧</strong></td>
+        <td><span class="zh-only">Fast Mode 的内部代号</span><span class="en-only">Internal codename for Fast Mode</span></td>
+      </tr>
+    </table>
+    <p>
+      <span class="zh-only">模型代号历史：Fennec → Opus, Sonnet 1M → Sonnet 4.5 → Sonnet 4.6</span>
+      <span class="en-only">Model codename history: Fennec → Opus, Sonnet 1M → Sonnet 4.5 → Sonnet 4.6</span>
+    </p>
+  </div>
+
+  <!-- ======== SECTION 8: Rust 重实现 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">🦀 Rust 重实现结构</span>
+      <span class="en-only">🦀 Rust Reimplementation Structure</span>
+    </h2>
+    <p>
+      <span class="zh-only"><code>src-rust/</code> 包含 <strong>9 个 crate</strong>，是对原始 TypeScript 的行为等价 Rust 重实现（由 AI agent 仅根据 spec 文档生成）：</span>
+      <span class="en-only"><code>src-rust/</code> contains <strong>9 crates</strong>, a behavior-equivalent Rust reimplementation of the original TypeScript (generated by an AI agent from specs alone):</span>
+    </p>
+    <table>
+      <tr>
+        <th>Crate</th>
+        <th><span class="zh-only">文件数</span><span class="en-only">Files</span></th>
+        <th><span class="zh-only">职责</span><span class="en-only">Responsibility</span></th>
+      </tr>
+      <tr><td><code>cli</code></td><td>3</td><td><span class="zh-only">CLI 入口 + OAuth 认证流程</span><span class="en-only">CLI entry + OAuth authentication flow</span></td></tr>
+      <tr><td><code>core</code></td><td>11</td><td><span class="zh-only">核心引擎（分析、LSP、内存目录、迁移、System Prompt）</span><span class="en-only">Core engine (analytics, LSP, memdir, migrations, system prompt)</span></td></tr>
+      <tr><td><code>tools</code></td><td>27</td><td><span class="zh-only">33 个工具的 Rust 实现</span><span class="en-only">33 tool implementations in Rust</span></td></tr>
+      <tr><td><code>query</code></td><td>6</td><td><span class="zh-only">查询系统（Agent、AutoDream、Compact、Coordinator）</span><span class="en-only">Query system (Agent, AutoDream, Compact, Coordinator)</span></td></tr>
+      <tr><td><code>tui</code></td><td>1</td><td><span class="zh-only">终端 UI</span><span class="en-only">Terminal UI</span></td></tr>
+      <tr><td><code>commands</code></td><td>2</td><td><span class="zh-only">命令系统</span><span class="en-only">Command system</span></td></tr>
+      <tr><td><code>api</code></td><td>1</td><td><span class="zh-only">API 客户端</span><span class="en-only">API client</span></td></tr>
+      <tr><td><code>bridge</code></td><td>1</td><td><span class="zh-only">Bridge 远程控制协议</span><span class="en-only">Bridge remote control protocol</span></td></tr>
+      <tr><td><code>mcp</code></td><td>1</td><td><span class="zh-only">MCP 协议支持</span><span class="en-only">MCP protocol support</span></td></tr>
+      <tr><td><code>buddy</code></td><td>1</td><td><span class="zh-only">Buddy 宠物系统</span><span class="en-only">Buddy pet system</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ======== SECTION 9: 其他发现 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">💡 其他有趣发现</span>
+      <span class="en-only">💡 Other Notable Findings</span>
+    </h2>
+    <table>
+      <tr>
+        <th><span class="zh-only">发现</span><span class="en-only">Finding</span></th>
+        <th><span class="zh-only">描述</span><span class="en-only">Description</span></th>
+      </tr>
+      <tr>
+        <td><strong>Undercover Mode</strong></td>
+        <td><span class="zh-only">防止 Anthropic 内部员工在开源仓库中泄露内部信息（模型代号、工具名等），无强制关闭选项</span><span class="en-only">Prevents Anthropic employees from leaking internal info in open-source repos (model codenames, tool names). Cannot be force-disabled</span></td>
+      </tr>
+      <tr>
+        <td><strong>Computer Use "Chicago"</strong></td>
+        <td><span class="zh-only">基于 <code>@ant/computer-use-mcp</code> 的完整 Computer Use 实现</span><span class="en-only">Full Computer Use implementation based on <code>@ant/computer-use-mcp</code></span></td>
+      </tr>
+      <tr>
+        <td><strong>Upstream Proxy</strong></td>
+        <td><span class="zh-only">容器感知代理中继，用 <code>prctl(PR_SET_DUMPABLE, 0)</code> 防 ptrace</span><span class="en-only">Container-aware proxy relay using <code>prctl(PR_SET_DUMPABLE, 0)</code> against ptrace</span></td>
+      </tr>
+      <tr>
+        <td><strong>Voice / STT</strong></td>
+        <td><span class="zh-only">语音输入集成（Speech-to-Text）</span><span class="en-only">Voice input integration (Speech-to-Text)</span></td>
+      </tr>
+      <tr>
+        <td><strong>Skills Marketplace</strong></td>
+        <td><span class="zh-only">插件和技能市场，支持社区贡献</span><span class="en-only">Plugin and skills marketplace with community contributions</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ======== SECTION 10: 参考链接 ======== -->
+  <div class="section">
+    <h2>
+      <span class="zh-only">🔗 参考链接</span>
+      <span class="en-only">🔗 References</span>
+    </h2>
+    <ul>
+      <li><span class="zh-only">GitHub 仓库：</span><span class="en-only">GitHub Repo: </span><a href="https://github.com/Kuberwastaken/claude-code" style="color:var(--accent-blue);">Kuberwastaken/claude-code</a></li>
+      <li><span class="zh-only">作者博客：</span><span class="en-only">Author Blog: </span><a href="https://kuber.studio/blog/AI/Claude-Code's-Entire-Source-Code-Got-Leaked-via-a-Sourcemap-in-npm,-Let's-Talk-About-it" style="color:var(--accent-blue);">kuber.studio</a></li>
+      <li><span class="zh-only">中文技术分析：</span><span class="en-only">Chinese Analysis: </span><a href="https://www.cnblogs.com/yumingwen/p/19803657" style="color:var(--accent-blue);">cnblogs.com</a></li>
+      <li><span class="zh-only">英文技术分析：</span><span class="en-only">English Analysis: </span><a href="https://the-decoder.com/anthropic-accidentally-publishes-claude-code-source-code-for-anyone-to-find/" style="color:var(--accent-blue);">the-decoder.com</a></li>
+    </ul>
+  </div>
+
+</div>
+<script src="../nav.js"></script>
+</body>
+</html>
+
