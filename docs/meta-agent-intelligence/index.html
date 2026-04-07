@@ -140,7 +140,7 @@
 │       └── chatSession_*.json
 ├── chat_workspaces/       ← Deliverables
 ├── <span style="color:var(--accent-green);">rag/user_memories.db</span>   ← 🔥 Memory (SQLite)
-├── agent_logs/            ← 🆕 AALP logs
+├── agent_bus/             ← 🆕 Agent message bus
 └── skills/                ← Skill source code</code></pre>
     </div>
   </div>
@@ -159,10 +159,10 @@
       <p style="margin-top:6px;color:var(--accent-green);font-weight:600;"><span class="zh-only">"谁在什么时候做了什么"</span><span class="en-only">"Who did what, when"</span></p>
     </div>
     <div class="tier-item tier-l2">
-      <h4 style="color:var(--accent-blue);">L2: Agent Report</h4>
+      <h4 style="color:var(--accent-blue);">L2: Agent Bus</h4>
       <p style="font-size:1.5rem;margin:6px 0;color:var(--accent-blue);font-weight:700;">~1,500 tokens</p>
-      <p><span class="zh-only">摘要 · 决策 · 问题</span><span class="en-only">Summary · Decisions · Issues</span></p>
-      <p style="margin-top:6px;color:var(--accent-blue);font-weight:600;"><span class="zh-only">"关键结论是什么"</span><span class="en-only">"What were the key outcomes"</span></p>
+      <p><span class="zh-only">决策 · 问题 · 跨Agent数据</span><span class="en-only">Decisions · Issues · Cross-Agent Data</span></p>
+      <p style="margin-top:6px;color:var(--accent-blue);font-weight:600;"><span class="zh-only">"有什么关键决策和问题"</span><span class="en-only">"What key decisions and issues"</span></p>
     </div>
     <div class="tier-item tier-l3">
       <h4 style="color:var(--accent-purple);">L3: Full Session</h4>
@@ -175,7 +175,7 @@
   <div class="flow">
     <div class="flow-item" style="border-color:var(--accent-green);">📋 Quick Scan<br><span style="font-size:0.75rem;color:var(--text-secondary);">index.json</span></div>
     <div class="flow-arrow">→</div>
-    <div class="flow-item" style="border-color:var(--accent-blue);">📊 Report<br><span style="font-size:0.75rem;color:var(--text-secondary);">activity.jsonl</span></div>
+    <div class="flow-item" style="border-color:var(--accent-blue);">📊 Report<br><span style="font-size:0.75rem;color:var(--text-secondary);">outbox.jsonl</span></div>
     <div class="flow-arrow">→</div>
     <div class="flow-item" style="border-color:var(--accent-purple);">🔬 Deep Dive<br><span style="font-size:0.75rem;color:var(--text-secondary);">chatSession.json</span></div>
     <div class="flow-arrow">→</div>
@@ -214,17 +214,17 @@
   PM Agent → pm-agent
   网球情报官 → 网球情报官
 <span style="color:var(--text-secondary);">Step 2:</span> Append JSON to:
-  ① {PROFILE}/agent_logs/{SLUG}/activity.jsonl
-  ② {PROFILE}/agent_logs/_registry.jsonl</code></pre>
+  ① {PROFILE}/agent_logs/{SLUG}/outbox.jsonl
+  ② {PROFILE}/agent_logs/_feed.jsonl</code></pre>
     </div>
   </div>
 
-  <h3><span class="zh-only">📝 日志格式 (JSONL)</span><span class="en-only">📝 Log Format (JSONL)</span></h3>
+  <h3><span class="zh-only">📝 消息格式 (JSONL)</span><span class="en-only">📝 Message Format (JSONL)</span></h3>
 <pre><code>{
   "id": "2026-04-07T10:30:00+08:00_pm-agent_a3f1",
   "ts": "2026-04-07T10:30:00+08:00",
-  <span style="color:var(--accent-blue);">"agent": "PM Agent"</span>,
-  <span style="color:var(--accent-green);">"type": "task_complete"</span>,
+  <span style="color:var(--accent-blue);">"from": "PM Agent", "to": "*"</span>,
+  <span style="color:var(--accent-green);">"type": "report"</span>,
   <span style="color:#fff;">"title": "Edge Mobile DAU 趋势分析"</span>,
   "summary": "近6个月DAU分析完成，3月环比下降5%，Android端下降显著",
   "tags": ["data-analysis", "edge-mobile"],
@@ -242,7 +242,7 @@
   <h3><span class="zh-only">📚 Knowledge Base 体系 (29 KB)</span><span class="en-only">📚 Knowledge Base Files (29 KB)</span></h3>
   <div class="card-grid">
     <div class="card"><p><strong>pm_studio_architecture.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">9.5 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">平台架构 · AALP 协议 · 文件路径 · 对话存储结构</span><span class="en-only">Platform architecture · AALP protocol · File paths · Chat storage</span></p></div>
-    <div class="card"><p><strong>agent_activity_log_reading_protocol.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">8.7 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">三层情报模型 · 扫描流程 · 决策流程图</span><span class="en-only">Three-tier model · Scanning procedure · Decision flowchart</span></p></div>
+    <div class="card"><p><strong>agent_activity_log_reading_protocol.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">8.7 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">三层情报模型 · Agent Bus 协议 · 决策流程图</span><span class="en-only">Three-tier model · Agent Bus protocol · Decision flowchart</span></p></div>
     <div class="card"><p><strong>pm_studio_source_code_insights.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">5.7 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">🆕 从 Code Reader 学习的源码实现细节</span><span class="en-only">🆕 Source code insights learned from Code Reader</span></p></div>
     <div class="card"><p><strong>context_engineering_reference.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">5.1 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">上下文工程最佳实践 · Agent 优化方法论</span><span class="en-only">Context engineering best practices · Agent optimization methodology</span></p></div>
   </div>
@@ -358,7 +358,7 @@ Get-ChildItem -Recurse "*.json" |
     <tr><td><strong><span class="zh-only">查看 Agent 配置</span><span class="en-only">View agent configs</span></strong></td><td style="color:var(--accent-green);">✅</td><td style="color:var(--accent-green);">✅</td><td>profile.json</td></tr>
     <tr><td><strong><span class="zh-only">知道其他 Agent 做了什么</span><span class="en-only">Know what other agents did</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L1: index.json</td></tr>
     <tr><td><strong><span class="zh-only">判断 Agent 是否在工作</span><span class="en-only">Detect if agent is working</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L1: last_updated + LastWriteTime</td></tr>
-    <tr><td><strong><span class="zh-only">获取任务关键结论</span><span class="en-only">Get key task conclusions</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L2: agent-report</td></tr>
+    <tr><td><strong><span class="zh-only">获取任务关键结论</span><span class="en-only">Get key task conclusions</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L2: agent_bus</td></tr>
     <tr><td><strong><span class="zh-only">获取完整执行细节</span><span class="en-only">Full execution details</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L3: chatSession JSON</td></tr>
     <tr><td><strong><span class="zh-only">查看 Memory 内容</span><span class="en-only">View memory contents</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>SQLite: user_memories.db</td></tr>
     <tr><td><strong><span class="zh-only">从其他 Agent 学习知识</span><span class="en-only">Learn from other agents</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td><span class="zh-only">L3 提取 → 写入 KB</span><span class="en-only">L3 extract → persist to KB</span></td></tr>
@@ -381,7 +381,7 @@ Get-ChildItem -Recurse "*.json" |
     </div>
     <div class="card" style="border-left:3px solid var(--accent-purple);">
       <h3><span class="zh-only">🔑 能力即权限</span><span class="en-only">🔑 Capability as Permission</span></h3>
-      <p style="margin-top:8px;"><span class="zh-only">通过 <strong>Skill 分配控制谁是"下属"</strong>。不需要 ACL——Skill 列表本身就是权限矩阵。</span><span class="en-only"><strong>Skill assignment controls who is a "subordinate."</strong> No ACL needed — the skill list IS the permission matrix.</span></p>
+      <p style="margin-top:8px;"><span class="zh-only">通过 <strong>Skill 分配控制谁是"下属"</strong>。不需要 ACL——Skill 列表本身就是权限矩阵。agent-report 同时为未来的任务委派和跨Agent协作预留了 request/response/handoff 消息类型。</span><span class="en-only"><strong>Skill assignment controls who is a "subordinate."</strong> No ACL needed — the skill list IS the permission matrix. agent-report also reserves request/response/handoff message types for future task delegation.</span></p>
     </div>
     <div class="card" style="border-left:3px solid var(--accent-orange);">
       <h3><span class="zh-only">🔄 从实践中学习</span><span class="en-only">🔄 Learn from Practice</span></h3>
@@ -392,7 +392,7 @@ Get-ChildItem -Recurse "*.json" |
   <h3 style="margin-top:36px;"><span class="zh-only">🔮 下一步优化方向</span><span class="en-only">🔮 Next Steps</span></h3>
   <table>
     <tr><th><span class="zh-only">阶段</span><span class="en-only">Phase</span></th><th><span class="zh-only">方向</span><span class="en-only">Direction</span></th><th><span class="zh-only">说明</span><span class="en-only">Description</span></th></tr>
-    <tr><td><span class="tag tag-green">Short</span></td><td><strong><span class="zh-only">定时巡检自动化</span><span class="en-only">Automated daily patrol</span></strong></td><td><span class="zh-only">每日定时任务扫描 <code>_registry.jsonl</code>，生成工作汇报</span><span class="en-only">Daily scheduled task scans <code>_registry.jsonl</code>, generates work summary</span></td></tr>
+    <tr><td><span class="tag tag-green">Short</span></td><td><strong><span class="zh-only">定时巡检自动化</span><span class="en-only">Automated daily patrol</span></strong></td><td><span class="zh-only">每日定时任务扫描 <code>_feed.jsonl</code>，生成工作汇报</span><span class="en-only">Daily scheduled task scans <code>_feed.jsonl</code>, generates work summary</span></td></tr>
     <tr><td><span class="tag tag-green">Short</span></td><td><strong><span class="zh-only">agent-report 质量验证</span><span class="en-only">Agent-report quality check</span></strong></td><td><span class="zh-only">观察日志写入质量，迭代 SKILL.md</span><span class="en-only">Monitor log quality, iterate SKILL.md</span></td></tr>
     <tr><td><span class="tag tag-blue">Mid</span></td><td><strong><span class="zh-only">跨 Agent 知识共享</span><span class="en-only">Cross-agent knowledge sharing</span></strong></td><td><span class="zh-only">从各 Agent 对话中提取知识，写入其他 Agent 的 KB</span><span class="en-only">Extract knowledge from agent sessions, persist to other agents' KB</span></td></tr>
     <tr><td><span class="tag tag-blue">Mid</span></td><td><strong><span class="zh-only">Agent 性能 Dashboard</span><span class="en-only">Agent performance dashboard</span></strong></td><td><span class="zh-only">可视化各 Agent 任务频率、成功率、token 消耗</span><span class="en-only">Visualize task frequency, success rate, token usage per agent</span></td></tr>
