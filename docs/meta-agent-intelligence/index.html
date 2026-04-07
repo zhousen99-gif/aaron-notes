@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta-Agent 跨 Agent 情报系统</title>
+<link rel="stylesheet" href="../nav.css">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface-hover: #1c2333;
+    --border: #30363d; --text: #e6edf3; --text-secondary: #8b949e;
+    --accent-blue: #58a6ff; --accent-green: #3fb950; --accent-red: #f85149;
+    --accent-orange: #d29922; --accent-purple: #bc8cff; --accent-cyan: #39d2c0;
+  }
+  [data-theme="light"] {
+    --bg: #ffffff !important; --surface: #f6f8fa !important;
+    --surface-hover: #eef1f5 !important; --border: #d0d7de !important;
+    --text: #1a1a2e !important; --text-secondary: #656d76 !important;
+    --accent-blue: #2563eb !important; --accent-green: #1a7f37 !important;
+    --accent-red: #cf222e !important; --accent-orange: #bf8700 !important;
+    --accent-purple: #8250df !important; --accent-cyan: #0e7490 !important;
+  }
+  [data-theme="light"] body { background: #ffffff !important; color: #1a1a2e !important; }
+  [data-theme="light"] th { background: #f6f8fa !important; color: #1a1a2e !important; }
+  [data-theme="light"] td { border-bottom-color: #d0d7de !important; }
+  [data-theme="light"] tr:hover td { background: rgba(37,99,235,0.04) !important; }
+  [data-theme="light"] .card { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] pre { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-theme="light"] .tier-l1 { background: rgba(26,127,55,0.08) !important; }
+  [data-theme="light"] .tier-l2 { background: rgba(37,99,235,0.08) !important; }
+  [data-theme="light"] .tier-l3 { background: rgba(130,80,223,0.08) !important; }
+  [data-theme="light"] .stat-card { background: #f6f8fa !important; border-color: #d0d7de !important; }
+  [data-lang="zh"] .en-only { display: none !important; }
+  [data-lang="en"] .zh-only { display: none !important; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding: 0 20px 60px; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .doc-header { text-align: center; padding: 20px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+  .doc-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .doc-header .subtitle { font-size: 1rem; color: var(--text-secondary); }
+  .doc-header .meta { margin-top: 16px; font-size: 0.8rem; color: var(--text-secondary); }
+  .section { margin-bottom: 56px; }
+  .section h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .section h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin: 28px 0 12px; }
+  p { margin-bottom: 14px; color: var(--text-secondary); }
+  p strong { color: var(--text); }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  th { background: var(--surface); color: var(--accent-blue); text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--border); font-weight: 600; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  tr:hover td { background: var(--surface-hover); }
+  pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px; margin: 14px 0; overflow-x: auto; font-size: 0.85rem; line-height: 1.6; }
+  code { font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace; background: rgba(88,166,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+  pre code { background: none; padding: 0; }
+  ul, ol { margin: 10px 0 14px 20px; }
+  li { color: var(--text-secondary); margin-bottom: 6px; font-size: 0.9rem; }
+  li strong { color: var(--text); }
+  blockquote { border-left: 3px solid var(--accent-purple); padding: 12px 18px; background: rgba(188,140,255,0.06); border-radius: 0 8px 8px 0; margin: 16px 0; font-style: italic; color: var(--text-secondary); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin: 12px 0; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 16px 0; }
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; text-align: center; }
+  .stat-card .num { font-size: 2.4rem; font-weight: 700; color: var(--accent-blue); }
+  .stat-card .label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px; }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+  .tag-blue { background: rgba(88,166,255,0.12); color: var(--accent-blue); border: 1px solid rgba(88,166,255,0.25); }
+  .tag-purple { background: rgba(188,140,255,0.12); color: var(--accent-purple); border: 1px solid rgba(188,140,255,0.25); }
+  .tag-green { background: rgba(63,185,80,0.12); color: var(--accent-green); border: 1px solid rgba(63,185,80,0.25); }
+  .tag-red { background: rgba(248,81,73,0.12); color: var(--accent-red); border: 1px solid rgba(248,81,73,0.25); }
+  .tier { display: flex; gap: 0; margin: 20px 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .tier-item { flex: 1; padding: 20px; text-align: center; }
+  .tier-item h4 { font-size: 1.05rem; margin-bottom: 6px; }
+  .tier-item p { font-size: 0.82rem; color: var(--text-secondary); margin: 0; }
+  .tier-l1 { background: rgba(63,185,80,0.08); border-right: 1px solid var(--border); }
+  .tier-l2 { background: rgba(88,166,255,0.08); border-right: 1px solid var(--border); }
+  .tier-l3 { background: rgba(188,140,255,0.08); }
+  .flow { display: flex; align-items: center; gap: 0; margin: 16px 0; flex-wrap: wrap; justify-content: center; }
+  .flow-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; font-size: 0.85rem; min-width: 120px; }
+  .flow-arrow { font-size: 1.2rem; color: var(--accent-blue); padding: 0 6px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 768px) { .two-col, .card-grid-3, .tier { display: block; } .tier-item { border-right: none; border-bottom: 1px solid var(--border); } }
+</style>
+</head>
+<body data-lang="zh">
+<div class="site-topbar"><div class="crumbs"><a href="../../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg> Home</a><span class="sep">/</span><a href="../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg> Tech Docs</a><span class="sep">/</span><span class="current"><span class="zh-only">Meta-Agent 情报系统</span><span class="en-only">Meta-Agent Intelligence</span></span></div><div class="controls"><button class="ctrl" id="siteLangToggle">EN</button><button class="ctrl" id="siteThemeToggle">🌓</button></div></div>
+<div class="container">
+
+<!-- ===== HEADER ===== -->
+<div class="doc-header">
+  <h1><span class="zh-only">Meta-Agent 跨 Agent 情报与协调系统</span><span class="en-only">Meta-Agent Cross-Agent Intelligence & Coordination System</span></h1>
+  <div class="subtitle"><span class="zh-only">如何让一个 AI Agent 监控、理解、优化所有其他 Agent</span><span class="en-only">How to let one AI Agent monitor, understand, and optimize all other Agents</span></div>
+  <div class="meta">
+    <span class="tag tag-blue">AALP v1.0</span>
+    <span class="tag tag-purple">Three-Tier Intelligence</span>
+    <span class="tag tag-green">agent-report Skill</span>
+    <span style="margin-left: 12px;">2026-04-07</span>
+  </div>
+</div>
+
+<!-- ===== 1. PROBLEM ===== -->
+<div class="section">
+  <h2><span class="zh-only">一、问题：Agent 之间是"孤岛"</span><span class="en-only">1. The Problem: Agents Are Isolated Islands</span></h2>
+  <p><span class="zh-only">PM Studio 中有 10 个独立运行的 Agent，各自拥有独立的对话空间、知识库和工具。Meta-Agent（agent优化师）虽然负责优化所有 Agent，但完全无法感知它们的工作状态。</span><span class="en-only">PM Studio runs 10 independent Agents, each with its own conversation space, knowledge base, and tools. The Meta-Agent (agent优化师) is responsible for optimizing all agents, but has zero visibility into their work status.</span></p>
+
+  <div class="card-grid-3">
+    <div class="stat-card"><div class="num">10</div><div class="label"><span class="zh-only">独立运行的 Agent</span><span class="en-only">Independent Agents</span></div></div>
+    <div class="stat-card"><div class="num" style="color:var(--accent-red);">0</div><div class="label"><span class="zh-only">Agent 间通信通道</span><span class="en-only">Inter-Agent channels</span></div></div>
+    <div class="stat-card"><div class="num" style="color:var(--accent-purple);">0</div><div class="label"><span class="zh-only">全局任务可见性</span><span class="en-only">Global task visibility</span></div></div>
+  </div>
+
+  <table>
+    <tr><th><span class="zh-only">不可见项</span><span class="en-only">Invisible to Meta-Agent</span></th><th><span class="zh-only">改造前状态</span><span class="en-only">Before</span></th></tr>
+    <tr><td><strong><span class="zh-only">其他 Agent 做了什么任务</span><span class="en-only">Tasks completed by other agents</span></strong></td><td><span class="zh-only">无法感知，只能问用户</span><span class="en-only">No way to know, must ask user</span></td></tr>
+    <tr><td><strong><span class="zh-only">任务是否已完成</span><span class="en-only">Whether tasks are finished</span></strong></td><td><span class="zh-only">无法判断</span><span class="en-only">Cannot determine</span></td></tr>
+    <tr><td><strong><span class="zh-only">Agent 获取了什么数据</span><span class="en-only">Data collected during execution</span></strong></td><td><span class="zh-only">对话历史不可访问</span><span class="en-only">Conversation history inaccessible</span></td></tr>
+    <tr><td><strong><span class="zh-only">Agent 遇到了什么问题</span><span class="en-only">Errors and issues encountered</span></strong></td><td><span class="zh-only">完全不知道</span><span class="en-only">Completely unknown</span></td></tr>
+    <tr><td><strong>Memory</strong></td><td><span class="zh-only">无查询接口</span><span class="en-only">No query interface</span></td></tr>
+  </table>
+</div>
+
+<!-- ===== 2. KEY DISCOVERY ===== -->
+<div class="section">
+  <h2><span class="zh-only">二、关键发现：文件系统就是通信总线</span><span class="en-only">2. Key Discovery: The File System IS the Communication Bus</span></h2>
+  <p><span class="zh-only">所有 Agent 共享同一个文件系统。我们发现 PM Studio 在磁盘上存储了远比预期多的数据——包括完整对话历史、Session 元数据、Memory 数据库。</span><span class="en-only">All agents share the same file system. We discovered PM Studio stores far more data on disk than expected — including complete conversation history, session metadata, and the memory database.</span></p>
+
+  <div class="two-col">
+    <div>
+      <h3><span class="zh-only">🔍 发现的数据资产</span><span class="en-only">🔍 Discovered Data Assets</span></h3>
+      <div class="card"><p><strong style="color:var(--accent-green);">✅ chat_sessions/</strong></p><p style="font-size:0.85rem;margin-top:4px;"><span class="zh-only">完整对话历史（JSON），含用户消息、Agent 回复、工具调用结果</span><span class="en-only">Full conversation history (JSON) — user messages, agent replies, tool call results</span></p></div>
+      <div class="card"><p><strong style="color:var(--accent-green);">✅ index.json</strong></p><p style="font-size:0.85rem;margin-top:4px;"><span class="zh-only">会话标题、最后更新时间、阅读状态</span><span class="en-only">Session titles, last update time, read status</span></p></div>
+      <div class="card"><p><strong style="color:var(--accent-green);">✅ user_memories.db</strong></p><p style="font-size:0.85rem;margin-top:4px;"><span class="zh-only">SQLite 数据库，可直接用 Python 查询</span><span class="en-only">SQLite database, queryable with Python</span></p></div>
+    </div>
+    <div>
+      <h3><span class="zh-only">📁 数据全景图</span><span class="en-only">📁 Data Landscape</span></h3>
+<pre><code>profiles/{alias}/
+├── profile.json           ← Agent configs
+├── <span style="color:var(--accent-green);">chat_sessions/</span>         ← 🔥 Full chat history
+│   └── {chat_id}/{YYYYMM}/
+│       ├── index.json     ← Session metadata
+│       └── chatSession_*.json
+├── chat_workspaces/       ← Deliverables
+├── <span style="color:var(--accent-green);">rag/user_memories.db</span>   ← 🔥 Memory (SQLite)
+├── agent_logs/            ← 🆕 AALP logs
+└── skills/                ← Skill source code</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3. THREE-TIER MODEL ===== -->
+<div class="section">
+  <h2><span class="zh-only">三、解决方案：三层情报模型</span><span class="en-only">3. Solution: Three-Tier Intelligence Model</span></h2>
+  <p><span class="zh-only">从轻量到重量，按需逐层深入。核心原则：<strong>Always start from L1</strong>。</span><span class="en-only">From lightweight to heavyweight, escalate only when needed. Core principle: <strong>Always start from L1</strong>.</span></p>
+
+  <div class="tier">
+    <div class="tier-item tier-l1">
+      <h4 style="color:var(--accent-green);">L1: Session Index</h4>
+      <p style="font-size:1.5rem;margin:6px 0;color:var(--accent-green);font-weight:700;">~500 tokens</p>
+      <p><span class="zh-only">标题 · 时间 · 状态</span><span class="en-only">Titles · Timestamps · Status</span></p>
+      <p style="margin-top:6px;color:var(--accent-green);font-weight:600;"><span class="zh-only">"谁在什么时候做了什么"</span><span class="en-only">"Who did what, when"</span></p>
+    </div>
+    <div class="tier-item tier-l2">
+      <h4 style="color:var(--accent-blue);">L2: Agent Report</h4>
+      <p style="font-size:1.5rem;margin:6px 0;color:var(--accent-blue);font-weight:700;">~1,500 tokens</p>
+      <p><span class="zh-only">摘要 · 决策 · 问题</span><span class="en-only">Summary · Decisions · Issues</span></p>
+      <p style="margin-top:6px;color:var(--accent-blue);font-weight:600;"><span class="zh-only">"关键结论是什么"</span><span class="en-only">"What were the key outcomes"</span></p>
+    </div>
+    <div class="tier-item tier-l3">
+      <h4 style="color:var(--accent-purple);">L3: Full Session</h4>
+      <p style="font-size:1.5rem;margin:6px 0;color:var(--accent-purple);font-weight:700;">5K-50K tokens</p>
+      <p><span class="zh-only">完整对话 · 工具调用 · 数据</span><span class="en-only">Full conversation · Tool calls · Data</span></p>
+      <p style="margin-top:6px;color:var(--accent-purple);font-weight:600;"><span class="zh-only">"具体发现了什么数据"</span><span class="en-only">"What specific data was found"</span></p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-item" style="border-color:var(--accent-green);">📋 Quick Scan<br><span style="font-size:0.75rem;color:var(--text-secondary);">index.json</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-blue);">📊 Report<br><span style="font-size:0.75rem;color:var(--text-secondary);">activity.jsonl</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-purple);">🔬 Deep Dive<br><span style="font-size:0.75rem;color:var(--text-secondary);">chatSession.json</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-cyan);">📎 Artifacts<br><span style="font-size:0.75rem;color:var(--text-secondary);">deliverable files</span></div>
+  </div>
+
+  <blockquote><span class="zh-only"><strong>设计原则：</strong>绝大多数情况下 L1 就够了。只有需要具体数据时才进入 L3。一次巡检只消耗 ~500 tokens，而非 50K。</span><span class="en-only"><strong>Design principle:</strong> L1 is sufficient in most cases. Escalate to L3 only when specific data is needed. A single patrol costs ~500 tokens instead of 50K.</span></blockquote>
+</div>
+
+
+<!-- ===== 4. WRITE SIDE ===== -->
+<div class="section">
+  <h2><span class="zh-only">四、写入侧：agent-report Skill</span><span class="en-only">4. Write Side: agent-report Skill</span></h2>
+  <p><span class="zh-only">下属 Agent 完成任务后自动写入结构化日志。通过 Skill 分配实现权限管理——有 Skill 的 Agent 就是"下属"。</span><span class="en-only">Subordinate agents write structured logs after task completion. Skill assignment serves as permission control — agents with the skill are "subordinates."</span></p>
+
+  <div class="two-col">
+    <div>
+      <h3><span class="zh-only">💡 Skill vs Prompt 注入</span><span class="en-only">💡 Skill vs Prompt Injection</span></h3>
+      <table>
+        <tr><th><span class="zh-only">维度</span><span class="en-only">Dimension</span></th><th>Skill ✅</th><th>Prompt ❌</th></tr>
+        <tr><td>Token</td><td style="color:var(--accent-green);"><span class="zh-only">按需加载 ~100t</span><span class="en-only">On-demand ~100t</span></td><td style="color:var(--accent-red);"><span class="zh-only">每轮常驻 ~300t</span><span class="en-only">Always-on ~300t</span></td></tr>
+        <tr><td><span class="zh-only">维护</span><span class="en-only">Maintenance</span></td><td style="color:var(--accent-green);"><span class="zh-only">改一处生效</span><span class="en-only">Single source</span></td><td style="color:var(--accent-red);"><span class="zh-only">改 N 个 prompt</span><span class="en-only">N prompts</span></td></tr>
+        <tr><td><span class="zh-only">回滚</span><span class="en-only">Rollback</span></td><td style="color:var(--accent-green);"><span class="zh-only">一键摘除</span><span class="en-only">One-click remove</span></td><td style="color:var(--accent-red);"><span class="zh-only">逐个恢复</span><span class="en-only">Restore each</span></td></tr>
+        <tr><td><span class="zh-only">可分享</span><span class="en-only">Shareable</span></td><td style="color:var(--accent-green);"><span class="zh-only">✅ 动态 slug</span><span class="en-only">✅ Dynamic slug</span></td><td style="color:var(--accent-red);"><span class="zh-only">❌ 硬编码</span><span class="en-only">❌ Hardcoded</span></td></tr>
+      </table>
+    </div>
+    <div>
+      <h3><span class="zh-only">📄 SKILL.md 核心逻辑</span><span class="en-only">📄 SKILL.md Core Logic</span></h3>
+<pre><code><span style="color:var(--accent-blue);">## When to Log</span>
+- After completing a user-requested task
+- After a scheduled task run
+- When encountering a critical error
+
+<span style="color:var(--accent-blue);">## How to Log</span>
+<span style="color:var(--text-secondary);">Step 1:</span> Derive slug from identity
+  PM Agent → pm-agent
+  网球情报官 → 网球情报官
+<span style="color:var(--text-secondary);">Step 2:</span> Append JSON to:
+  ① {PROFILE}/agent_logs/{SLUG}/activity.jsonl
+  ② {PROFILE}/agent_logs/_registry.jsonl</code></pre>
+    </div>
+  </div>
+
+  <h3><span class="zh-only">📝 日志格式 (JSONL)</span><span class="en-only">📝 Log Format (JSONL)</span></h3>
+<pre><code>{
+  "id": "2026-04-07T10:30:00+08:00_pm-agent_a3f1",
+  "ts": "2026-04-07T10:30:00+08:00",
+  <span style="color:var(--accent-blue);">"agent": "PM Agent"</span>,
+  <span style="color:var(--accent-green);">"type": "task_complete"</span>,
+  <span style="color:#fff;">"title": "Edge Mobile DAU 趋势分析"</span>,
+  "summary": "近6个月DAU分析完成，3月环比下降5%，Android端下降显著",
+  "tags": ["data-analysis", "edge-mobile"],
+  "artifacts": ["pm-agent/202604/.../report.html"],
+  <span style="color:var(--accent-purple);">"decisions"</span>: ["建议下cycle提升Android retention优先级"],
+  "issues": []
+}</code></pre>
+</div>
+
+<!-- ===== 5. READ SIDE ===== -->
+<div class="section">
+  <h2><span class="zh-only">五、读取侧：Knowledge Base 驱动</span><span class="en-only">5. Read Side: Knowledge Base Driven</span></h2>
+  <p><span class="zh-only">Meta-Agent 本来就有 <code>read_file</code>、<code>execute_command</code> 等通用工具。读 JSONL 文件不需要专门 Skill——<strong>告诉它"去哪里读、怎么解读"是 knowledge base 的职责</strong>。</span><span class="en-only">The Meta-Agent already has <code>read_file</code>, <code>execute_command</code> and other general tools. Reading JSONL files needs no special skill — <strong>telling it "where to read and how to interpret" is the job of the knowledge base</strong>.</span></p>
+
+  <h3><span class="zh-only">📚 Knowledge Base 体系 (29 KB)</span><span class="en-only">📚 Knowledge Base Files (29 KB)</span></h3>
+  <div class="card-grid">
+    <div class="card"><p><strong>pm_studio_architecture.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">9.5 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">平台架构 · AALP 协议 · 文件路径 · 对话存储结构</span><span class="en-only">Platform architecture · AALP protocol · File paths · Chat storage</span></p></div>
+    <div class="card"><p><strong>agent_activity_log_reading_protocol.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">8.7 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">三层情报模型 · 扫描流程 · 决策流程图</span><span class="en-only">Three-tier model · Scanning procedure · Decision flowchart</span></p></div>
+    <div class="card"><p><strong>pm_studio_source_code_insights.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">5.7 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">🆕 从 Code Reader 学习的源码实现细节</span><span class="en-only">🆕 Source code insights learned from Code Reader</span></p></div>
+    <div class="card"><p><strong>context_engineering_reference.md</strong> <span style="color:var(--text-secondary);font-size:0.8rem;">5.1 KB</span></p><p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">上下文工程最佳实践 · Agent 优化方法论</span><span class="en-only">Context engineering best practices · Agent optimization methodology</span></p></div>
+  </div>
+</div>
+
+<!-- ===== 6. TEST CASE 1 ===== -->
+<div class="section">
+  <h2><span class="zh-only">六、实测 ①：网球情报官状态查询</span><span class="en-only">6. Test Case 1: Tennis Scout Agent Status Query</span></h2>
+  <p><span class="zh-only">用户问"网球情报官在工作吗"— Meta-Agent 通过 L1 → L3 逐层深入。</span><span class="en-only">User asks "Is the Tennis Scout working?" — Meta-Agent escalates from L1 → L3.</span></p>
+
+  <div class="flow">
+    <div class="flow-item" style="border-color:var(--accent-green);">L1 <span class="zh-only">扫描</span><span class="en-only">Scan</span><br><span style="font-size:0.75rem;color:var(--text-secondary);"><span class="zh-only">读 index.json</span><span class="en-only">Read index.json</span></span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-blue);"><span class="zh-only">状态判断</span><span class="en-only">Status</span><br><span style="font-size:0.75rem;color:var(--text-secondary);">🟡 <span class="zh-only">闲置 13h</span><span class="en-only">Idle 13h</span></span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-purple);">L3 <span class="zh-only">深入</span><span class="en-only">Dive</span><br><span style="font-size:0.75rem;color:var(--text-secondary);">872KB session</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-cyan);background:rgba(57,210,192,0.08);"><span class="zh-only">完整报告</span><span class="en-only">Full Report</span></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3><span class="zh-only">📊 L1 扫描结果</span><span class="en-only">📊 L1 Scan Results</span></h3>
+      <table>
+        <tr><th><span class="zh-only">时间</span><span class="en-only">Time</span></th><th><span class="zh-only">标题</span><span class="en-only">Title</span></th><th><span class="zh-only">状态</span><span class="en-only">Status</span></th></tr>
+        <tr><td>4/6 22:05</td><td><span class="zh-only">上海网聚宝山U12女子组积分分析</span><span class="en-only">Shanghai U12 Girls Team Points Analysis</span></td><td><span class="tag tag-green">✅</span></td></tr>
+        <tr><td>4/4 21:20</td><td><span class="zh-only">查询王一诺U12积分</span><span class="en-only">Query Player U12 Points</span></td><td><span class="tag tag-green">✅</span></td></tr>
+        <tr><td>3/31 15:29</td><td><span class="zh-only">网聚宝山U10队伍实力分析</span><span class="en-only">U10 Team Strength Analysis</span></td><td><span class="tag tag-green">✅</span></td></tr>
+      </table>
+    </div>
+    <div>
+      <h3><span class="zh-only">🔬 L3 深入发现</span><span class="en-only">🔬 L3 Deep Findings</span></h3>
+      <div class="card" style="border-left:3px solid var(--accent-purple);">
+        <ul>
+          <li><span class="zh-only">分析了网聚宝山 U12 女子团赛报名</span><span class="en-only">Analyzed U12 girls team tournament registration</span></li>
+          <li><span class="zh-only">对比<strong>张家港 vs 南京 TAC 杯</strong>两赛事</span><span class="en-only">Compared <strong>Zhangjiagang vs Nanjing TAC Cup</strong></span></li>
+          <li><span class="zh-only">发现 U10 女单<strong style="color:var(--accent-red);">同一天撞车</strong></span><span class="en-only">Discovered U10 girls singles <strong style="color:var(--accent-red);">schedule conflict</strong></span></li>
+          <li><span class="zh-only">编写 Python 脚本交叉对比，发现 <strong>4 人重复报名</strong></span><span class="en-only">Wrote Python script for cross-comparison, found <strong>4 duplicate registrations</strong></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== 7. BUG & FIX ===== -->
+<div class="section">
+  <h2><span class="zh-only">七、实测中发现的 Bug 及修复</span><span class="en-only">7. Bug Discovery & Fix During Testing</span></h2>
+  <p><span class="zh-only">跨月 Session 扫描盲区 — 一个差点让情报系统失效的设计缺陷。</span><span class="en-only">Cross-month session scanning blind spot — a design flaw that nearly broke the intelligence system.</span></p>
+
+  <div class="card" style="border-left:4px solid var(--accent-red);">
+    <h3 style="color:var(--accent-red);">🐛 Bug</h3>
+    <p style="margin-top:8px;"><span class="zh-only">用户刚让网球情报官做了任务，Meta-Agent 没有感知到。<strong>原因：</strong>新消息发生在一个 3 月创建的旧 session 中，但 Meta-Agent 只检查了 <code>202604/</code> 目录。</span><span class="en-only">User just assigned a task to Tennis Scout, but Meta-Agent didn't detect it. <strong>Cause:</strong> New messages went to an old March session, but Meta-Agent only checked the <code>202604/</code> directory.</span></p>
+  </div>
+
+  <div class="two-col" style="margin-top:20px;">
+    <div>
+      <h3><span class="zh-only">❌ 修复前</span><span class="en-only">❌ Before Fix</span></h3>
+<pre><code><span style="color:var(--accent-red);">// Only checked current month — WRONG!</span>
+1. Read 202604/index.json
+2. Pick most recent session
+3. → Missed session in 202603/ with
+   fresh last_updated timestamp</code></pre>
+    </div>
+    <div>
+      <h3><span class="zh-only">✅ 修复后</span><span class="en-only">✅ After Fix</span></h3>
+<pre><code><span style="color:var(--accent-green);">// Scan ALL months + sort by time</span>
+1. List ALL month directories
+2. Read EVERY index.json
+3. Merge all sessions into one list
+4. Sort by last_updated DESC
+5. → Catches activity in any month
+
+<span style="color:var(--accent-blue);">// Shortcut: filesystem LastWriteTime</span>
+Get-ChildItem -Recurse "*.json" |
+  Sort LastWriteTime -Desc</code></pre>
+    </div>
+  </div>
+  <blockquote><span class="zh-only"><strong>根因：</strong>PM Studio 的 <code>chatSessionManager.ts</code> 按月分片存储但不迁移文件。Session 留在创建月份，收到新消息时只更新 <code>last_updated</code>。</span><span class="en-only"><strong>Root cause:</strong> PM Studio's <code>chatSessionManager.ts</code> shards by month but never migrates files. Sessions stay in their creation month; only <code>last_updated</code> gets refreshed.</span></blockquote>
+</div>
+
+<!-- ===== 8. TEST CASE 2 ===== -->
+<div class="section">
+  <h2><span class="zh-only">八、实测 ②：从 Code Reader 学习源码知识</span><span class="en-only">8. Test Case 2: Learning Source Code Knowledge from Code Reader</span></h2>
+  <p><span class="zh-only">读取 Code Reader 的 open-kosmos 分析会话（1.8MB，368 条消息），提取对 Meta-Agent 有价值的实现细节。</span><span class="en-only">Read Code Reader's open-kosmos analysis session (1.8MB, 368 messages), extract implementation details valuable to the Meta-Agent.</span></p>
+
+  <div class="flow">
+    <div class="flow-item" style="border-color:var(--accent-green);">L1<br><span style="font-size:0.75rem;color:var(--text-secondary);"><span class="zh-only">定位 session</span><span class="en-only">Locate session</span></span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-purple);">L3<br><span style="font-size:0.75rem;color:var(--text-secondary);">Python extract</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-blue);"><span class="zh-only">筛选</span><span class="en-only">Filter</span><br><span style="font-size:0.75rem;color:var(--text-secondary);"><span class="zh-only">3 篇分析</span><span class="en-only">3 analyses</span></span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="border-color:var(--accent-cyan);background:rgba(57,210,192,0.08);"><span class="zh-only">沉淀 KB</span><span class="en-only">Persist to KB</span><br><span style="font-size:0.75rem;color:var(--text-secondary);"><span class="zh-only">6 个洞察</span><span class="en-only">6 insights</span></span></div>
+  </div>
+
+  <h3><span class="zh-only">🧠 提取的 6 个关键洞察</span><span class="en-only">🧠 6 Key Insights Extracted</span></h3>
+  <div class="card-grid-3">
+    <div class="card"><p style="font-size:1.5rem;">📂</p><p><strong><span class="zh-only">Session 跨月不移动</span><span class="en-only">Sessions don't migrate</span></strong></p><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">文件留在创建月份 → 解释了扫描 bug</span><span class="en-only">Files stay in creation month → explains the scanning bug</span></p></div>
+    <div class="card"><p style="font-size:1.5rem;">🧠</p><p><strong><span class="zh-only">Memory 是 LLM 事实提取</span><span class="en-only">Memory = LLM fact extraction</span></strong></p><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">不存原文，提取结构化事实</span><span class="en-only">Doesn't store raw text, extracts structured facts</span></p></div>
+    <div class="card"><p style="font-size:1.5rem;">📐</p><p><strong><span class="zh-only">Context 组装顺序</span><span class="en-only">Context assembly order</span></strong></p><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;">platform → prompt → skills → memory → history → tools</p></div>
+    <div class="card"><p style="font-size:1.5rem;">🔧</p><p><strong><span class="zh-only">Tool 定义消耗 context</span><span class="en-only">Tool defs consume context</span></strong></p><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">50+ 工具 = 大量 token 花在 schema 上</span><span class="en-only">50+ tools = significant tokens on schemas</span></p></div>
+    <div class="card"><p style="font-size:1.5rem;">📁</p><p><strong><span class="zh-only">Workspace 路径固定</span><span class="en-only">Workspace path is fixed</span></strong></p><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">创建时确定，改名不变</span><span class="en-only">Set at creation, rename won't change it</span></p></div>
+    <div class="card"><p style="font-size:1.5rem;">⚡</p><p><strong><span class="zh-only">Config 改动即时生效</span><span class="en-only">Config changes apply instantly</span></strong></p><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span class="zh-only">下一条消息就用新配置</span><span class="en-only">Next message uses new config</span></p></div>
+  </div>
+</div>
+
+<!-- ===== 9. CAPABILITY TABLE ===== -->
+<div class="section">
+  <h2><span class="zh-only">九、改造后的能力全景</span><span class="en-only">9. Full Capability Matrix After Transformation</span></h2>
+  <table>
+    <tr><th><span class="zh-only">能力</span><span class="en-only">Capability</span></th><th><span class="zh-only">改造前</span><span class="en-only">Before</span></th><th><span class="zh-only">改造后</span><span class="en-only">After</span></th><th><span class="zh-only">实现方式</span><span class="en-only">Implementation</span></th></tr>
+    <tr><td><strong><span class="zh-only">查看 Agent 配置</span><span class="en-only">View agent configs</span></strong></td><td style="color:var(--accent-green);">✅</td><td style="color:var(--accent-green);">✅</td><td>profile.json</td></tr>
+    <tr><td><strong><span class="zh-only">知道其他 Agent 做了什么</span><span class="en-only">Know what other agents did</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L1: index.json</td></tr>
+    <tr><td><strong><span class="zh-only">判断 Agent 是否在工作</span><span class="en-only">Detect if agent is working</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L1: last_updated + LastWriteTime</td></tr>
+    <tr><td><strong><span class="zh-only">获取任务关键结论</span><span class="en-only">Get key task conclusions</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L2: agent-report</td></tr>
+    <tr><td><strong><span class="zh-only">获取完整执行细节</span><span class="en-only">Full execution details</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>L3: chatSession JSON</td></tr>
+    <tr><td><strong><span class="zh-only">查看 Memory 内容</span><span class="en-only">View memory contents</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td>SQLite: user_memories.db</td></tr>
+    <tr><td><strong><span class="zh-only">从其他 Agent 学习知识</span><span class="en-only">Learn from other agents</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td><span class="zh-only">L3 提取 → 写入 KB</span><span class="en-only">L3 extract → persist to KB</span></td></tr>
+    <tr><td><strong><span class="zh-only">Skill 分配管理权限</span><span class="en-only">Permission via skill assignment</span></strong></td><td style="color:var(--accent-red);">❌</td><td style="color:var(--accent-green);">✅</td><td><span class="zh-only">agent-report 分配 = "下属"</span><span class="en-only">agent-report assignment = "subordinate"</span></td></tr>
+  </table>
+</div>
+
+<!-- ===== 10. INSIGHTS ===== -->
+<div class="section">
+  <h2><span class="zh-only">十、设计启示与下一步</span><span class="en-only">10. Design Insights & Next Steps</span></h2>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--accent-green);">
+      <h3><span class="zh-only">🏗️ 文件系统即协议</span><span class="en-only">🏗️ File System as Protocol</span></h3>
+      <p style="margin-top:8px;"><span class="zh-only">在没有 native IPC 的架构约束下，<strong>文件系统是天然的异步消息总线</strong>。JSONL append-only + 定期读取 = 简洁可靠的 pub/sub。</span><span class="en-only">Without native IPC, <strong>the file system serves as a natural async message bus</strong>. JSONL append-only + periodic reading = simple and reliable pub/sub.</span></p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent-blue);">
+      <h3><span class="zh-only">📊 渐进式信息获取</span><span class="en-only">📊 Progressive Information Retrieval</span></h3>
+      <p style="margin-top:8px;"><span class="zh-only"><strong>不要一次性加载所有信息。</strong>500 tokens 能解决的问题不要花 50K。这是 context engineering 在 agent 协作中的映射。</span><span class="en-only"><strong>Don't load everything at once.</strong> If 500 tokens solve the problem, don't spend 50K. This is context engineering applied to agent coordination.</span></p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent-purple);">
+      <h3><span class="zh-only">🔑 能力即权限</span><span class="en-only">🔑 Capability as Permission</span></h3>
+      <p style="margin-top:8px;"><span class="zh-only">通过 <strong>Skill 分配控制谁是"下属"</strong>。不需要 ACL——Skill 列表本身就是权限矩阵。</span><span class="en-only"><strong>Skill assignment controls who is a "subordinate."</strong> No ACL needed — the skill list IS the permission matrix.</span></p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent-orange);">
+      <h3><span class="zh-only">🔄 从实践中学习</span><span class="en-only">🔄 Learn from Practice</span></h3>
+      <p style="margin-top:8px;"><span class="zh-only">跨月扫描 bug 说明——<strong>设计必须经过实测验证</strong>。Meta-Agent 的知识库是活的文档，随实践持续进化。</span><span class="en-only">The cross-month bug proves — <strong>designs must be validated through testing</strong>. The Meta-Agent's KB is a living document that evolves with practice.</span></p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:36px;"><span class="zh-only">🔮 下一步优化方向</span><span class="en-only">🔮 Next Steps</span></h3>
+  <table>
+    <tr><th><span class="zh-only">阶段</span><span class="en-only">Phase</span></th><th><span class="zh-only">方向</span><span class="en-only">Direction</span></th><th><span class="zh-only">说明</span><span class="en-only">Description</span></th></tr>
+    <tr><td><span class="tag tag-green">Short</span></td><td><strong><span class="zh-only">定时巡检自动化</span><span class="en-only">Automated daily patrol</span></strong></td><td><span class="zh-only">每日定时任务扫描 <code>_registry.jsonl</code>，生成工作汇报</span><span class="en-only">Daily scheduled task scans <code>_registry.jsonl</code>, generates work summary</span></td></tr>
+    <tr><td><span class="tag tag-green">Short</span></td><td><strong><span class="zh-only">agent-report 质量验证</span><span class="en-only">Agent-report quality check</span></strong></td><td><span class="zh-only">观察日志写入质量，迭代 SKILL.md</span><span class="en-only">Monitor log quality, iterate SKILL.md</span></td></tr>
+    <tr><td><span class="tag tag-blue">Mid</span></td><td><strong><span class="zh-only">跨 Agent 知识共享</span><span class="en-only">Cross-agent knowledge sharing</span></strong></td><td><span class="zh-only">从各 Agent 对话中提取知识，写入其他 Agent 的 KB</span><span class="en-only">Extract knowledge from agent sessions, persist to other agents' KB</span></td></tr>
+    <tr><td><span class="tag tag-blue">Mid</span></td><td><strong><span class="zh-only">Agent 性能 Dashboard</span><span class="en-only">Agent performance dashboard</span></strong></td><td><span class="zh-only">可视化各 Agent 任务频率、成功率、token 消耗</span><span class="en-only">Visualize task frequency, success rate, token usage per agent</span></td></tr>
+    <tr><td><span class="tag tag-purple">Long</span></td><td><strong><span class="zh-only">任务委派与编排</span><span class="en-only">Task delegation & orchestration</span></strong></td><td><span class="zh-only">Meta-Agent 主动分配任务，实现"下达→执行→上报"闭环</span><span class="en-only">Meta-Agent actively assigns tasks, completing the "assign → execute → report" loop</span></td></tr>
+    <tr><td><span class="tag tag-purple">Long</span></td><td><strong><span class="zh-only">自适应优化闭环</span><span class="en-only">Adaptive optimization loop</span></strong></td><td><span class="zh-only">根据 issues 自动发现瓶颈，生成优化建议，审批后自动应用</span><span class="en-only">Auto-detect bottlenecks from issues, generate suggestions, auto-apply after approval</span></td></tr>
+  </table>
+</div>
+
+</div>
+<script src="../nav.js"></script>
+</body>
+</html>
+
