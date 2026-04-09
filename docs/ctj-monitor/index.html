@@ -14,7 +14,6 @@
   body{font-family:'Noto Sans SC',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
   body::before{content:'';position:fixed;inset:0;background:linear-gradient(rgba(56,189,248,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
   .c{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:32px 20px 80px}
-
   .hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border)}
   .hd-l{display:flex;align-items:center;gap:16px}
   .logo{width:48px;height:48px;background:linear-gradient(135deg,var(--accent),#818cf8);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 20px rgba(56,189,248,.25)}
@@ -25,7 +24,6 @@
   .sr{display:flex;gap:12px;margin-top:6px;flex-wrap:wrap}
   .sp{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--s2);border:1px solid var(--border);color:var(--dim)}
   .sp strong{color:var(--text);font-weight:600}
-
   .filter-section{margin-bottom:20px}
   .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
   .filter-label{font-size:11px;color:var(--muted);margin-right:4px;font-weight:500;min-width:32px}
@@ -33,80 +31,56 @@
   .fb:hover{background:var(--s2);color:var(--text);border-color:var(--accent)}
   .fb.on{background:var(--glow);color:var(--accent);border-color:var(--accent)}
   .fb .n{font-family:'JetBrains Mono',monospace;font-size:10px;margin-left:3px;opacity:.7}
-  .fb.geo{border-color:rgba(139,92,246,.3)}
-  .fb.geo:hover{border-color:#8b5cf6;background:rgba(139,92,246,.08)}
-  .fb.geo.on{background:rgba(139,92,246,.15);color:#c4b5fd;border-color:#8b5cf6}
-
-  .tl{position:relative}
-  .dg{margin-bottom:28px}
+  .fb.geo{border-color:rgba(139,92,246,.3)}.fb.geo:hover{border-color:#8b5cf6;background:rgba(139,92,246,.08)}.fb.geo.on{background:rgba(139,92,246,.15);color:#c4b5fd;border-color:#8b5cf6}
+  .fb.age-u10{border-color:rgba(251,113,133,.3)}.fb.age-u10:hover{border-color:var(--u10);background:rgba(251,113,133,.08)}.fb.age-u10.on{background:var(--u10-bg);color:var(--u10);border-color:var(--u10)}
+  .fb.age-u12{border-color:rgba(96,165,250,.3)}.fb.age-u12:hover{border-color:var(--u12);background:rgba(96,165,250,.08)}.fb.age-u12.on{background:var(--u12-bg);color:var(--u12);border-color:var(--u12)}
+  .tl{position:relative}.dg{margin-bottom:28px}
   .dl{position:sticky;top:0;z-index:10;display:inline-flex;align-items:center;gap:8px;padding:6px 14px;margin-bottom:12px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:13px;font-weight:500;color:var(--dim);backdrop-filter:blur(12px)}
-  .dl .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
-  .dl .wd{color:var(--accent);font-weight:600}
-
+  .dl .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}.dl .wd{color:var(--accent);font-weight:600}
   .cds{display:flex;flex-direction:column;gap:10px}
   .cd{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;transition:.25s;position:relative;overflow:hidden}
   .cd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
   .cd.la::before{background:var(--la)}.cd.lb::before{background:var(--lb)}.cd.lg::before{background:var(--lg)}
   .cd:hover{border-color:rgba(56,189,248,.3);background:var(--s2);transform:translateY(-1px);box-shadow:0 4px 24px rgba(0,0,0,.3)}
-
   .ct{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
   .cn{font-size:14px;font-weight:500;line-height:1.5;flex:1}
   .tags{display:flex;gap:6px;flex-shrink:0;align-items:center}
   .lb-tag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 10px;border-radius:4px;letter-spacing:.5px}
   .lb-tag.a{background:rgba(245,158,11,.15);color:var(--la)}.lb-tag.b{background:rgba(59,130,246,.15);color:var(--lb)}.lb-tag.g{background:rgba(139,92,246,.15);color:var(--lg)}
-
-  /* ── Location tag - prominent ── */
   .loc-tag{font-size:12px;font-weight:600;padding:3px 12px;border-radius:6px;background:rgba(56,189,248,.1);color:var(--accent);border:1px solid rgba(56,189,248,.25)}
-
   .cm{display:flex;gap:16px;font-size:12px;color:var(--dim);margin-bottom:14px;flex-wrap:wrap}
   .ci{display:flex;align-items:center;gap:4px}.ci svg{width:13px;height:13px;opacity:.5}
-
-  /* ── U10/U12 color-coded items ── */
   .ri{display:flex;gap:10px;flex-wrap:wrap}
   .rit{flex:1;min-width:200px;border-radius:var(--rs);padding:10px 14px;position:relative}
   .rit.u10{background:var(--u10-bg);border-left:3px solid var(--u10)}
   .rit.u12{background:var(--u12-bg);border-left:3px solid var(--u12)}
-  /* Closed (deadline passed) → desaturate */
-  .rit.closed{opacity:.55}
-  .rit.closed{border-left-color:var(--muted)!important;background:rgba(90,101,128,.08)!important}
+  .rit.closed{opacity:.55;border-left-color:var(--muted)!important;background:rgba(90,101,128,.08)!important}
   .rih{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
   .rin{font-size:12px;font-weight:500}
-  .rit.u10 .rin{color:var(--u10)}.rit.u12 .rin{color:var(--u12)}
-  .rit.closed .rin{color:var(--muted)!important}
+  .rit.u10 .rin{color:var(--u10)}.rit.u12 .rin{color:var(--u12)}.rit.closed .rin{color:var(--muted)!important}
   .age-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
-  .age-dot.u10{background:var(--u10)}.age-dot.u12{background:var(--u12)}
-  .rit.closed .age-dot{background:var(--muted)!important}
+  .age-dot.u10{background:var(--u10)}.age-dot.u12{background:var(--u12)}.rit.closed .age-dot{background:var(--muted)!important}
   .rn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
-  .rn.full{color:var(--red)}.rn.avail{color:var(--green)}.rn.empty{color:var(--muted)}
-  .rit.closed .rn{color:var(--muted)!important}
+  .rn.full{color:var(--red)}.rn.avail{color:var(--green)}.rn.empty{color:var(--muted)}.rit.closed .rn{color:var(--muted)!important}
   .bt{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
   .bf{height:100%;border-radius:3px;transition:width .6s}
-  .rit.u10 .bf{background:var(--u10-bar)}.rit.u12 .bf{background:var(--u12-bar)}
-  /* Closed → gray bar */
-  .rit.closed .bf{background:var(--gray-bar)!important}
+  .rit.u10 .bf{background:var(--u10-bar)}.rit.u12 .bf{background:var(--u12-bar)}.rit.closed .bf{background:var(--gray-bar)!important}
   .rs{font-size:10px;color:var(--muted);margin-top:6px;font-family:'JetBrains Mono',monospace}
-
   .pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 7px;border-radius:10px;margin-left:6px}
   .pill.reg{background:var(--green-bg);color:var(--green)}.pill.closed{background:var(--red-bg);color:var(--red)}.pill.other{background:rgba(148,163,184,.1);color:var(--dim)}
   .pill .p{width:4px;height:4px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
   .new{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--red);color:#fff;margin-left:6px;letter-spacing:.5px;vertical-align:middle;animation:fi .3s}
   @keyframes fi{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
-
   .legend{display:flex;gap:16px;margin-bottom:20px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);font-size:11px;color:var(--dim)}
   .legend-item{display:flex;align-items:center;gap:5px}
-  .legend-bar{width:24px;height:5px;border-radius:3px}
-  .legend-bar.u10{background:var(--u10-bar)}.legend-bar.u12{background:var(--u12-bar)}.legend-bar.gray{background:var(--gray-bar)}
-
+  .legend-bar{width:24px;height:5px;border-radius:3px}.legend-bar.u10{background:var(--u10-bar)}.legend-bar.u12{background:var(--u12-bar)}.legend-bar.gray{background:var(--gray-bar)}
   .loading,.err,.empty{text-align:center;padding:60px 20px;color:var(--muted)}
   .loading .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
   @keyframes sp{to{transform:rotate(360deg)}}
   .err{color:var(--red)}
-
   .ft{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
   .api-counter{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);opacity:.3}
-
   @media(max-width:640px){.c{padding:16px 12px 60px}.hd{flex-direction:column;align-items:flex-start;gap:12px}.hd-r{text-align:left}.cd{padding:12px 14px}.ri{flex-direction:column;gap:8px}.rit{min-width:unset}.sr,.filter-row{flex-wrap:wrap}.cm{gap:10px}.legend{flex-wrap:wrap;gap:10px}}
 </style>
 </head>
@@ -128,6 +102,7 @@
   </div>
   <div class="filter-section">
     <div class="filter-row" id="fl-type"></div>
+    <div class="filter-row" id="fl-age"></div>
     <div class="filter-row" id="fl-geo"></div>
   </div>
   <div class="legend">
@@ -147,7 +122,6 @@ const IC={
   loc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
   cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
 };
-
 const NEARBY=['江苏','上海','浙江','安徽','山东'];
 const GEO_FILTERS=[
   {k:'all_geo',l:'全国'},
@@ -162,7 +136,7 @@ const GEO_FILTERS=[
 
 function isNew(s){if(!s)return false;return(Date.now()-new Date(s.replace(' ','T')+':00+08:00').getTime())<864e5}
 function lc(l){if(!l)return'';const u=l.toUpperCase();return u.includes('-A')?'a':u.includes('-B')?'b':u.includes('-G')?'g':''}
-function ageGroup(name){return/U10/i.test(name)?'u10':/U12/i.test(name)?'u12':''}
+function ag(name){return/U10/i.test(name)?'u10':/U12/i.test(name)?'u12':''}
 function nc(c,m){return m<=0?'empty':c>=m?'full':'avail'}
 function itemStatus(item){
   if(!item.reg_end)return{cls:'other',text:'未开放'};
@@ -171,8 +145,9 @@ function itemStatus(item){
   const h=Math.floor((end-now)/36e5);
   return{cls:'reg',text:'报名中',dl:h<24?`剩${h}h`:`剩${Math.floor(h/24)}天`};
 }
+function hasAge(t,a){return t.items.some(i=>ag(i.item_name)===a)}
 
-let STATE={type:'all',geo:'all_geo'};
+let STATE={type:'all',age:'all_age',geo:'all_geo'};
 
 function render(data){
   const tours=data.tournaments||[];
@@ -196,6 +171,16 @@ function render(data){
   typeEl.innerHTML='<span class="filter-label">类型</span>'+typeDef.map(d=>`<button class="fb ${f.type===d.k?'on':''}" data-t="${d.k}">${d.l}<span class="n">${d.c}</span></button>`).join('');
   typeEl.querySelectorAll('.fb').forEach(b=>b.addEventListener('click',()=>{STATE.type=b.dataset.t;render(data)}));
 
+  // ── Age filters ──
+  const ageDef=[
+    {k:'all_age',l:'U10+U12',c:tours.length,cls:''},
+    {k:'u10',l:'U10',c:tours.filter(t=>hasAge(t,'u10')).length,cls:'age-u10'},
+    {k:'u12',l:'U12',c:tours.filter(t=>hasAge(t,'u12')).length,cls:'age-u12'},
+  ];
+  const ageEl=document.getElementById('fl-age');
+  ageEl.innerHTML='<span class="filter-label">组别</span>'+ageDef.map(d=>`<button class="fb ${d.cls} ${f.age===d.k?'on':''}" data-a="${d.k}">${d.l}<span class="n">${d.c}</span></button>`).join('');
+  ageEl.querySelectorAll('.fb').forEach(b=>b.addEventListener('click',()=>{STATE.age=b.dataset.a;render(data)}));
+
   // ── Geo filters ──
   const geoEl=document.getElementById('fl-geo');
   geoEl.innerHTML='<span class="filter-label">地区</span>'+GEO_FILTERS.map(g=>{
@@ -204,10 +189,11 @@ function render(data){
   }).join('');
   geoEl.querySelectorAll('.fb').forEach(b=>b.addEventListener('click',()=>{STATE.geo=b.dataset.g;render(data)}));
 
-  // ── Apply filters ──
+  // ── Apply all filters ──
   let filtered=tours;
   if(f.type==='avail')filtered=filtered.filter(t=>t.items.some(i=>itemStatus(i).cls==='reg'&&!i.is_full));
   else if(['a','b','g'].includes(f.type))filtered=filtered.filter(t=>lc(t.level)===f.type);
+  if(f.age!=='all_age')filtered=filtered.filter(t=>hasAge(t,f.age));
   if(f.geo!=='all_geo'){const gf=GEO_FILTERS.find(g=>g.k===f.geo);if(gf&&gf.match)filtered=filtered.filter(gf.match)}
 
   // ── Group by date ──
@@ -224,15 +210,17 @@ function render(data){
     h+=`<div class="dg"><div class="dl"><span class="dot"></span>${date} <span class="wd">${wd}</span> · ${rel}</div><div class="cds">`;
     groups[date].forEach(t=>{
       const l=lc(t.level),nw=isNew(t.first_seen);
+      // Filter items by age if age filter active
+      const visibleItems=f.age==='all_age'?t.items:t.items.filter(i=>ag(i.item_name)===f.age);
       h+=`<div class="cd l${l}"><div class="ct"><div class="cn">${t.name}${nw?'<span class="new">NEW</span>':''}</div><div class="tags"><span class="loc-tag">${t.city||t.province||'--'}</span><span class="lb-tag ${l}">${t.level}</span></div></div>`;
       h+=`<div class="cm"><span class="ci">${IC.loc} ${(t.location||'--').substring(0,28)}</span><span class="ci">${IC.cal} ${t.date}</span></div>`;
       h+='<div class="ri">';
-      t.items.forEach(it=>{
-        const ag=ageGroup(it.item_name);
+      visibleItems.forEach(it=>{
+        const a=ag(it.item_name);
         const st=itemStatus(it);
         const isClosed=st.cls==='closed'||st.cls==='other';
         const p=it.max_count>0?Math.min(100,Math.round(it.current_count/it.max_count*100)):0;
-        h+=`<div class="rit ${ag}${isClosed?' closed':''}"><div class="rih"><span class="rin"><span class="age-dot ${ag}"></span>${it.item_name}<span class="pill ${st.cls}">${st.cls==='reg'?'<span class="p"></span>':''}${st.text}</span></span><span class="rn ${nc(it.current_count,it.max_count)}">${it.current_count}/${it.max_count}</span></div><div class="bt"><div class="bf" style="width:${p}%"></div></div>`;
+        h+=`<div class="rit ${a}${isClosed?' closed':''}"><div class="rih"><span class="rin"><span class="age-dot ${a}"></span>${it.item_name}<span class="pill ${st.cls}">${st.cls==='reg'?'<span class="p"></span>':''}${st.text}</span></span><span class="rn ${nc(it.current_count,it.max_count)}">${it.current_count}/${it.max_count}</span></div><div class="bt"><div class="bf" style="width:${p}%"></div></div>`;
         if(st.dl||it.remaining>0||it.is_full)h+=`<div class="rs">${it.is_full?'已满额':it.remaining>0?'余 '+it.remaining+' 位':''}${st.dl?' · '+st.dl:''}</div>`;
         h+='</div>';
       });
