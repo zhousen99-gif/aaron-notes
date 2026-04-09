@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTJ U10 赛事监控</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface-2: #1a2236;
+    --surface-3: #222d44;
+    --border: #2a3654;
+    --text: #e2e8f0;
+    --text-dim: #8892a8;
+    --text-muted: #5a6580;
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.15);
+    --green: #34d399;
+    --green-bg: rgba(52, 211, 153, 0.1);
+    --red: #f87171;
+    --red-bg: rgba(248, 113, 113, 0.08);
+    --amber: #fbbf24;
+    --amber-bg: rgba(251, 191, 36, 0.1);
+    --purple: #a78bfa;
+    --level-a: #f59e0b;
+    --level-b: #3b82f6;
+    --level-g: #8b5cf6;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Subtle grid background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), #818cf8);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 20px rgba(56,189,248,0.25);
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #e2e8f0, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .header-right {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .update-time {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .update-time span { color: var(--accent); }
+  .stat-row {
+    display: flex; gap: 16px; margin-top: 6px;
+  }
+  .stat-pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .stat-pill strong { color: var(--text); font-weight: 600; }
+
+  /* ── Filter tabs ── */
+  .filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    border-color: var(--accent);
+  }
+  .filter-btn.active {
+    background: var(--accent-glow);
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .filter-btn .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-left: 4px;
+    opacity: 0.7;
+  }
+
+  /* ── Timeline layout ── */
+  .timeline { position: relative; }
+  .date-group { margin-bottom: 28px; }
+  .date-label {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    margin-bottom: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    backdrop-filter: blur(12px);
+  }
+  .date-label .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .date-label .weekday { color: var(--accent); font-weight: 600; }
+
+  /* ── Tournament card ── */
+  .cards { display: flex; flex-direction: column; gap: 10px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .card.level-a::before { background: var(--level-a); }
+  .card.level-b::before { background: var(--level-b); }
+  .card.level-g::before { background: var(--level-g); }
+
+  .card:hover {
+    border-color: rgba(56,189,248,0.3);
+    background: var(--surface-2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .level-badge {
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+  .level-badge.a { background: rgba(245,158,11,0.15); color: var(--level-a); }
+  .level-badge.b { background: rgba(59,130,246,0.15); color: var(--level-b); }
+  .level-badge.g { background: rgba(139,92,246,0.15); color: var(--level-g); }
+
+  .card-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .card-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .card-meta-item svg {
+    width: 13px; height: 13px;
+    opacity: 0.5;
+  }
+
+  /* ── Registration bars ── */
+  .reg-items { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .reg-item {
+    flex: 1;
+    min-width: 200px;
+    background: var(--surface-3);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+  }
+  .reg-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .reg-item-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-dim);
+  }
+  .reg-item-name .highlight { color: #f9a8d4; font-weight: 600; }
+  .reg-numbers {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .reg-numbers.full { color: var(--red); }
+  .reg-numbers.available { color: var(--green); }
+  .reg-numbers.empty { color: var(--text-muted); }
+
+  .bar-track {
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+  .bar-fill.full { background: linear-gradient(90deg, var(--red), #ef4444); }
+  .bar-fill.high { background: linear-gradient(90deg, var(--amber), #f59e0b); }
+  .bar-fill.mid { background: linear-gradient(90deg, var(--accent), #0ea5e9); }
+  .bar-fill.low { background: linear-gradient(90deg, var(--green), #10b981); }
+
+  .reg-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Status pill ── */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .status-pill.registering { background: var(--green-bg); color: var(--green); }
+  .status-pill.ongoing { background: var(--amber-bg); color: var(--amber); }
+  .status-pill.not-started { background: rgba(148,163,184,0.1); color: var(--text-dim); }
+  .status-pill .pulse {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+  .empty-state svg { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.3; }
+  .empty-state p { font-size: 14px; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ── NEW badge ── */
+  .new-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: var(--red);
+    color: white;
+    margin-left: 6px;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+    animation: fadeIn 0.3s;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .container { padding: 16px 12px 60px; }
+    .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .header-right { text-align: left; }
+    .card { padding: 12px 14px; }
+    .reg-items { flex-direction: column; gap: 8px; }
+    .reg-item { min-width: unset; }
+    .stat-row { flex-wrap: wrap; }
+    .card-meta { gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">🎾</div>
+      <div>
+        <h1>CTJ U10 赛事监控</h1>
+        <div class="header-sub">A级 · B级 · G级 团体赛 — 自动追踪</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="update-time">数据更新 <span id="updateTime">--</span></div>
+      <div class="stat-row">
+        <div class="stat-pill">赛事 <strong id="totalCount">--</strong></div>
+        <div class="stat-pill">可报名 <strong id="availCount">--</strong></div>
+        <div class="stat-pill">已满 <strong id="fullCount">--</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="timeline" id="timeline"></div>
+
+  <div class="footer">
+    🎾 网球情报官 · 每小时自动扫描 · CTJ A/B/G 级赛事 · U10 组别
+  </div>
+</div>
+
+<script>
+
+// ── Inline data — will be replaced by generate script ──
+const DATA = {"generated_at": "2026-04-09 22:15", "total_count": 18, "tournaments": [{"id": "c1761db89dbc4cad9006495021a33667", "name": "“永卓杯”2026年江苏省青少年网球积分赛第一站张家港站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-11", "location": "中国网球学院张家港分院", "city": "苏州", "province": "江苏", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-03-27 09:00", "player_count": 239, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-03-27 09:00", "reg_end": "2026-04-08 12:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-03-27 09:00", "reg_end": "2026-04-08 12:00"}]}, {"id": "ebcc66b6b8514290aeeb7732a16c61de", "name": "2026年“青苗杯”深圳市青少年网球积分排名赛第一站(CTJ-B500)", "level": "CTJ-B500", "date": "2026-04-11", "location": "深圳市光明区群众体育中心/光明研祥智谷风雨球场", "city": "深圳", "province": "广东", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-03-18 08:00", "player_count": 296, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-03-18 08:00", "reg_end": "2026-04-06 20:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-03-18 08:00", "reg_end": "2026-04-06 20:00"}]}, {"id": "accbef98bafa465eb0e7873c75b7b00f", "name": "2026年“TAC杯”青少年网球积分赛第一站南京站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-11", "location": "江苏南京体育学院中国网球学院（南京市玄武区灵谷寺路8号）", "city": "南京", "province": "江苏", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-05 00:00", "player_count": 366, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-05 00:00", "reg_end": "2026-04-09 12:00"}, {"item_name": "U10女", "item_type": "INDIVIDUAL", "current_count": 47, "max_count": 48, "is_full": false, "remaining": 1, "reg_start": "2026-04-05 00:00", "reg_end": "2026-04-09 12:00"}]}, {"id": "5f08c918e4dc4e648081b31c8c265db0", "name": "2026年“华升杯”青少年网球积分赛第一站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-11", "location": "湖南省网球运动管理中心", "city": "长沙", "province": "湖南", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-04 18:38", "player_count": 388, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-04 18:38", "reg_end": "2026-04-09 20:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-04 18:38", "reg_end": "2026-04-09 20:00"}]}, {"id": "20cd61106e104ce7a4d78713c6bd0f2e", "name": "2026年“橙子杯”吉林省青少年网球 公开赛系列赛(CTJ-B600)第一站", "level": "CTJ-B600", "date": "2026-04-18", "location": "橙子网球中心", "city": "长春", "province": "吉林", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-07 20:00", "player_count": 157, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 24, "max_count": 24, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 20:00", "reg_end": "2026-04-15 11:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 24, "max_count": 24, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 20:00", "reg_end": "2026-04-15 11:00"}]}, {"id": "699141232bb34558ab3082ccb04c2feb", "name": "2026“李宁杯”陕西省青少年网球积分排名赛第一站（CTJ-B600）", "level": "CTJ-B600", "date": "2026-04-18", "location": "陕西网球中心", "city": "西安", "province": "陕西", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-03-27 00:00", "player_count": 220, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "u10男子单打", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-03-27 00:00", "reg_end": "2026-04-14 18:00"}, {"item_name": "u10女子单打", "item_type": "INDIVIDUAL", "current_count": 29, "max_count": 48, "is_full": false, "remaining": 19, "reg_start": "2026-03-27 00:00", "reg_end": "2026-04-14 18:00"}]}, {"id": "b1de85f5b4bb490799048852429c9406", "name": "2026上海“绿动明珠”长三角青少年网球团体赛第1站(CTJ-G600)", "level": "CTJ-G600", "date": "2026-04-18", "location": "上海市宝山区长江西路855号鹏迈体育中心", "city": "上海", "province": "上海", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-07 12:00", "player_count": 104, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男团", "item_type": "TEAM", "current_count": 8, "max_count": 8, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-16 18:00"}, {"item_name": "U10女团", "item_type": "TEAM", "current_count": 8, "max_count": 8, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-17 18:00"}]}, {"id": "f4c1ba9d7753453c9aeb2a2984935f1c", "name": "2026“南京网协杯”青少年积分赛第一站(CTJ-B500)", "level": "CTJ-B500", "date": "2026-04-18", "location": "江苏南京江心洲E³PARK体育公园", "city": "南京", "province": "江苏", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-03 18:00", "player_count": 324, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-03 18:00", "reg_end": "2026-04-15 12:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-03 18:00", "reg_end": "2026-04-15 12:00"}]}, {"id": "0be51e95476e445ba63b865a03bcf222", "name": "2026年“星际杯”青少年网球巡回赛第一站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-18", "location": "安徽合肥市星际网球俱乐部", "city": "合肥", "province": "安徽", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-07 12:00", "player_count": 231, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 18, "max_count": 32, "is_full": false, "remaining": 14, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-15 12:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 27, "max_count": 32, "is_full": false, "remaining": 5, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-15 12:00"}]}, {"id": "89653613f7ee47d79503b78259665403", "name": "2026石家庄“勇石杯”青少年网球积分赛第一站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-18", "location": "河北石家庄市网球中心", "city": "石家庄", "province": "河北", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-06 10:00", "player_count": 351, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-06 10:00", "reg_end": "2026-04-15 10:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-06 10:00", "reg_end": "2026-04-15 10:00"}]}, {"id": "55868f6a25054977a35d29746189b2e0", "name": "2026“国展杯”青少年网球积分赛第一站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-18", "location": "湖南国展网球中心", "city": "长沙", "province": "湖南", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-04 00:00", "player_count": 405, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 64, "max_count": 64, "is_full": true, "remaining": 0, "reg_start": "2026-04-04 00:00", "reg_end": "2026-04-16 23:59"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 46, "max_count": 64, "is_full": false, "remaining": 18, "reg_start": "2026-04-04 00:00", "reg_end": "2026-04-16 23:59"}]}, {"id": "90e536b805a247288f454761b62f66d8", "name": "2026 YONEX“郑洁杯”青少年网球巡回赛第一站深圳站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-18", "location": "深圳福田郑洁(深圳)国际网球俱乐部", "city": "深圳", "province": "广东", "status": "报名中", "reg_status": null, "reg_start_time": "", "player_count": 0, "first_seen": "2026-04-09 22:00", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 0, "max_count": 48, "is_full": false, "remaining": 48, "reg_start": null, "reg_end": null}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 0, "max_count": 48, "is_full": false, "remaining": 48, "reg_start": null, "reg_end": null}]}, {"id": "4e85b17a0e484d2da4500bbe96ae22c6", "name": "2026年江苏省青少年积分赛团体赛（CTJ-G600)", "level": "CTJ-G600", "date": "2026-04-25", "location": "江心洲E³PARK体育公园", "city": "南京", "province": "江苏", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-08 12:41", "player_count": 63, "first_seen": "2026-04-09 22:01", "u10_items": [{"item_name": "U10男团", "item_type": "TEAM", "current_count": 4, "max_count": 16, "is_full": false, "remaining": 12, "reg_start": "2026-04-08 12:41", "reg_end": "2026-04-22 12:00"}, {"item_name": "U10女团", "item_type": "TEAM", "current_count": 1, "max_count": 16, "is_full": false, "remaining": 15, "reg_start": "2026-04-08 12:42", "reg_end": "2026-04-22 12:00"}]}, {"id": "5825975faf2b464eaf13a41c8f486401", "name": "2026上海“绿动明珠”长三角青少年网球团体赛第2站(CTJ-G600)", "level": "CTJ-G600", "date": "2026-04-25", "location": "上海市宝山区长江西路855号鹏迈体育中心", "city": "上海", "province": "上海", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-07 12:00", "player_count": 122, "first_seen": "2026-04-09 22:01", "u10_items": [{"item_name": "U10男团", "item_type": "TEAM", "current_count": 8, "max_count": 8, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-23 18:00"}, {"item_name": "U10女团", "item_type": "TEAM", "current_count": 8, "max_count": 8, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-24 18:00"}]}, {"id": "f48abde86cf74655b8d41564562e053b", "name": "2026石家庄“勇石杯”青少年网球积分赛第二站(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-25", "location": "河北石家庄网球推广训练中心", "city": "石家庄", "province": "河北", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-06 10:00", "player_count": 311, "first_seen": "2026-04-09 22:01", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-06 10:00", "reg_end": "2026-04-22 10:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 42, "max_count": 48, "is_full": false, "remaining": 6, "reg_start": "2026-04-06 10:00", "reg_end": "2026-04-22 10:00"}]}, {"id": "30554b191878424d8b5a5449e62d4287", "name": "2026第六届厦门市海峡青少年网球公开赛(CTJ-B600)", "level": "CTJ-B600", "date": "2026-04-25", "location": "福建厦门国博星宸网球馆", "city": "厦门", "province": "福建", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-07 12:00", "player_count": 234, "first_seen": "2026-04-09 22:01", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 32, "max_count": 32, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-20 20:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 32, "max_count": 32, "is_full": true, "remaining": 0, "reg_start": "2026-04-07 12:00", "reg_end": "2026-04-20 20:00"}]}, {"id": "59b789a6943e46eea4740ec288a38c14", "name": "2026“百保力杯”陕西省青少年网球积分排名赛第二站 （CTJ-B600）", "level": "CTJ-B600", "date": "2026-05-01", "location": "曲江青少年体育活动中心", "city": "西安", "province": "陕西", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-08 00:00", "player_count": 247, "first_seen": "2026-04-09 22:01", "u10_items": [{"item_name": "U10男单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-08 00:00", "reg_end": "2026-04-28 18:00"}, {"item_name": "U10女单", "item_type": "INDIVIDUAL", "current_count": 48, "max_count": 48, "is_full": true, "remaining": 0, "reg_start": "2026-04-08 00:00", "reg_end": "2026-04-28 18:00"}]}, {"id": "0bb2e013afe44c7db4132f6e20239376", "name": "2026“百保力杯”陕西省青少年网球俱乐部团体赛第一站 （CTJ-G1200）", "level": "CTJ-G1200", "date": "2026-05-03", "location": "曲江青少年体育活动中心", "city": "西安", "province": "陕西", "status": "报名中", "reg_status": "报名中", "reg_start_time": "2026-04-08 00:00", "player_count": 271, "first_seen": "2026-04-09 22:01", "u10_items": [{"item_name": "U10男团", "item_type": "TEAM", "current_count": 12, "max_count": 12, "is_full": true, "remaining": 0, "reg_start": "2026-04-08 00:00", "reg_end": "2026-04-28 18:00"}, {"item_name": "U10女团", "item_type": "TEAM", "current_count": 12, "max_count": 12, "is_full": true, "remaining": 0, "reg_start": "2026-04-08 00:00", "reg_end": "2026-04-28 18:00"}]}]};
+
+// ── Weekday names ──
+const WEEKDAYS = ['周日','周一','周二','周三','周四','周五','周六'];
+
+// ── Determine if a tournament was first seen within 24h ──
+function isNew(firstSeen) {
+  if (!firstSeen) return false;
+  const seen = new Date(firstSeen.replace(' ', 'T') + ':00+08:00');
+  return (Date.now() - seen.getTime()) < 24 * 3600 * 1000;
+}
+
+// ── Level class ──
+function levelClass(level) {
+  if (!level) return '';
+  const l = level.toUpperCase();
+  if (l.includes('-A')) return 'a';
+  if (l.includes('-B')) return 'b';
+  if (l.includes('-G')) return 'g';
+  return '';
+}
+
+// ── Bar fill class based on percentage ──
+function barClass(pct) {
+  if (pct >= 100) return 'full';
+  if (pct >= 80) return 'high';
+  if (pct >= 40) return 'mid';
+  return 'low';
+}
+
+// ── Number class ──
+function numClass(current, max) {
+  if (max <= 0) return 'empty';
+  if (current >= max) return 'full';
+  return 'available';
+}
+
+// ── Status pill ──
+function statusHTML(status) {
+  if (!status) return '';
+  if (status.includes('报名')) return `<span class="status-pill registering"><span class="pulse"></span>报名中</span>`;
+  if (status.includes('进行')) return `<span class="status-pill ongoing"><span class="pulse"></span>进行中</span>`;
+  return `<span class="status-pill not-started">${status}</span>`;
+}
+
+// ── Highlight U10女 in item name ──
+function highlightName(name) {
+  return name.replace(/(女)/g, '<span class="highlight">$1</span>');
+}
+
+// ── Format reg deadline ──
+function regDeadline(regEnd) {
+  if (!regEnd) return '';
+  const d = new Date(regEnd.replace(' ', 'T') + '+08:00');
+  const now = new Date();
+  const diff = d - now;
+  if (diff < 0) return '已截止';
+  const hours = Math.floor(diff / 3600000);
+  if (hours < 24) return `剩 ${hours}h`;
+  const days = Math.floor(hours / 24);
+  return `剩 ${days}天`;
+}
+
+// ── SVG icons ──
+const ICONS = {
+  location: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+};
+
+// ── Render ──
+function render(data, filter) {
+  const tours = data.tournaments || [];
+
+  // Update header stats
+  document.getElementById('updateTime').textContent = data.generated_at || '--';
+  document.getElementById('totalCount').textContent = tours.length;
+
+  let availCount = 0, fullCount = 0;
+  tours.forEach(t => {
+    const femaleItem = t.u10_items.find(i => i.item_name.includes('女'));
+    if (femaleItem) {
+      if (femaleItem.is_full) fullCount++;
+      else availCount++;
+    }
+  });
+  document.getElementById('availCount').textContent = availCount;
+  document.getElementById('fullCount').textContent = fullCount;
+
+  // Build filter buttons
+  const filtersEl = document.getElementById('filters');
+  const levels = new Set(tours.map(t => levelClass(t.level)));
+  const filterDef = [
+    { key: 'all', label: '全部', count: tours.length },
+    { key: 'available', label: '🟢 可报名', count: tours.filter(t => t.u10_items.some(i => !i.is_full && i.max_count > 0)).length },
+    ...['a','b','g'].filter(l => levels.has(l)).map(l => ({
+      key: l,
+      label: l === 'a' ? 'A级' : l === 'b' ? 'B级' : 'G团体',
+      count: tours.filter(t => levelClass(t.level) === l).length
+    }))
+  ];
+  filtersEl.innerHTML = filterDef.map(f =>
+    `<button class="filter-btn ${filter === f.key ? 'active' : ''}" data-filter="${f.key}">${f.label}<span class="count">${f.count}</span></button>`
+  ).join('');
+
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => render(data, btn.dataset.filter));
+  });
+
+  // Filter tournaments
+  let filtered = tours;
+  if (filter === 'available') {
+    filtered = tours.filter(t => t.u10_items.some(i => !i.is_full && i.max_count > 0));
+  } else if (['a','b','g'].includes(filter)) {
+    filtered = tours.filter(t => levelClass(t.level) === filter);
+  }
+
+  // Group by date
+  const groups = {};
+  filtered.forEach(t => {
+    const d = t.date || 'unknown';
+    if (!groups[d]) groups[d] = [];
+    groups[d].push(t);
+  });
+
+  const timeline = document.getElementById('timeline');
+
+  if (filtered.length === 0) {
+    timeline.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      <p>暂无符合条件的赛事</p>
+    </div>`;
+    return;
+  }
+
+  let html = '';
+  Object.keys(groups).sort().forEach(date => {
+    const d = new Date(date + 'T00:00:00+08:00');
+    const weekday = WEEKDAYS[d.getDay()];
+    const now = new Date();
+    const diffDays = Math.ceil((d - now) / 86400000);
+    let relativeText = '';
+    if (diffDays === 0) relativeText = '今天';
+    else if (diffDays === 1) relativeText = '明天';
+    else if (diffDays === 2) relativeText = '后天';
+    else if (diffDays > 0) relativeText = `${diffDays}天后`;
+    else relativeText = `${Math.abs(diffDays)}天前`;
+
+    html += `<div class="date-group">`;
+    html += `<div class="date-label"><span class="dot"></span>${date} <span class="weekday">${weekday}</span> · ${relativeText}</div>`;
+    html += `<div class="cards">`;
+
+    groups[date].forEach(t => {
+      const lc = levelClass(t.level);
+      const isNewTour = isNew(t.first_seen);
+      html += `<div class="card level-${lc}">`;
+      html += `<div class="card-top">`;
+      html += `<div class="card-title">${t.name}${isNewTour ? '<span class="new-badge">NEW</span>' : ''}</div>`;
+      html += `<span class="level-badge ${lc}">${t.level}</span>`;
+      html += `</div>`;
+
+      html += `<div class="card-meta">`;
+      html += `<span class="card-meta-item">${ICONS.location} ${t.city || t.province || '--'} · ${t.location ? t.location.substring(0, 20) : '--'}</span>`;
+      html += `<span class="card-meta-item">${ICONS.users} ${t.player_count || 0}人</span>`;
+      html += `<span class="card-meta-item">${statusHTML(t.status)}</span>`;
+      html += `</div>`;
+
+      html += `<div class="reg-items">`;
+      t.u10_items.forEach(item => {
+        const pct = item.max_count > 0 ? Math.min(100, Math.round(item.current_count / item.max_count * 100)) : 0;
+        const nc = numClass(item.current_count, item.max_count);
+        const bc = barClass(pct);
+        const deadline = regDeadline(item.reg_end);
+
+        html += `<div class="reg-item">`;
+        html += `<div class="reg-item-header">`;
+        html += `<span class="reg-item-name">${highlightName(item.item_name)}</span>`;
+        html += `<span class="reg-numbers ${nc}">${item.current_count}/${item.max_count}</span>`;
+        html += `</div>`;
+        html += `<div class="bar-track"><div class="bar-fill ${bc}" style="width:${pct}%"></div></div>`;
+        if (deadline || item.remaining > 0) {
+          html += `<div class="reg-sub">`;
+          if (item.is_full) html += '已满额';
+          else if (item.remaining > 0) html += `余 ${item.remaining} 位`;
+          if (deadline) html += ` · ${deadline}`;
+          html += `</div>`;
+        }
+        html += `</div>`;
+      });
+      html += `</div>`;
+
+      html += `</div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  timeline.innerHTML = html;
+}
+
+// ── Init ──
+render(DATA, 'all');
+</script>
+</body>
+</html>
+
