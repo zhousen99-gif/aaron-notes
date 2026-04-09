@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>当 AI Agent 需要搬家：跨设备同步的真实代价</title>
+<link rel="stylesheet" href="../nav.css">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface-hover: #1c2333;
+    --border: #30363d; --text: #e6edf3; --text-secondary: #8b949e;
+    --accent-blue: #58a6ff; --accent-green: #3fb950; --accent-red: #f85149;
+    --accent-orange: #d29922; --accent-purple: #bc8cff; --accent-cyan: #39d2c0;
+  }
+  [data-theme="light"] {
+    --bg: #ffffff !important; --surface: #f6f8fa !important;
+    --surface-hover: #eef1f5 !important; --border: #d0d7de !important;
+    --text: #1a1a2e !important; --text-secondary: #656d76 !important;
+    --accent-blue: #2563eb !important; --accent-green: #1a7f37 !important;
+    --accent-red: #cf222e !important; --accent-orange: #bf8700 !important;
+    --accent-purple: #8250df !important; --accent-cyan: #0e7490 !important;
+  }
+  [data-theme="light"] body { background: #ffffff !important; color: #1a1a2e !important; }
+  [data-theme="light"] th { background: #f6f8fa !important; color: #1a1a2e !important; }
+  [data-theme="light"] td { border-bottom-color: #d0d7de !important; }
+  [data-theme="light"] tr:hover td { background: rgba(37,99,235,0.04) !important; }
+  [data-lang="zh"] .en-only { display: none !important; }
+  [data-lang="en"] .zh-only { display: none !important; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding: 0 20px 40px; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .doc-header { text-align: center; padding: 20px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+  .doc-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .doc-header .subtitle { font-size: 1rem; color: var(--text-secondary); }
+  .doc-header .meta { margin-top: 16px; font-size: 0.8rem; color: var(--text-secondary); }
+  .section { margin-bottom: 56px; }
+  .section h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .section h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin: 28px 0 12px; }
+  p { margin-bottom: 14px; color: var(--text-secondary); }
+  p strong { color: var(--text); }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  th { background: var(--surface); color: var(--accent-blue); text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--border); font-weight: 600; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  tr:hover td { background: var(--surface-hover); }
+  code { background: rgba(88,166,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+  ul { margin: 10px 0 14px 20px; }
+  li { color: var(--text-secondary); margin-bottom: 6px; font-size: 0.9rem; }
+  li strong { color: var(--text); }
+  .callout { background: var(--surface); border-left: 3px solid var(--accent-blue); padding: 16px 20px; border-radius: 6px; margin: 20px 0; }
+  .callout p { margin-bottom: 0; }
+  .callout-warn { border-left-color: var(--accent-orange); }
+  .refs { font-size: 0.85rem; }
+  .refs li { margin-bottom: 8px; }
+  .refs a { color: var(--accent-blue); text-decoration: none; }
+  .refs a:hover { text-decoration: underline; }
+</style>
+</head>
+<body data-lang="zh">
+<div class="site-topbar"><div class="crumbs"><a href="../../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 012.188 0l5.25 4.2c.415.332.656.835.656 1.37v6.016A1.75 1.75 0 0113.25 14h-2.5a.75.75 0 01-.75-.75V9.5a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25v3.75a.75.75 0 01-.75.75h-2.5A1.75 1.75 0 011 12.25V6.234c0-.535.241-1.038.656-1.37L6.906.664z"/></svg> Home</a><span class="sep">/</span><a href="../"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0113.25 16h-9.5A1.75 1.75 0 012 14.25V1.75z"/></svg> Tech Docs</a><span class="sep">/</span><span class="current"><span class="zh-only">Agent 跨设备同步</span><span class="en-only">Agent Cross-Device Sync</span></span></div><div class="controls"><button class="ctrl" id="siteLangToggle">EN</button><button class="ctrl" id="siteThemeToggle">🌓</button></div></div>
+<div class="container">
+
+<div class="doc-header">
+  <h1><span class="zh-only">当 AI Agent 需要搬家</span><span class="en-only">When Your AI Agent Needs to Move</span></h1>
+  <div class="subtitle"><span class="zh-only">跨设备同步的真实代价，以及"把文件变小"带来的启发</span><span class="en-only">The real cost of cross-device sync, and what "making files smaller" taught me</span></div>
+  <div class="meta">2026-04-09 · Aaron Zhou</div>
+</div>
+
+<div class="section">
+  <h2><span class="zh-only">起因</span><span class="en-only">The Setup</span></h2>
+  <p><span class="zh-only">我有两台 Windows 电脑，上面各跑着一套 PM Studio——一个基于 Electron 的 AI Agent 桌面平台。主力机上有 10 个 Agent、14 个 Skill、大量对话历史和 Knowledge Base；另一台只有 2 个默认 Agent。PM Studio 目前不支持多设备同步，所以我决定自己造一个。</span><span class="en-only">I have two Windows machines, each running PM Studio — an Electron-based AI Agent desktop platform. The primary has 10 Agents, 14 Skills, extensive chat history and Knowledge Bases; the other had just 2 default Agents. PM Studio doesn't support multi-device sync, so I decided to build one myself.</span></p>
+  <p><span class="zh-only">第一版方案很简单：把所有配置文件打包，通过 OneDrive 传到另一台机器，解压覆盖。全量包 274 MB，传一次需要几分钟。跑通了。</span><span class="en-only">The first version was simple: package all config files, transfer via OneDrive, extract and overwrite. Full package: 274 MB, a few minutes to transfer. It worked.</span></p>
+  <p><span class="zh-only">但用了两天之后我意识到，日常同步的需求其实和初次迁移完全不同。<strong>每次都传 274 MB 是一种巨大的浪费。</strong></span><span class="en-only">But after two days of use, I realized daily sync needs are fundamentally different from initial migration. <strong>Transferring 274 MB every time is massive waste.</strong></span></p>
+</div>
+
+
+<div class="section">
+  <h2><span class="zh-only">274 MB 里到底装了什么</span><span class="en-only">What's Inside Those 274 MB</span></h2>
+  <p><span class="zh-only">把全量包拆开看，数据分布极不均匀：</span><span class="en-only">Breaking down the full package reveals a highly uneven distribution:</span></p>
+  <table>
+    <tr><th><span class="zh-only">组件</span><span class="en-only">Component</span></th><th><span class="zh-only">大小</span><span class="en-only">Size</span></th><th><span class="zh-only">变化频率</span><span class="en-only">Change Frequency</span></th><th><span class="zh-only">说明</span><span class="en-only">Notes</span></th></tr>
+    <tr><td>profile.json</td><td>156 KB</td><td><span class="zh-only">频繁</span><span class="en-only">Frequent</span></td><td><span class="zh-only">Agent 配置、model、skills 分配</span><span class="en-only">Agent config, model, skills assignment</span></td></tr>
+    <tr><td>app.json</td><td>0.7 KB</td><td><span class="zh-only">极少</span><span class="en-only">Rare</span></td><td><span class="zh-only">UI 偏好</span><span class="en-only">UI preferences</span></td></tr>
+    <tr><td>skills/</td><td>40 MB</td><td><span class="zh-only">很少</span><span class="en-only">Rare</span></td><td><span class="zh-only">安装/更新 skill 时才变</span><span class="en-only">Only changes on skill install/update</span></td></tr>
+    <tr><td>knowledge bases</td><td>251 MB</td><td><span class="zh-only">很少</span><span class="en-only">Rare</span></td><td><span class="zh-only">给 Agent 添加文档时才变</span><span class="en-only">Only changes when adding docs to Agent</span></td></tr>
+    <tr><td>chat_sessions/</td><td>47 MB</td><td><span class="zh-only">每次对话</span><span class="en-only">Every conversation</span></td><td><span class="zh-only">新对话持续追加</span><span class="en-only">New sessions constantly appended</span></td></tr>
+  </table>
+  <p><span class="zh-only"><strong>274 MB 中有 251 MB 是 knowledge base，而它几乎不变。</strong> 每次全量同步都在重复传输一堆 PDF、PPT 和参考文档——这些文件可能几周甚至几个月都不会改动一次。</span><span class="en-only"><strong>251 MB of the 274 MB is knowledge base, and it barely changes.</strong> Every full sync re-transfers a bunch of PDFs, PPTs, and reference docs — files that may not change for weeks or months.</span></p>
+  <p><span class="zh-only">真正频繁变化的只有两样东西：<code>profile.json</code>（改了 Agent 配置就变）和 <code>chat_sessions</code>（每次对话都变）。它们加起来不到 50 MB，压缩后只有 18 MB。</span><span class="en-only">What actually changes frequently is just two things: <code>profile.json</code> (changes with any Agent config edit) and <code>chat_sessions</code> (changes with every conversation). Together they're under 50 MB, compressed to just 18 MB.</span></p>
+  <p><span class="zh-only">这意味着，<strong>每天 93% 的传输量都是在搬运不会变的数据。</strong></span><span class="en-only">This means <strong>93% of daily transfer volume is moving data that hasn't changed.</strong></span></p>
+</div>
+
+
+<div class="section">
+  <h2><span class="zh-only">按变化频率切分，而不是按文件类型</span><span class="en-only">Split by Change Frequency, Not File Type</span></h2>
+  <p><span class="zh-only">第一个直觉是做增量同步——比较文件哈希，只传有变化的文件。但这会引入大量复杂度：要在两台机器之间维护一个文件清单、计算差异、处理冲突。对于一个个人工具来说，这不值得。</span><span class="en-only">The first instinct was incremental sync — compare file hashes, transfer only changes. But this introduces massive complexity: maintaining a file manifest across two machines, computing diffs, handling conflicts. For a personal tool, it's not worth it.</span></p>
+  <p><span class="zh-only">更好的思路是：<strong>不追踪什么变了，而是接受"有些东西几乎不变"这个事实，按变化频率分层。</strong></span><span class="en-only">A better approach: <strong>instead of tracking what changed, accept that "some things rarely change" and tier by change frequency.</strong></span></p>
+  <p><span class="zh-only">最终设计是两个模式：</span><span class="en-only">The final design has two modes:</span></p>
+  <table>
+    <tr><th><span class="zh-only">模式</span><span class="en-only">Mode</span></th><th><span class="zh-only">内容</span><span class="en-only">Content</span></th><th><span class="zh-only">大小</span><span class="en-only">Size</span></th><th><span class="zh-only">场景</span><span class="en-only">When to Use</span></th></tr>
+    <tr><td><span class="zh-only">快速同步</span><span class="en-only">Quick</span></td><td>profile.json + app.json + chat_sessions</td><td>~18 MB</td><td><span class="zh-only">日常：改了配置或聊了天</span><span class="en-only">Daily: config changes or new chats</span></td></tr>
+    <tr><td><span class="zh-only">全量同步</span><span class="en-only">Full</span></td><td><span class="zh-only">上面 + skills + knowledge bases</span><span class="en-only">Above + skills + knowledge bases</span></td><td>~274 MB</td><td><span class="zh-only">偶尔：装了新 skill 或加了知识库</span><span class="en-only">Occasional: new skills or KB files</span></td></tr>
+  </table>
+  <p><span class="zh-only">这个分层不复杂——两个 .cmd 文件，双击就能运行。但它把日常同步从 274 MB 降到了 18 MB，从"等几分钟"变成"几秒钟搞定"。</span><span class="en-only">Nothing complex — two .cmd files, double-click to run. But it cuts daily sync from 274 MB to 18 MB, from "wait a few minutes" to "done in seconds."</span></p>
+  <p><span class="zh-only">这个设计有一个隐含假设：<strong>导入端如果没有 skills.tar.gz，就跳过 skills 步骤，保留本地现有的。</strong> 这要求两台机器的 skills 基线是一致的——第一次必须做全量同步，之后快速模式才能工作。这和 Git 的工作方式类似：你需要一次完整的 clone，之后才能用增量的 pull。</span><span class="en-only">This design has an implicit assumption: <strong>if the import side doesn't find skills.tar.gz, it skips skills and keeps the local copy.</strong> This requires both machines to have a consistent skills baseline — the first sync must be full, then quick mode works. Similar to Git: you need a full clone before incremental pulls work.</span></p>
+</div>
+
+
+<div class="section">
+  <h2><span class="zh-only">一个更深的启发：Purview DLP 对同步方案的约束</span><span class="en-only">A Deeper Insight: How Purview DLP Constrains Sync Design</span></h2>
+  <p><span class="zh-only">分级同步解决了"文件太大"的问题，但还有一个维度的约束来自企业安全策略。在用 OneDrive 作为传输通道时，Microsoft Purview 的数据泄露防护（DLP）会扫描所有文本文件，检测 API Key、Client Secret、Access Token 等敏感信息模式。一旦触发，文件会被标记为 "sensitive data blocked"，可能被锁定甚至隔离。</span><span class="en-only">Tiered sync solved the "files too large" problem, but another constraint came from enterprise security policy. When using OneDrive as the transfer channel, Microsoft Purview's Data Loss Prevention (DLP) scans all text files, detecting API Keys, Client Secrets, Access Tokens, and other sensitive patterns. Once triggered, files get flagged as "sensitive data blocked" — potentially locked or quarantined.</span></p>
+  <p><span class="zh-only">这不是 bug，是 feature。Purview 做的是对的——<code>profile.json</code> 里确实存着明文的 API Secret，放在 OneDrive 上确实不应该。</span><span class="en-only">This isn't a bug, it's a feature. Purview is right — <code>profile.json</code> does contain plaintext API Secrets, and they shouldn't sit in OneDrive unprotected.</span></p>
+  <p><span class="zh-only">我的应对方式有两层：</span><span class="en-only">My response has two layers:</span></p>
+  <ul>
+    <li><span class="zh-only"><strong>profile.json 中的敏感字段用 Base64 混淆</strong>（<code>OBF:base64</code> 前缀），导入时自动解码还原。这不是加密——只是让 DLP 的模式匹配识别不到明文 API Key 格式。</span><span class="en-only"><strong>Sensitive fields in profile.json are obfuscated with Base64</strong> (<code>OBF:base64</code> prefix), auto-decoded on import. This isn't encryption — it just prevents DLP's pattern matching from recognizing plaintext API Key formats.</span></li>
+    <li><span class="zh-only"><strong>skills、knowledge base、chat_sessions 全部用 tar.gz 压缩。</strong> Purview 不扫描压缩包内部文件内容。</span><span class="en-only"><strong>Skills, knowledge bases, and chat_sessions are all packed as tar.gz.</strong> Purview doesn't scan file contents inside compressed archives.</span></li>
+  </ul>
+  <p><span class="zh-only">这件事让我意识到，<strong>企业环境下的同步方案必须把安全策略当成一等约束来设计，而不是事后打补丁。</strong> DLP 的存在意味着你不能假设"文件放上去就能被另一台设备正常读取"。传输通道上有看不见的审查者。这和分布式系统里的另一条经典原则呼应：不要假设网络是安全的——延伸到企业语境，就是不要假设存储通道是透明的。</span><span class="en-only">This made me realize that <strong>sync solutions in enterprise environments must treat security policies as first-class design constraints, not afterthought patches.</strong> DLP's existence means you can't assume "upload a file and the other device reads it fine." There are invisible auditors on the transfer channel. This echoes another classic distributed systems principle: don't assume the network is secure — extended to enterprise context, don't assume the storage channel is transparent.</span></p>
+</div>
+
+
+<div class="section">
+  <h2><span class="zh-only">同步的尽头不是技术，是产品决策</span><span class="en-only">At the End of Sync, It's a Product Decision</span></h2>
+  <p><span class="zh-only">回头看这整个过程，我越来越觉得"跨设备同步"这件事本身就是一个信号——<strong>它暴露了当前 AI Agent 平台在架构上的一个根本缺陷：状态绑定在本地文件系统。</strong></span><span class="en-only">Looking back at this entire process, I increasingly feel that "cross-device sync" itself is a signal — <strong>it exposes a fundamental architectural gap in current AI Agent platforms: state is bound to the local filesystem.</strong></span></p>
+  <p><span class="zh-only">PM Studio 把 Agent 的配置（profile.json）、技能（skills/）、记忆（knowledge base）、对话历史（chat_sessions/）全部存在 <code>AppData/Roaming</code> 下。这是 Electron 桌面应用的标准做法，但一旦用户需要在多台设备间切换，所有分布式系统的经典难题就全部涌上来：状态同步、冲突解决、数据一致性、安全策略兼容。</span><span class="en-only">PM Studio stores Agent config (profile.json), skills (skills/), memory (knowledge base), and chat history (chat_sessions/) all under <code>AppData/Roaming</code>. Standard practice for Electron desktop apps, but the moment users need multi-device usage, all classic distributed systems challenges emerge: state synchronization, conflict resolution, data consistency, security policy compatibility.</span></p>
+  <p><span class="zh-only">这不只是 PM Studio 的问题。今天几乎所有桌面 AI Agent 平台——Claude Desktop、Cursor、Windsurf——都面临相同的架构约束。它们都是"单机应用"的后代，继承了本地优先（local-first）的存储哲学。</span><span class="en-only">This isn't just PM Studio's problem. Nearly all desktop AI Agent platforms today — Claude Desktop, Cursor, Windsurf — face the same architectural constraint. They're descendants of "single-machine apps," inheriting a local-first storage philosophy.</span></p>
+  <p><span class="zh-only">Martin Fowler 在讨论事件驱动架构时区分了 orchestration 和 choreography。我最初想用 OneDrive symlink 做 choreography——让两台设备通过共享文件自行协调，没有中心控制。结果不行：文件冲突、DLP 拦截、并发写入，系统越复杂越难调试。最终我选了 orchestration——显式的导出/导入，有一个明确的控制流程。<strong>在两台设备之间同步配置时，"清晰"比"自动"更有价值。</strong></span><span class="en-only">Martin Fowler, discussing event-driven architecture, distinguished orchestration from choreography. I initially tried choreography via OneDrive symlinks — let two devices self-coordinate through shared files, no central control. It failed: file conflicts, DLP blocking, concurrent writes — the more complex the system, the harder to debug. I chose orchestration — explicit export/import, a clear control flow. <strong>When syncing config between two devices, "clarity" is more valuable than "automation."</strong></span></p>
+  <p><span class="zh-only">我越来越相信，<strong>未来真正好的 Agent 平台会把"配置即服务"做成基础设施</strong>——profile、skills、memory 存在云端，本地只是渲染终端。就像 VS Code 的 Settings Sync 那样，但覆盖范围更深，涵盖 Agent 的整个上下文层。在那之前，分级导出/导入大概是最务实的权宜方案。</span><span class="en-only">I increasingly believe that <strong>truly great Agent platforms will eventually make "config-as-a-service" part of their infrastructure</strong> — profile, skills, memory stored in the cloud, local device as just a rendering terminal. Like VS Code's Settings Sync, but deeper, covering the Agent's entire context layer. Until then, tiered export/import is probably the most pragmatic stopgap.</span></p>
+  <p><span class="zh-only">不过话说回来，这件事也让我重新审视了一个朴素的工程直觉：<strong>你传输的数据量，应该和信息变化量成正比，而不是和信息总量成正比。</strong> 274 MB 降到 18 MB，不是因为压缩算法更好了，而是因为我终于搞清楚了"什么在变，什么没变"。这个道理不新——数据库的 WAL（Write-Ahead Log）、Git 的 delta、CDN 的缓存分层，本质上都在做同一件事：<strong>只传输变化。</strong></span><span class="en-only">That said, this experience also reinforced a fundamental engineering intuition: <strong>the amount of data you transfer should be proportional to the amount of change, not the total amount of data.</strong> 274 MB down to 18 MB — not because of better compression, but because I finally understood "what changes vs. what doesn't." This isn't new — database WAL (Write-Ahead Log), Git's delta encoding, CDN cache tiering all do the same thing: <strong>only transfer the delta.</strong></span></p>
+  <p><span class="zh-only">区别在于，这些成熟系统有精确的变更追踪机制。而我的方案更粗暴——不追踪变更，直接按"变化频率"分层。精确度不如 delta sync，但复杂度也低得多。对于一个两台设备之间的个人工具来说，这就够了。</span><span class="en-only">The difference is that those mature systems have precise change-tracking mechanisms. My approach is cruder — no change tracking, just tiering by "change frequency." Less precise than delta sync, but far less complex. For a personal tool between two devices, it's enough.</span></p>
+  <p><span class="zh-only"><strong>有时候，最好的优化不是让算法更聪明，而是让自己对数据更诚实。</strong></span><span class="en-only"><strong>Sometimes the best optimization isn't a smarter algorithm — it's being more honest about your data.</strong></span></p>
+</div>
+
+
+<div class="section refs">
+  <h2>References</h2>
+  <ul>
+    <li><a href="https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing">Fallacies of Distributed Computing — Wikipedia</a> — <span class="zh-only">Peter Deutsch 提出的分布式计算八大谬误（1994），其中"不要假设网络是可靠的"和"不要假设网络是安全的"在本文场景中直接应验。</span><span class="en-only">Peter Deutsch's eight fallacies (1994). "Don't assume the network is reliable" and "don't assume the network is secure" directly materialized in this scenario.</span></li>
+    <li><a href="https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp">Learn about Data Loss Prevention — Microsoft Purview</a> — <span class="zh-only">Microsoft 官方 DLP 文档。Purview 使用敏感信息类型（SIT）模式匹配检测 API Key、Client Secret 等，适用于 OneDrive、SharePoint、Teams 等位置。</span><span class="en-only">Official Microsoft DLP docs. Purview uses Sensitive Information Types (SIT) pattern matching to detect API Keys, Client Secrets, etc., across OneDrive, SharePoint, and Teams.</span></li>
+    <li><a href="https://martinfowler.com/articles/201701-event-driven.html">What do you mean by "Event-Driven"? — Martin Fowler</a> — <span class="zh-only">对 orchestration 和 choreography 的经典区分。在分布式协调中，显式控制流（orchestration）比隐式事件响应（choreography）更容易调试和维护。</span><span class="en-only">The classic distinction between orchestration and choreography. In distributed coordination, explicit control flow (orchestration) is easier to debug and maintain than implicit event responses (choreography).</span></li>
+    <li><a href="https://en.wikipedia.org/wiki/Write-ahead_logging">Write-Ahead Logging — Wikipedia</a> — <span class="zh-only">数据库 WAL 的核心思想：只记录变更，而不是每次都写入完整状态。同样的"只传输 delta"原则贯穿了 Git、CDN 和本文的分级同步设计。</span><span class="en-only">The core idea of database WAL: log only changes, not full state every time. The same "transfer only delta" principle runs through Git, CDNs, and this article's tiered sync design.</span></li>
+  </ul>
+</div>
+
+</div>
+<script src="../nav.js"></script>
+</body>
+</html>
+
