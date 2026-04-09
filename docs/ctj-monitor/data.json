@@ -1,0 +1,654 @@
+{
+  "generated_at": "2026-04-09 22:31",
+  "total_count": 18,
+  "tournaments": [
+    {
+      "id": "c1761db89dbc4cad9006495021a33667",
+      "name": "“永卓杯”2026年江苏省青少年网球积分赛第一站张家港站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-11",
+      "location": "中国网球学院张家港分院",
+      "city": "苏州",
+      "province": "江苏",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-03-27 09:00",
+      "player_count": 239,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-03-27 09:00",
+          "reg_end": "2026-04-08 12:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-03-27 09:00",
+          "reg_end": "2026-04-08 12:00"
+        }
+      ]
+    },
+    {
+      "id": "ebcc66b6b8514290aeeb7732a16c61de",
+      "name": "2026年“青苗杯”深圳市青少年网球积分排名赛第一站(CTJ-B500)",
+      "level": "CTJ-B500",
+      "date": "2026-04-11",
+      "location": "深圳市光明区群众体育中心/光明研祥智谷风雨球场",
+      "city": "深圳",
+      "province": "广东",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-03-18 08:00",
+      "player_count": 296,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-03-18 08:00",
+          "reg_end": "2026-04-06 20:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-03-18 08:00",
+          "reg_end": "2026-04-06 20:00"
+        }
+      ]
+    },
+    {
+      "id": "accbef98bafa465eb0e7873c75b7b00f",
+      "name": "2026年“TAC杯”青少年网球积分赛第一站南京站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-11",
+      "location": "江苏南京体育学院中国网球学院（南京市玄武区灵谷寺路8号）",
+      "city": "南京",
+      "province": "江苏",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-05 00:00",
+      "player_count": 366,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-05 00:00",
+          "reg_end": "2026-04-09 12:00"
+        },
+        {
+          "item_name": "U10女",
+          "item_type": "INDIVIDUAL",
+          "current_count": 47,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 1,
+          "reg_start": "2026-04-05 00:00",
+          "reg_end": "2026-04-09 12:00"
+        }
+      ]
+    },
+    {
+      "id": "5f08c918e4dc4e648081b31c8c265db0",
+      "name": "2026年“华升杯”青少年网球积分赛第一站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-11",
+      "location": "湖南省网球运动管理中心",
+      "city": "长沙",
+      "province": "湖南",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-04 18:38",
+      "player_count": 388,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-04 18:38",
+          "reg_end": "2026-04-09 20:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-04 18:38",
+          "reg_end": "2026-04-09 20:00"
+        }
+      ]
+    },
+    {
+      "id": "20cd61106e104ce7a4d78713c6bd0f2e",
+      "name": "2026年“橙子杯”吉林省青少年网球 公开赛系列赛(CTJ-B600)第一站",
+      "level": "CTJ-B600",
+      "date": "2026-04-18",
+      "location": "橙子网球中心",
+      "city": "长春",
+      "province": "吉林",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-07 20:00",
+      "player_count": 157,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 24,
+          "max_count": 24,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 20:00",
+          "reg_end": "2026-04-15 11:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 24,
+          "max_count": 24,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 20:00",
+          "reg_end": "2026-04-15 11:00"
+        }
+      ]
+    },
+    {
+      "id": "699141232bb34558ab3082ccb04c2feb",
+      "name": "2026“李宁杯”陕西省青少年网球积分排名赛第一站（CTJ-B600）",
+      "level": "CTJ-B600",
+      "date": "2026-04-18",
+      "location": "陕西网球中心",
+      "city": "西安",
+      "province": "陕西",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-03-27 00:00",
+      "player_count": 221,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "u10男子单打",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-03-27 00:00",
+          "reg_end": "2026-04-14 18:00"
+        },
+        {
+          "item_name": "u10女子单打",
+          "item_type": "INDIVIDUAL",
+          "current_count": 29,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 19,
+          "reg_start": "2026-03-27 00:00",
+          "reg_end": "2026-04-14 18:00"
+        }
+      ]
+    },
+    {
+      "id": "b1de85f5b4bb490799048852429c9406",
+      "name": "2026上海“绿动明珠”长三角青少年网球团体赛第1站(CTJ-G600)",
+      "level": "CTJ-G600",
+      "date": "2026-04-18",
+      "location": "上海市宝山区长江西路855号鹏迈体育中心",
+      "city": "上海",
+      "province": "上海",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-07 12:00",
+      "player_count": 104,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男团",
+          "item_type": "TEAM",
+          "current_count": 8,
+          "max_count": 8,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-16 18:00"
+        },
+        {
+          "item_name": "U10女团",
+          "item_type": "TEAM",
+          "current_count": 8,
+          "max_count": 8,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-17 18:00"
+        }
+      ]
+    },
+    {
+      "id": "f4c1ba9d7753453c9aeb2a2984935f1c",
+      "name": "2026“南京网协杯”青少年积分赛第一站(CTJ-B500)",
+      "level": "CTJ-B500",
+      "date": "2026-04-18",
+      "location": "江苏南京江心洲E³PARK体育公园",
+      "city": "南京",
+      "province": "江苏",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-03 18:00",
+      "player_count": 325,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-03 18:00",
+          "reg_end": "2026-04-15 12:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-03 18:00",
+          "reg_end": "2026-04-15 12:00"
+        }
+      ]
+    },
+    {
+      "id": "0be51e95476e445ba63b865a03bcf222",
+      "name": "2026年“星际杯”青少年网球巡回赛第一站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-18",
+      "location": "安徽合肥市星际网球俱乐部",
+      "city": "合肥",
+      "province": "安徽",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-07 12:00",
+      "player_count": 231,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 18,
+          "max_count": 32,
+          "is_full": false,
+          "remaining": 14,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-15 12:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 27,
+          "max_count": 32,
+          "is_full": false,
+          "remaining": 5,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-15 12:00"
+        }
+      ]
+    },
+    {
+      "id": "89653613f7ee47d79503b78259665403",
+      "name": "2026石家庄“勇石杯”青少年网球积分赛第一站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-18",
+      "location": "河北石家庄市网球中心",
+      "city": "石家庄",
+      "province": "河北",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-06 10:00",
+      "player_count": 351,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-06 10:00",
+          "reg_end": "2026-04-15 10:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-06 10:00",
+          "reg_end": "2026-04-15 10:00"
+        }
+      ]
+    },
+    {
+      "id": "55868f6a25054977a35d29746189b2e0",
+      "name": "2026“国展杯”青少年网球积分赛第一站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-18",
+      "location": "湖南国展网球中心",
+      "city": "长沙",
+      "province": "湖南",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-04 00:00",
+      "player_count": 405,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 64,
+          "max_count": 64,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-04 00:00",
+          "reg_end": "2026-04-16 23:59"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 46,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 18,
+          "reg_start": "2026-04-04 00:00",
+          "reg_end": "2026-04-16 23:59"
+        }
+      ]
+    },
+    {
+      "id": "90e536b805a247288f454761b62f66d8",
+      "name": "2026 YONEX“郑洁杯”青少年网球巡回赛第一站深圳站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-18",
+      "location": "深圳福田郑洁(深圳)国际网球俱乐部",
+      "city": "深圳",
+      "province": "广东",
+      "status": "报名中",
+      "reg_status": null,
+      "reg_start_time": "",
+      "player_count": 0,
+      "first_seen": "2026-04-09 22:00",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 48,
+          "reg_start": null,
+          "reg_end": null
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 48,
+          "reg_start": null,
+          "reg_end": null
+        }
+      ]
+    },
+    {
+      "id": "4e85b17a0e484d2da4500bbe96ae22c6",
+      "name": "2026年江苏省青少年积分赛团体赛（CTJ-G600)",
+      "level": "CTJ-G600",
+      "date": "2026-04-25",
+      "location": "江心洲E³PARK体育公园",
+      "city": "南京",
+      "province": "江苏",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-08 12:41",
+      "player_count": 63,
+      "first_seen": "2026-04-09 22:01",
+      "u10_items": [
+        {
+          "item_name": "U10男团",
+          "item_type": "TEAM",
+          "current_count": 4,
+          "max_count": 16,
+          "is_full": false,
+          "remaining": 12,
+          "reg_start": "2026-04-08 12:41",
+          "reg_end": "2026-04-22 12:00"
+        },
+        {
+          "item_name": "U10女团",
+          "item_type": "TEAM",
+          "current_count": 1,
+          "max_count": 16,
+          "is_full": false,
+          "remaining": 15,
+          "reg_start": "2026-04-08 12:42",
+          "reg_end": "2026-04-22 12:00"
+        }
+      ]
+    },
+    {
+      "id": "5825975faf2b464eaf13a41c8f486401",
+      "name": "2026上海“绿动明珠”长三角青少年网球团体赛第2站(CTJ-G600)",
+      "level": "CTJ-G600",
+      "date": "2026-04-25",
+      "location": "上海市宝山区长江西路855号鹏迈体育中心",
+      "city": "上海",
+      "province": "上海",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-07 12:00",
+      "player_count": 122,
+      "first_seen": "2026-04-09 22:01",
+      "u10_items": [
+        {
+          "item_name": "U10男团",
+          "item_type": "TEAM",
+          "current_count": 8,
+          "max_count": 8,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-23 18:00"
+        },
+        {
+          "item_name": "U10女团",
+          "item_type": "TEAM",
+          "current_count": 8,
+          "max_count": 8,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-24 18:00"
+        }
+      ]
+    },
+    {
+      "id": "f48abde86cf74655b8d41564562e053b",
+      "name": "2026石家庄“勇石杯”青少年网球积分赛第二站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-25",
+      "location": "河北石家庄网球推广训练中心",
+      "city": "石家庄",
+      "province": "河北",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-06 10:00",
+      "player_count": 311,
+      "first_seen": "2026-04-09 22:01",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-06 10:00",
+          "reg_end": "2026-04-22 10:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 42,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 6,
+          "reg_start": "2026-04-06 10:00",
+          "reg_end": "2026-04-22 10:00"
+        }
+      ]
+    },
+    {
+      "id": "30554b191878424d8b5a5449e62d4287",
+      "name": "2026第六届厦门市海峡青少年网球公开赛(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-04-25",
+      "location": "福建厦门国博星宸网球馆",
+      "city": "厦门",
+      "province": "福建",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-07 12:00",
+      "player_count": 234,
+      "first_seen": "2026-04-09 22:01",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 32,
+          "max_count": 32,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-20 20:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 32,
+          "max_count": 32,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-07 12:00",
+          "reg_end": "2026-04-20 20:00"
+        }
+      ]
+    },
+    {
+      "id": "59b789a6943e46eea4740ec288a38c14",
+      "name": "2026“百保力杯”陕西省青少年网球积分排名赛第二站 （CTJ-B600）",
+      "level": "CTJ-B600",
+      "date": "2026-05-01",
+      "location": "曲江青少年体育活动中心",
+      "city": "西安",
+      "province": "陕西",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-08 00:00",
+      "player_count": 248,
+      "first_seen": "2026-04-09 22:01",
+      "u10_items": [
+        {
+          "item_name": "U10男单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-08 00:00",
+          "reg_end": "2026-04-28 18:00"
+        },
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 48,
+          "max_count": 48,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-08 00:00",
+          "reg_end": "2026-04-28 18:00"
+        }
+      ]
+    },
+    {
+      "id": "0bb2e013afe44c7db4132f6e20239376",
+      "name": "2026“百保力杯”陕西省青少年网球俱乐部团体赛第一站 （CTJ-G1200）",
+      "level": "CTJ-G1200",
+      "date": "2026-05-03",
+      "location": "曲江青少年体育活动中心",
+      "city": "西安",
+      "province": "陕西",
+      "status": "报名中",
+      "reg_status": "报名中",
+      "reg_start_time": "2026-04-08 00:00",
+      "player_count": 271,
+      "first_seen": "2026-04-09 22:01",
+      "u10_items": [
+        {
+          "item_name": "U10男团",
+          "item_type": "TEAM",
+          "current_count": 12,
+          "max_count": 12,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-08 00:00",
+          "reg_end": "2026-04-28 18:00"
+        },
+        {
+          "item_name": "U10女团",
+          "item_type": "TEAM",
+          "current_count": 12,
+          "max_count": 12,
+          "is_full": true,
+          "remaining": 0,
+          "reg_start": "2026-04-08 00:00",
+          "reg_end": "2026-04-28 18:00"
+        }
+      ]
+    }
+  ]
+}
