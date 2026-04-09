@@ -8,7 +8,8 @@
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
   :root{--bg:#0a0e17;--surface:#111827;--s2:#1a2236;--s3:#222d44;--border:#2a3654;--text:#e2e8f0;--dim:#8892a8;--muted:#5a6580;--accent:#38bdf8;--glow:rgba(56,189,248,.15);--green:#34d399;--green-bg:rgba(52,211,153,.1);--red:#f87171;--red-bg:rgba(248,113,113,.08);--amber:#fbbf24;--amber-bg:rgba(251,191,36,.1);--la:#f59e0b;--lb:#3b82f6;--lg:#8b5cf6;--r:12px;--rs:8px;
     --u10:#fb7185;--u10-bg:rgba(251,113,133,.12);--u10-bar:linear-gradient(90deg,#fb7185,#f43f5e);
-    --u12:#60a5fa;--u12-bg:rgba(96,165,250,.12);--u12-bar:linear-gradient(90deg,#60a5fa,#3b82f6)}
+    --u12:#60a5fa;--u12-bg:rgba(96,165,250,.12);--u12-bar:linear-gradient(90deg,#60a5fa,#3b82f6);
+    --gray-bar:#3a4255}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Noto Sans SC',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
   body::before{content:'';position:fixed;inset:0;background:linear-gradient(rgba(56,189,248,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
@@ -25,7 +26,6 @@
   .sp{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--s2);border:1px solid var(--border);color:var(--dim)}
   .sp strong{color:var(--text);font-weight:600}
 
-  /* ── Filter section ── */
   .filter-section{margin-bottom:20px}
   .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
   .filter-label{font-size:11px;color:var(--muted);margin-right:4px;font-weight:500;min-width:32px}
@@ -54,7 +54,9 @@
   .tags{display:flex;gap:6px;flex-shrink:0;align-items:center}
   .lb-tag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 10px;border-radius:4px;letter-spacing:.5px}
   .lb-tag.a{background:rgba(245,158,11,.15);color:var(--la)}.lb-tag.b{background:rgba(59,130,246,.15);color:var(--lb)}.lb-tag.g{background:rgba(139,92,246,.15);color:var(--lg)}
-  .prov-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(148,163,184,.08);color:var(--dim);border:1px solid rgba(148,163,184,.12)}
+
+  /* ── Location tag - prominent ── */
+  .loc-tag{font-size:12px;font-weight:600;padding:3px 12px;border-radius:6px;background:rgba(56,189,248,.1);color:var(--accent);border:1px solid rgba(56,189,248,.25)}
 
   .cm{display:flex;gap:16px;font-size:12px;color:var(--dim);margin-bottom:14px;flex-wrap:wrap}
   .ci{display:flex;align-items:center;gap:4px}.ci svg{width:13px;height:13px;opacity:.5}
@@ -64,17 +66,24 @@
   .rit{flex:1;min-width:200px;border-radius:var(--rs);padding:10px 14px;position:relative}
   .rit.u10{background:var(--u10-bg);border-left:3px solid var(--u10)}
   .rit.u12{background:var(--u12-bg);border-left:3px solid var(--u12)}
+  /* Closed (deadline passed) → desaturate */
+  .rit.closed{opacity:.55}
+  .rit.closed{border-left-color:var(--muted)!important;background:rgba(90,101,128,.08)!important}
   .rih{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
   .rin{font-size:12px;font-weight:500}
   .rit.u10 .rin{color:var(--u10)}.rit.u12 .rin{color:var(--u12)}
+  .rit.closed .rin{color:var(--muted)!important}
   .age-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
   .age-dot.u10{background:var(--u10)}.age-dot.u12{background:var(--u12)}
+  .rit.closed .age-dot{background:var(--muted)!important}
   .rn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
   .rn.full{color:var(--red)}.rn.avail{color:var(--green)}.rn.empty{color:var(--muted)}
+  .rit.closed .rn{color:var(--muted)!important}
   .bt{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
   .bf{height:100%;border-radius:3px;transition:width .6s}
   .rit.u10 .bf{background:var(--u10-bar)}.rit.u12 .bf{background:var(--u12-bar)}
-  .bf.full{opacity:.6}
+  /* Closed → gray bar */
+  .rit.closed .bf{background:var(--gray-bar)!important}
   .rs{font-size:10px;color:var(--muted);margin-top:6px;font-family:'JetBrains Mono',monospace}
 
   .pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 7px;border-radius:10px;margin-left:6px}
@@ -85,9 +94,10 @@
   .new{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--red);color:#fff;margin-left:6px;letter-spacing:.5px;vertical-align:middle;animation:fi .3s}
   @keyframes fi{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
 
-  /* ── Legend ── */
   .legend{display:flex;gap:16px;margin-bottom:20px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);font-size:11px;color:var(--dim)}
   .legend-item{display:flex;align-items:center;gap:5px}
+  .legend-bar{width:24px;height:5px;border-radius:3px}
+  .legend-bar.u10{background:var(--u10-bar)}.legend-bar.u12{background:var(--u12-bar)}.legend-bar.gray{background:var(--gray-bar)}
 
   .loading,.err,.empty{text-align:center;padding:60px 20px;color:var(--muted)}
   .loading .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
@@ -123,6 +133,7 @@
   <div class="legend">
     <div class="legend-item"><span class="age-dot u10"></span>U10 女生</div>
     <div class="legend-item"><span class="age-dot u12"></span>U12 女生</div>
+    <div class="legend-item"><span class="legend-bar gray"></span>报名截止</div>
   </div>
   <div class="tl" id="tl"><div class="loading"><div class="spin"></div><p>加载赛事数据...</p></div></div>
   <div class="ft">
@@ -213,14 +224,15 @@ function render(data){
     h+=`<div class="dg"><div class="dl"><span class="dot"></span>${date} <span class="wd">${wd}</span> · ${rel}</div><div class="cds">`;
     groups[date].forEach(t=>{
       const l=lc(t.level),nw=isNew(t.first_seen);
-      h+=`<div class="cd l${l}"><div class="ct"><div class="cn">${t.name}${nw?'<span class="new">NEW</span>':''}</div><div class="tags"><span class="prov-tag">${t.city||t.province||'--'}</span><span class="lb-tag ${l}">${t.level}</span></div></div>`;
+      h+=`<div class="cd l${l}"><div class="ct"><div class="cn">${t.name}${nw?'<span class="new">NEW</span>':''}</div><div class="tags"><span class="loc-tag">${t.city||t.province||'--'}</span><span class="lb-tag ${l}">${t.level}</span></div></div>`;
       h+=`<div class="cm"><span class="ci">${IC.loc} ${(t.location||'--').substring(0,28)}</span><span class="ci">${IC.cal} ${t.date}</span></div>`;
       h+='<div class="ri">';
       t.items.forEach(it=>{
         const ag=ageGroup(it.item_name);
-        const p=it.max_count>0?Math.min(100,Math.round(it.current_count/it.max_count*100)):0;
         const st=itemStatus(it);
-        h+=`<div class="rit ${ag}"><div class="rih"><span class="rin"><span class="age-dot ${ag}"></span>${it.item_name}<span class="pill ${st.cls}">${st.cls==='reg'?'<span class="p"></span>':''}${st.text}</span></span><span class="rn ${nc(it.current_count,it.max_count)}">${it.current_count}/${it.max_count}</span></div><div class="bt"><div class="bf ${p>=100?'full':''}" style="width:${p}%"></div></div>`;
+        const isClosed=st.cls==='closed'||st.cls==='other';
+        const p=it.max_count>0?Math.min(100,Math.round(it.current_count/it.max_count*100)):0;
+        h+=`<div class="rit ${ag}${isClosed?' closed':''}"><div class="rih"><span class="rin"><span class="age-dot ${ag}"></span>${it.item_name}<span class="pill ${st.cls}">${st.cls==='reg'?'<span class="p"></span>':''}${st.text}</span></span><span class="rn ${nc(it.current_count,it.max_count)}">${it.current_count}/${it.max_count}</span></div><div class="bt"><div class="bf" style="width:${p}%"></div></div>`;
         if(st.dl||it.remaining>0||it.is_full)h+=`<div class="rs">${it.is_full?'已满额':it.remaining>0?'余 '+it.remaining+' 位':''}${st.dl?' · '+st.dl:''}</div>`;
         h+='</div>';
       });
