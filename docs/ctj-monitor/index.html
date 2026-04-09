@@ -74,7 +74,7 @@
   @keyframes fi{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
   .legend{display:flex;gap:16px;margin-bottom:20px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);font-size:11px;color:var(--dim)}
   .legend-item{display:flex;align-items:center;gap:5px}
-  .legend-bar{width:24px;height:5px;border-radius:3px}.legend-bar.u10{background:var(--u10-bar)}.legend-bar.u12{background:var(--u12-bar)}.legend-bar.gray{background:var(--gray-bar)}
+  .legend-bar{width:24px;height:5px;border-radius:3px}.legend-bar.gray{background:var(--gray-bar)}
   .loading,.err,.empty{text-align:center;padding:60px 20px;color:var(--muted)}
   .loading .spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
   @keyframes sp{to{transform:rotate(360deg)}}
@@ -106,8 +106,8 @@
     <div class="filter-row" id="fl-geo"></div>
   </div>
   <div class="legend">
-    <div class="legend-item"><span class="age-dot u10"></span>U10 女生</div>
-    <div class="legend-item"><span class="age-dot u12"></span>U12 女生</div>
+    <div class="legend-item"><span class="age-dot u10"></span>U10</div>
+    <div class="legend-item"><span class="age-dot u12"></span>U12</div>
     <div class="legend-item"><span class="legend-bar gray"></span>报名截止</div>
   </div>
   <div class="tl" id="tl"><div class="loading"><div class="spin"></div><p>加载赛事数据...</p></div></div>
@@ -146,29 +146,36 @@ function itemStatus(item){
   return{cls:'reg',text:'报名中',dl:h<24?`剩${h}h`:`剩${Math.floor(h/24)}天`};
 }
 function hasAge(t,a){return t.items.some(i=>ag(i.item_name)===a)}
+// 赛事是否有任何项目仍在报名期内（未截止）
+function isOpen(t){return t.items.some(i=>itemStatus(i).cls==='reg')}
+// 赛事是否有任何项目可报名（未截止 + 有名额）
+function isAvail(t){return t.items.some(i=>itemStatus(i).cls==='reg'&&!i.is_full)}
 
-let STATE={type:'all',age:'all_age',geo:'all_geo'};
+// 默认选中: 报名中 + 附近省
+let STATE={type:'open',age:'all_age',geo:'nearby'};
 
 function render(data){
   const tours=data.tournaments||[];
   const f=STATE;
   document.getElementById('ut').textContent=data.generated_at||'--';
   document.getElementById('tc').textContent=tours.length;
-  let ac=0,fc=0;
-  tours.forEach(t=>{t.items.some(i=>itemStatus(i).cls==='reg'&&!i.is_full)?ac++:fc++});
-  document.getElementById('ac').textContent=ac;
-  document.getElementById('fc').textContent=fc;
+  const openCnt=tours.filter(isOpen).length;
+  const availCnt=tours.filter(isAvail).length;
+  const closedCnt=tours.length-openCnt;
+  document.getElementById('ac').textContent=availCnt;
+  document.getElementById('fc').textContent=closedCnt;
   document.getElementById('api-counter').textContent=`API: ${data.api_calls_this_refresh||'?'} req · ${data.api_calls_total||'?'} total`;
 
   // ── Type filters ──
   const lvls=new Set(tours.map(t=>lc(t.level)));
   const typeDef=[
     {k:'all',l:'全部',c:tours.length},
-    {k:'avail',l:'🟢 可报名',c:ac},
+    {k:'open',l:'🟡 报名中',c:openCnt},
+    {k:'avail',l:'🟢 可报名',c:availCnt},
     ...['a','b','g'].filter(x=>lvls.has(x)).map(x=>({k:x,l:x==='a'?'A级':x==='b'?'B级':'G团体',c:tours.filter(t=>lc(t.level)===x).length}))
   ];
   const typeEl=document.getElementById('fl-type');
-  typeEl.innerHTML='<span class="filter-label">类型</span>'+typeDef.map(d=>`<button class="fb ${f.type===d.k?'on':''}" data-t="${d.k}">${d.l}<span class="n">${d.c}</span></button>`).join('');
+  typeEl.innerHTML='<span class="filter-label">状态</span>'+typeDef.map(d=>`<button class="fb ${f.type===d.k?'on':''}" data-t="${d.k}">${d.l}<span class="n">${d.c}</span></button>`).join('');
   typeEl.querySelectorAll('.fb').forEach(b=>b.addEventListener('click',()=>{STATE.type=b.dataset.t;render(data)}));
 
   // ── Age filters ──
@@ -191,7 +198,8 @@ function render(data){
 
   // ── Apply all filters ──
   let filtered=tours;
-  if(f.type==='avail')filtered=filtered.filter(t=>t.items.some(i=>itemStatus(i).cls==='reg'&&!i.is_full));
+  if(f.type==='open')filtered=filtered.filter(isOpen);
+  else if(f.type==='avail')filtered=filtered.filter(isAvail);
   else if(['a','b','g'].includes(f.type))filtered=filtered.filter(t=>lc(t.level)===f.type);
   if(f.age!=='all_age')filtered=filtered.filter(t=>hasAge(t,f.age));
   if(f.geo!=='all_geo'){const gf=GEO_FILTERS.find(g=>g.k===f.geo);if(gf&&gf.match)filtered=filtered.filter(gf.match)}
@@ -210,7 +218,6 @@ function render(data){
     h+=`<div class="dg"><div class="dl"><span class="dot"></span>${date} <span class="wd">${wd}</span> · ${rel}</div><div class="cds">`;
     groups[date].forEach(t=>{
       const l=lc(t.level),nw=isNew(t.first_seen);
-      // Filter items by age if age filter active
       const visibleItems=f.age==='all_age'?t.items:t.items.filter(i=>ag(i.item_name)===f.age);
       h+=`<div class="cd l${l}"><div class="ct"><div class="cn">${t.name}${nw?'<span class="new">NEW</span>':''}</div><div class="tags"><span class="loc-tag">${t.city||t.province||'--'}</span><span class="lb-tag ${l}">${t.level}</span></div></div>`;
       h+=`<div class="cm"><span class="ci">${IC.loc} ${(t.location||'--').substring(0,28)}</span><span class="ci">${IC.cal} ${t.date}</span></div>`;
