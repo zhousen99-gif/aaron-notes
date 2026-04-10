@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-10 12:57",
+  "generated_at": "2026-04-10 15:03",
   "total_count": 29,
   "api_calls_this_refresh": 29,
-  "api_calls_total": 175,
+  "api_calls_total": 212,
   "tournaments": [
     {
       "id": "c1761db89dbc4cad9006495021a33667",
@@ -296,10 +296,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 48,
+          "current_count": 47,
           "max_count": 48,
-          "is_full": true,
-          "remaining": 0,
+          "is_full": false,
+          "remaining": 1,
           "reg_end": "2026-04-15 12:00"
         },
         {
@@ -515,24 +515,6 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 1,
-          "max_count": 24,
-          "is_full": false,
-          "remaining": 23,
-          "reg_end": "2026-04-15 12:00"
-        },
-        {
-          "item_name": "U10女双",
-          "item_type": "INDIVIDUAL",
-          "current_count": 0,
-          "max_count": 8,
-          "is_full": false,
-          "remaining": 8,
-          "reg_end": "2026-04-15 12:00"
-        },
-        {
-          "item_name": "U12女单",
-          "item_type": "INDIVIDUAL",
           "current_count": 12,
           "max_count": 24,
           "is_full": false,
@@ -540,12 +522,30 @@
           "reg_end": "2026-04-15 12:00"
         },
         {
-          "item_name": "U12女双",
+          "item_name": "U10女双",
           "item_type": "INDIVIDUAL",
           "current_count": 3,
           "max_count": 8,
           "is_full": false,
           "remaining": 5,
+          "reg_end": "2026-04-15 12:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 30,
+          "max_count": 24,
+          "is_full": true,
+          "remaining": 0,
+          "reg_end": "2026-04-15 12:00"
+        },
+        {
+          "item_name": "U12女双",
+          "item_type": "INDIVIDUAL",
+          "current_count": 5,
+          "max_count": 8,
+          "is_full": false,
+          "remaining": 3,
           "reg_end": "2026-04-15 12:00"
         }
       ]
