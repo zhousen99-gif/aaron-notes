@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-10 10:57",
-  "total_count": 28,
-  "api_calls_this_refresh": 28,
-  "api_calls_total": 136,
+  "generated_at": "2026-04-10 12:57",
+  "total_count": 29,
+  "api_calls_this_refresh": 29,
+  "api_calls_total": 175,
   "tournaments": [
     {
       "id": "c1761db89dbc4cad9006495021a33667",
@@ -236,19 +236,19 @@
         {
           "item_name": "u10女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 30,
+          "current_count": 31,
           "max_count": 48,
           "is_full": false,
-          "remaining": 18,
+          "remaining": 17,
           "reg_end": "2026-04-14 18:00"
         },
         {
           "item_name": "u12女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 47,
+          "current_count": 48,
           "max_count": 48,
-          "is_full": false,
-          "remaining": 1,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-04-14 18:00"
         }
       ]
@@ -356,10 +356,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 47,
+          "current_count": 48,
           "max_count": 48,
-          "is_full": false,
-          "remaining": 1,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-04-15 10:00"
         },
         {
@@ -386,10 +386,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 48,
+          "current_count": 47,
           "max_count": 64,
           "is_full": false,
-          "remaining": 16,
+          "remaining": 17,
           "reg_end": "2026-04-16 23:59"
         },
         {
@@ -503,6 +503,54 @@
       ]
     },
     {
+      "id": "9d3f0593963946fcb68c08ce2f45cd57",
+      "name": "2026“力龙杯”青少年网球排名赛第一站 （CTJ-B500）",
+      "level": "CTJ-B500",
+      "date": "2026-04-18",
+      "location": "济南奥体中心网球场",
+      "city": "济南",
+      "province": "山东",
+      "first_seen": "2026-04-10 12:55",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 1,
+          "max_count": 24,
+          "is_full": false,
+          "remaining": 23,
+          "reg_end": "2026-04-15 12:00"
+        },
+        {
+          "item_name": "U10女双",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 8,
+          "is_full": false,
+          "remaining": 8,
+          "reg_end": "2026-04-15 12:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 12,
+          "max_count": 24,
+          "is_full": false,
+          "remaining": 12,
+          "reg_end": "2026-04-15 12:00"
+        },
+        {
+          "item_name": "U12女双",
+          "item_type": "INDIVIDUAL",
+          "current_count": 3,
+          "max_count": 8,
+          "is_full": false,
+          "remaining": 5,
+          "reg_end": "2026-04-15 12:00"
+        }
+      ]
+    },
+    {
       "id": "094f85a1af93462a93c8d0a55ced7105",
       "name": "第三届中国青少年网球城市挑战赛（佳迅杯）赣州卫星赛第一站（CTJ-G600）",
       "level": "CTJ-G600",
@@ -536,10 +584,10 @@
         {
           "item_name": "U10女团",
           "item_type": "TEAM",
-          "current_count": 2,
+          "current_count": 3,
           "max_count": 16,
           "is_full": false,
-          "remaining": 14,
+          "remaining": 13,
           "reg_end": "2026-04-22 12:00"
         },
         {
@@ -617,10 +665,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 44,
+          "current_count": 42,
           "max_count": 48,
           "is_full": false,
-          "remaining": 4,
+          "remaining": 6,
           "reg_end": "2026-04-22 10:00"
         },
         {
