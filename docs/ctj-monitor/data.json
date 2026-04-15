@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-15 07:57",
-  "total_count": 36,
-  "api_calls_this_refresh": 36,
-  "api_calls_total": 1790,
+  "generated_at": "2026-04-15 09:57",
+  "total_count": 37,
+  "api_calls_this_refresh": 37,
+  "api_calls_total": 1893,
   "tournaments": [
     {
       "id": "e36c10de999a47bfb249ffb3762ef8d2",
@@ -68,10 +68,10 @@
         {
           "item_name": "u10女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 43,
+          "current_count": 42,
           "max_count": 48,
           "is_full": false,
-          "remaining": 5,
+          "remaining": 6,
           "reg_end": "2026-04-14 18:00"
         },
         {
@@ -128,19 +128,19 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 46,
+          "current_count": 43,
           "max_count": 48,
           "is_full": false,
-          "remaining": 2,
+          "remaining": 5,
           "reg_end": "2026-04-15 12:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 39,
+          "current_count": 38,
           "max_count": 48,
           "is_full": false,
-          "remaining": 9,
+          "remaining": 10,
           "reg_end": "2026-04-15 12:00"
         }
       ]
@@ -167,10 +167,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 25,
+          "current_count": 24,
           "max_count": 48,
           "is_full": false,
-          "remaining": 23,
+          "remaining": 24,
           "reg_end": "2026-04-15 12:00"
         }
       ]
@@ -197,10 +197,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 43,
+          "current_count": 44,
           "max_count": 48,
           "is_full": false,
-          "remaining": 5,
+          "remaining": 4,
           "reg_end": "2026-04-15 10:00"
         }
       ]
@@ -218,10 +218,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 53,
+          "current_count": 52,
           "max_count": 64,
           "is_full": false,
-          "remaining": 11,
+          "remaining": 12,
           "reg_end": "2026-04-16 23:59"
         },
         {
@@ -347,10 +347,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 5,
+          "current_count": 6,
           "max_count": 24,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 18,
           "reg_end": "2026-04-15 12:00"
         },
         {
@@ -395,7 +395,7 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 24,
+          "current_count": 25,
           "max_count": 22,
           "is_full": true,
           "remaining": 0,
@@ -806,7 +806,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 36,
+          "current_count": 40,
           "max_count": 36,
           "is_full": true,
           "remaining": 0,
@@ -901,6 +901,36 @@
           "is_full": false,
           "remaining": 40,
           "reg_end": "2026-04-24 00:00"
+        }
+      ]
+    },
+    {
+      "id": "1d4e174991c1457da15fa4cb04a87290",
+      "name": "2026年江苏省青少年网球积分赛第二站徐州站（CTJ-B600）",
+      "level": "CTJ-B600",
+      "date": "2026-05-01",
+      "location": "徐州奥体中心",
+      "city": "徐州",
+      "province": "江苏",
+      "first_seen": "2026-04-15 08:55",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 64,
+          "reg_end": "2026-04-27 15:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 64,
+          "reg_end": "2026-04-27 15:00"
         }
       ]
     },
