@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-15 16:58",
-  "total_count": 39,
-  "api_calls_this_refresh": 39,
-  "api_calls_total": 2241,
+  "generated_at": "2026-04-15 17:59",
+  "total_count": 44,
+  "api_calls_this_refresh": 44,
+  "api_calls_total": 2319,
   "tournaments": [
     {
       "id": "e36c10de999a47bfb249ffb3762ef8d2",
@@ -218,10 +218,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 52,
+          "current_count": 51,
           "max_count": 64,
           "is_full": false,
-          "remaining": 12,
+          "remaining": 13,
           "reg_end": "2026-04-16 23:59"
         },
         {
@@ -409,6 +409,36 @@
           "is_full": true,
           "remaining": 0,
           "reg_end": "2026-04-15 12:00"
+        }
+      ]
+    },
+    {
+      "id": "f917dd11f3a449f9a9bc98d51481697f",
+      "name": "2026年“山水武宁杯”青少年网球积分排名系列赛CTJ-B600 第一站",
+      "level": "CTJ-B600",
+      "date": "2026-04-18",
+      "location": "武宁国际网球中心",
+      "city": "九江",
+      "province": "江西",
+      "first_seen": "2026-04-15 17:56",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 8,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 40,
+          "reg_end": "2026-04-16 15:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 8,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 40,
+          "reg_end": "2026-04-16 15:00"
         }
       ]
     },
@@ -755,6 +785,36 @@
       ]
     },
     {
+      "id": "ecb367942569423d9ae55196aa00a894",
+      "name": "2026“英开杯”青少年网球积分排名赛(CTJ-B600)第二站徐州站",
+      "level": "CTJ-B600",
+      "date": "2026-04-25",
+      "location": "徐州市奥体中心",
+      "city": "徐州",
+      "province": "江苏",
+      "first_seen": "2026-04-15 17:56",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 28,
+          "is_full": false,
+          "remaining": 28,
+          "reg_end": "2026-04-22 12:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 28,
+          "is_full": false,
+          "remaining": 28,
+          "reg_end": "2026-04-22 12:00"
+        }
+      ]
+    },
+    {
       "id": "59b789a6943e46eea4740ec288a38c14",
       "name": "2026“百保力杯”陕西省青少年网球积分排名赛第二站 （CTJ-B600）",
       "level": "CTJ-B600",
@@ -857,10 +917,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 29,
+          "current_count": 30,
           "max_count": 48,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 18,
           "reg_end": "2026-04-26 12:00"
         }
       ]
@@ -917,10 +977,10 @@
         {
           "item_name": "U12女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 38,
+          "current_count": 40,
           "max_count": 40,
-          "is_full": false,
-          "remaining": 2,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-04-24 00:00"
         }
       ]
@@ -947,11 +1007,71 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 17,
+          "current_count": 18,
           "max_count": 64,
           "is_full": false,
-          "remaining": 47,
+          "remaining": 46,
           "reg_end": "2026-04-27 15:00"
+        }
+      ]
+    },
+    {
+      "id": "cbbfdd15892b4efb9a147e06104dbf10",
+      "name": "2026年“山水武宁杯”青少年网球积分排名系列赛CTJ-B600 第二站",
+      "level": "CTJ-B600",
+      "date": "2026-05-01",
+      "location": "武宁国际网球中心",
+      "city": "九江",
+      "province": "江西",
+      "first_seen": "2026-04-15 17:56",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 1,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 47,
+          "reg_end": "2026-04-29 18:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 5,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 43,
+          "reg_end": "2026-04-29 18:00"
+        }
+      ]
+    },
+    {
+      "id": "fe80eaf4860647a48807b0bac8d924ae",
+      "name": "2026第五届YONEX“酷逗杯”青少年网球积分赛第三站赤峰站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-05-01",
+      "location": "内蒙古赤峰市第二实验中学",
+      "city": "赤峰",
+      "province": "内蒙古",
+      "first_seen": "2026-04-15 17:56",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 30,
+          "is_full": false,
+          "remaining": 30,
+          "reg_end": "2026-04-28 18:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 36,
+          "is_full": false,
+          "remaining": 36,
+          "reg_end": "2026-04-28 18:00"
         }
       ]
     },
@@ -1105,6 +1225,36 @@
           "is_full": false,
           "remaining": 27,
           "reg_end": "2026-04-28 18:00"
+        }
+      ]
+    },
+    {
+      "id": "ae1ecd0b480247e7b95eb0ac3d70adc1",
+      "name": "2026第五届YONEX“酷逗杯”青少年网球积分赛第四站赤峰站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-05-04",
+      "location": "内蒙古赤峰市第二实验中学",
+      "city": "赤峰",
+      "province": "内蒙古",
+      "first_seen": "2026-04-15 17:56",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 24,
+          "is_full": false,
+          "remaining": 24,
+          "reg_end": "2026-05-02 12:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 30,
+          "is_full": false,
+          "remaining": 30,
+          "reg_end": "2026-05-02 12:00"
         }
       ]
     },
