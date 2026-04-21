@@ -596,10 +596,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 45,
+          "current_count": 44,
           "max_count": 48,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 4,
           "reg_end": "2026-04-22 10:00"
         }
       ]
