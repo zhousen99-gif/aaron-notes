@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-24 08:01",
+  "generated_at": "2026-04-24 09:58",
   "total_count": 60,
   "api_calls_this_refresh": 60,
-  "api_calls_total": 12124,
+  "api_calls_total": 12270,
   "tournaments": [
     {
       "id": "63b52fad3146489caeb3726238b9d6c8",
@@ -755,10 +755,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 13,
+          "current_count": 14,
           "max_count": 36,
           "is_full": false,
-          "remaining": 23,
+          "remaining": 22,
           "reg_end": "2026-04-28 18:00"
         },
         {
@@ -845,7 +845,7 @@
         {
           "item_name": "U10女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 48,
+          "current_count": 47,
           "max_count": 40,
           "is_full": true,
           "remaining": 0,
@@ -854,7 +854,7 @@
         {
           "item_name": "U12女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 48,
+          "current_count": 47,
           "max_count": 40,
           "is_full": true,
           "remaining": 0,
@@ -875,10 +875,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 24,
+          "current_count": 25,
           "max_count": 64,
           "is_full": false,
-          "remaining": 40,
+          "remaining": 39,
           "reg_end": "2026-04-27 15:00"
         },
         {
@@ -974,7 +974,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 30,
+          "current_count": 32,
           "max_count": 30,
           "is_full": true,
           "remaining": 0,
@@ -1355,10 +1355,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 45,
+          "current_count": 46,
           "max_count": 48,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 2,
           "reg_end": "2026-04-27 00:00"
         },
         {
@@ -1394,10 +1394,10 @@
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 5,
+          "current_count": 6,
           "max_count": 24,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 18,
           "reg_end": "2026-04-29 12:00"
         }
       ]
@@ -1535,7 +1535,7 @@
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 3,
+          "current_count": 5,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
@@ -1634,10 +1634,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 30,
+          "current_count": 33,
           "max_count": 36,
           "is_full": false,
-          "remaining": 6,
+          "remaining": 3,
           "reg_end": "2026-05-12 12:00"
         },
         {
@@ -1739,7 +1739,7 @@
         {
           "item_name": "U10丁女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 42,
+          "current_count": 45,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
@@ -1829,19 +1829,19 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 34,
+          "current_count": 37,
           "max_count": 64,
           "is_full": false,
-          "remaining": 30,
+          "remaining": 27,
           "reg_end": "2026-05-22 12:00"
         },
         {
           "item_name": "U10女双",
           "item_type": "INDIVIDUAL",
-          "current_count": 9,
+          "current_count": 10,
           "max_count": 32,
           "is_full": false,
-          "remaining": 23,
+          "remaining": 22,
           "reg_end": "2026-05-22 12:00"
         },
         {
