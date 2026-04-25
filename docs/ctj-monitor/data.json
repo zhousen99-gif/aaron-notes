@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-25 14:02",
+  "generated_at": "2026-04-25 16:02",
   "total_count": 63,
   "api_calls_this_refresh": 63,
-  "api_calls_total": 14118,
+  "api_calls_total": 14396,
   "tournaments": [
     {
       "id": "63b52fad3146489caeb3726238b9d6c8",
@@ -734,10 +734,10 @@
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 9,
+          "current_count": 10,
           "max_count": 12,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 2,
           "reg_end": "2026-04-26 18:00"
         }
       ]
@@ -875,10 +875,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 29,
+          "current_count": 30,
           "max_count": 64,
           "is_full": false,
-          "remaining": 35,
+          "remaining": 34,
           "reg_end": "2026-04-27 15:00"
         },
         {
@@ -965,7 +965,7 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 32,
+          "current_count": 31,
           "max_count": 30,
           "is_full": true,
           "remaining": 0,
@@ -1034,10 +1034,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 47,
+          "current_count": 48,
           "max_count": 48,
-          "is_full": false,
-          "remaining": 1,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-04-29 20:00"
         }
       ]
@@ -1163,10 +1163,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 46,
+          "current_count": 47,
           "max_count": 48,
           "is_full": false,
-          "remaining": 2,
+          "remaining": 1,
           "reg_end": "2026-04-30 20:59"
         }
       ]
@@ -1256,16 +1256,16 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 21,
+          "current_count": 20,
           "max_count": 32,
           "is_full": false,
-          "remaining": 11,
+          "remaining": 12,
           "reg_end": "2026-04-25 18:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 43,
+          "current_count": 42,
           "max_count": 32,
           "is_full": true,
           "remaining": 0,
@@ -1355,10 +1355,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 33,
+          "current_count": 34,
           "max_count": 46,
           "is_full": false,
-          "remaining": 13,
+          "remaining": 12,
           "reg_end": "2026-04-29 12:00"
         }
       ]
@@ -1544,10 +1544,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 30,
+          "current_count": 29,
           "max_count": 32,
           "is_full": false,
-          "remaining": 2,
+          "remaining": 3,
           "reg_end": "2026-04-28 10:00"
         }
       ]
@@ -1634,10 +1634,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 43,
+          "current_count": 44,
           "max_count": 48,
           "is_full": false,
-          "remaining": 5,
+          "remaining": 4,
           "reg_end": "2026-05-14 00:00"
         },
         {
@@ -1664,10 +1664,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 36,
+          "current_count": 35,
           "max_count": 36,
-          "is_full": true,
-          "remaining": 0,
+          "is_full": false,
+          "remaining": 1,
           "reg_end": "2026-05-12 12:00"
         },
         {
@@ -1760,7 +1760,7 @@
         {
           "item_name": "U12丙女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 41,
+          "current_count": 42,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
