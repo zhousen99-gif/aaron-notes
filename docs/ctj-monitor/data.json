@@ -1,8 +1,15 @@
 {
+<<<<<<< Updated upstream
   "generated_at": "2026-04-26 13:01",
   "total_count": 63,
   "api_calls_this_refresh": 63,
   "api_calls_total": 15384,
+=======
+  "generated_at": "2026-04-26 14:00",
+  "total_count": 63,
+  "api_calls_this_refresh": 63,
+  "api_calls_total": 15460,
+>>>>>>> Stashed changes
   "tournaments": [
     {
       "id": "63b52fad3146489caeb3726238b9d6c8",
@@ -845,10 +852,17 @@
         {
           "item_name": "U10女子单打",
           "item_type": "INDIVIDUAL",
+<<<<<<< Updated upstream
           "current_count": 39,
           "max_count": 40,
           "is_full": false,
           "remaining": 1,
+=======
+          "current_count": 40,
+          "max_count": 40,
+          "is_full": true,
+          "remaining": 0,
+>>>>>>> Stashed changes
           "reg_end": "2026-04-24 00:00"
         },
         {
@@ -1445,10 +1459,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 18,
+          "current_count": 19,
           "max_count": 30,
           "is_full": false,
-          "remaining": 12,
+          "remaining": 11,
           "reg_end": "2026-05-01 18:00"
         },
         {
@@ -1484,10 +1498,17 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
+<<<<<<< Updated upstream
           "current_count": 52,
           "max_count": 64,
           "is_full": false,
           "remaining": 12,
+=======
+          "current_count": 53,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 11,
+>>>>>>> Stashed changes
           "reg_end": "2026-04-28 18:00"
         }
       ]
