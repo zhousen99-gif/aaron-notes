@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-28 22:00",
+  "generated_at": "2026-04-28 22:03",
   "total_count": 72,
   "api_calls_this_refresh": 72,
-  "api_calls_total": 18082,
+  "api_calls_total": 18851,
   "tournaments": [
     {
       "id": "094f85a1af93462a93c8d0a55ced7105",
@@ -1599,7 +1599,7 @@
       "location": "贵州省射击射箭运动发展中心（网球场）",
       "city": "贵阳",
       "province": "贵州",
-      "first_seen": "2026-04-28 15:32",
+      "first_seen": "2026-04-28 11:55",
       "items": [
         {
           "item_name": "U10女单",
@@ -1937,6 +1937,36 @@
       ]
     },
     {
+      "id": "56e78ad2430341a7ab7781229e75cd8c",
+      "name": "2026“跬步杯”青少年网球积分赛第一站(CTJ-B500)",
+      "level": "CTJ-B500",
+      "date": "2026-05-16",
+      "location": "湖北武汉五环体育中心橡果网球场",
+      "city": "武汉",
+      "province": "湖北",
+      "first_seen": "2026-04-28 16:55",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 48,
+          "reg_end": "2026-05-12 18:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 48,
+          "reg_end": "2026-05-12 18:00"
+        }
+      ]
+    },
+    {
       "id": "06692f921c91499cbb98329484c3d0b9",
       "name": "2026年“云协杯”青少年网球积分赛第二站大理站(CTJ-B600)",
       "level": "CTJ-B600",
@@ -1963,36 +1993,6 @@
           "is_full": false,
           "remaining": 22,
           "reg_end": "2026-05-11 12:00"
-        }
-      ]
-    },
-    {
-      "id": "56e78ad2430341a7ab7781229e75cd8c",
-      "name": "2026“跬步杯”青少年网球积分赛第一站(CTJ-B500)",
-      "level": "CTJ-B500",
-      "date": "2026-05-16",
-      "location": "湖北武汉五环体育中心橡果网球场",
-      "city": "武汉",
-      "province": "湖北",
-      "first_seen": "2026-04-28 21:55",
-      "items": [
-        {
-          "item_name": "U10女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 0,
-          "max_count": 48,
-          "is_full": false,
-          "remaining": 48,
-          "reg_end": "2026-05-12 18:00"
-        },
-        {
-          "item_name": "U12女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 0,
-          "max_count": 48,
-          "is_full": false,
-          "remaining": 48,
-          "reg_end": "2026-05-12 18:00"
         }
       ]
     },
@@ -2108,10 +2108,10 @@
         {
           "item_name": "U12女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 14,
+          "current_count": 15,
           "max_count": 48,
           "is_full": false,
-          "remaining": 34,
+          "remaining": 33,
           "reg_end": "2026-05-19 18:00"
         }
       ]
@@ -2250,7 +2250,7 @@
       "location": "金满贯网球中心（琶洲保利世贸店）",
       "city": "广州",
       "province": "广东",
-      "first_seen": "2026-04-28 21:56",
+      "first_seen": "2026-04-28 16:55",
       "items": [
         {
           "item_name": "U12女团",
