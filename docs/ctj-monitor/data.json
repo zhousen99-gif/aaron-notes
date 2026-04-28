@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-28 15:01",
+  "generated_at": "2026-04-28 15:36",
   "total_count": 69,
   "api_calls_this_refresh": 69,
-  "api_calls_total": 18247,
+  "api_calls_total": 17992,
   "tournaments": [
     {
       "id": "094f85a1af93462a93c8d0a55ced7105",
@@ -794,7 +794,7 @@
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 11,
+          "current_count": 10,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
@@ -1599,7 +1599,7 @@
       "location": "贵州省射击射箭运动发展中心（网球场）",
       "city": "贵阳",
       "province": "贵州",
-      "first_seen": "2026-04-28 11:55",
+      "first_seen": "2026-04-28 15:32",
       "items": [
         {
           "item_name": "U10女单",
