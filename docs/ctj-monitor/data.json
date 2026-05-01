@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-01 07:02",
+  "generated_at": "2026-05-01 08:02",
   "total_count": 63,
   "api_calls_this_refresh": 63,
-  "api_calls_total": 21328,
+  "api_calls_total": 21404,
   "tournaments": [
     {
       "id": "59b789a6943e46eea4740ec288a38c14",
@@ -1553,10 +1553,10 @@
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 15,
+          "current_count": 16,
           "max_count": 16,
-          "is_full": false,
-          "remaining": 1,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-05-10 18:00"
         }
       ]
