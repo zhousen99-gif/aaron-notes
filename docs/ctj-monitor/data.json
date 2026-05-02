@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-02 15:00",
+  "generated_at": "2026-05-02 16:01",
   "total_count": 63,
   "api_calls_this_refresh": 63,
-  "api_calls_total": 23203,
+  "api_calls_total": 23279,
   "tournaments": [
     {
       "id": "59b789a6943e46eea4740ec288a38c14",
@@ -1451,10 +1451,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 44,
+          "current_count": 46,
           "max_count": 46,
-          "is_full": false,
-          "remaining": 2,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-05-08 23:00"
         },
         {
