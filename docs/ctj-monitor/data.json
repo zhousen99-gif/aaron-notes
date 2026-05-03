@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-03 19:02",
+  "generated_at": "2026-05-03 20:02",
   "total_count": 64,
   "api_calls_this_refresh": 64,
-  "api_calls_total": 24865,
+  "api_calls_total": 24942,
   "tournaments": [
     {
       "id": "59b789a6943e46eea4740ec288a38c14",
@@ -1430,10 +1430,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 32,
+          "current_count": 31,
           "max_count": 32,
-          "is_full": true,
-          "remaining": 0,
+          "is_full": false,
+          "remaining": 1,
           "reg_end": "2026-05-13 17:00"
         }
       ]
