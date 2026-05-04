@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-04 08:02",
-  "total_count": 64,
-  "api_calls_this_refresh": 64,
-  "api_calls_total": 25248,
+  "generated_at": "2026-05-04 15:03",
+  "total_count": 65,
+  "api_calls_this_refresh": 65,
+  "api_calls_total": 25791,
   "tournaments": [
     {
       "id": "59b789a6943e46eea4740ec288a38c14",
@@ -866,10 +866,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 52,
+          "current_count": 51,
           "max_count": 64,
           "is_full": false,
-          "remaining": 12,
+          "remaining": 13,
           "reg_end": "2026-04-28 18:00"
         }
       ]
@@ -1025,10 +1025,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 26,
+          "current_count": 25,
           "max_count": 48,
           "is_full": false,
-          "remaining": 22,
+          "remaining": 23,
           "reg_end": "2026-05-06 17:30"
         },
         {
@@ -1073,10 +1073,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 42,
+          "current_count": 41,
           "max_count": 48,
           "is_full": false,
-          "remaining": 6,
+          "remaining": 7,
           "reg_end": "2026-05-14 00:00"
         }
       ]
@@ -1094,10 +1094,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 34,
+          "current_count": 33,
           "max_count": 36,
           "is_full": false,
-          "remaining": 2,
+          "remaining": 3,
           "reg_end": "2026-05-12 12:00"
         },
         {
@@ -1112,7 +1112,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 47,
+          "current_count": 45,
           "max_count": 36,
           "is_full": true,
           "remaining": 0,
@@ -1280,7 +1280,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 0,
+          "current_count": 8,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
@@ -1289,7 +1289,7 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 0,
+          "current_count": 28,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
@@ -1400,10 +1400,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 19,
+          "current_count": 20,
           "max_count": 22,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 2,
           "reg_end": "2026-05-11 12:00"
         }
       ]
@@ -1790,7 +1790,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 33,
+          "current_count": 31,
           "max_count": 24,
           "is_full": true,
           "remaining": 0,
@@ -1820,10 +1820,10 @@
         {
           "item_name": "U12女子团体",
           "item_type": "TEAM",
-          "current_count": 9,
+          "current_count": 8,
           "max_count": 12,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 4,
           "reg_end": "2026-05-18 16:00"
         }
       ]
@@ -1859,6 +1859,36 @@
       ]
     },
     {
+      "id": "2482a0ca677f484d8311481ec1e201be",
+      "name": "“星启杯”2026四川省青少年网球精英赛赛第一站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-05-23",
+      "location": "星启网球学院(青羊网球中心)",
+      "city": "成都",
+      "province": "四川",
+      "first_seen": "2026-05-04 14:55",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 64,
+          "reg_end": "2026-05-18 18:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 0,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 64,
+          "reg_end": "2026-05-18 18:00"
+        }
+      ]
+    },
+    {
       "id": "4f3937f97a194036b07bcdc85525f22c",
       "name": "2026太阳城网球公开赛第一站·山东日照（CTJ-B500）",
       "level": "CTJ-B500",
@@ -1889,10 +1919,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 51,
+          "current_count": 52,
           "max_count": 64,
           "is_full": false,
-          "remaining": 13,
+          "remaining": 12,
           "reg_end": "2026-05-22 12:00"
         },
         {
