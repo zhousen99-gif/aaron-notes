@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-11 21:00",
+  "generated_at": "2026-05-12 10:16",
   "total_count": 58,
   "api_calls_this_refresh": 58,
-  "api_calls_total": 33607,
+  "api_calls_total": 18849,
   "tournaments": [
     {
       "id": "ac3a9bedd35c425a9b6328c2b61fb8f3",
@@ -60,7 +60,7 @@
       "location": "贵州省射击射箭运动发展中心（网球场）",
       "city": "贵阳",
       "province": "贵州",
-      "first_seen": "2026-04-28 11:55",
+      "first_seen": "2026-04-28 15:32",
       "items": [
         {
           "item_name": "U10女单",
@@ -113,19 +113,19 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 28,
+          "current_count": 29,
           "max_count": 48,
           "is_full": false,
-          "remaining": 20,
+          "remaining": 19,
           "reg_end": "2026-05-14 00:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 44,
+          "current_count": 45,
           "max_count": 48,
           "is_full": false,
-          "remaining": 4,
+          "remaining": 3,
           "reg_end": "2026-05-14 00:00"
         }
       ]
@@ -143,10 +143,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 35,
+          "current_count": 36,
           "max_count": 36,
-          "is_full": false,
-          "remaining": 1,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-05-12 12:00"
         },
         {
@@ -161,7 +161,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 47,
+          "current_count": 48,
           "max_count": 36,
           "is_full": true,
           "remaining": 0,
@@ -398,36 +398,6 @@
       ]
     },
     {
-      "id": "56e78ad2430341a7ab7781229e75cd8c",
-      "name": "2026“跬步杯”青少年网球积分赛第一站(CTJ-B500)",
-      "level": "CTJ-B500",
-      "date": "2026-05-16",
-      "location": "湖北武汉五环体育中心橡果网球场",
-      "city": "武汉",
-      "province": "湖北",
-      "first_seen": "2026-04-28 16:55",
-      "items": [
-        {
-          "item_name": "U10女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 46,
-          "max_count": 48,
-          "is_full": false,
-          "remaining": 2,
-          "reg_end": "2026-05-12 18:00"
-        },
-        {
-          "item_name": "U12女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 45,
-          "max_count": 48,
-          "is_full": false,
-          "remaining": 3,
-          "reg_end": "2026-05-12 18:00"
-        }
-      ]
-    },
-    {
       "id": "06692f921c91499cbb98329484c3d0b9",
       "name": "2026年“云协杯”青少年网球积分赛第二站大理站(CTJ-B600)",
       "level": "CTJ-B600",
@@ -449,11 +419,41 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 22,
+          "current_count": 23,
           "max_count": 22,
           "is_full": true,
           "remaining": 0,
           "reg_end": "2026-05-11 12:00"
+        }
+      ]
+    },
+    {
+      "id": "56e78ad2430341a7ab7781229e75cd8c",
+      "name": "2026“跬步杯”青少年网球积分赛第一站(CTJ-B500)",
+      "level": "CTJ-B500",
+      "date": "2026-05-16",
+      "location": "湖北武汉五环体育中心橡果网球场",
+      "city": "武汉",
+      "province": "湖北",
+      "first_seen": "2026-04-28 21:55",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 46,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 2,
+          "reg_end": "2026-05-12 18:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 44,
+          "max_count": 48,
+          "is_full": false,
+          "remaining": 4,
+          "reg_end": "2026-05-12 18:00"
         }
       ]
     },
@@ -465,7 +465,7 @@
       "location": "健郑奇迹网球公园",
       "city": "郑州",
       "province": "河南",
-      "first_seen": "2026-04-30 12:55",
+      "first_seen": "2026-04-30 12:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -495,7 +495,7 @@
       "location": "广东珠海横琴国际网球中心",
       "city": "珠海",
       "province": "广东",
-      "first_seen": "2026-04-30 12:55",
+      "first_seen": "2026-04-30 12:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -548,44 +548,23 @@
       ]
     },
     {
-      "id": "a1637940412d43e6911ef666cb1be784",
-      "name": "第三届中国青少年网球城市挑战赛河南城市赛洛阳站（CTJ-G1200）",
+      "id": "6987386016794865b1ead6f0633d939a",
+      "name": "“橙子杯” 2026年吉林省青少年网球团体公开赛第一站（CTJ-G1200）",
       "level": "CTJ-G1200",
       "date": "2026-05-16",
-      "location": "洛阳市洛龙区引力网球运动公园",
-      "city": "洛阳",
-      "province": "河南",
-      "first_seen": "2026-04-30 17:55",
+      "location": "橙子网球中心 （长春市南关区生态大街9242号）",
+      "city": "长春",
+      "province": "吉林",
+      "first_seen": "2026-05-06 14:55",
       "items": [
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 11,
-          "max_count": 12,
+          "current_count": 8,
+          "max_count": 16,
           "is_full": false,
-          "remaining": 1,
-          "reg_end": "2026-05-10 12:00"
-        }
-      ]
-    },
-    {
-      "id": "f513a87074724595ae99dbf1c91e9bdc",
-      "name": "第三届中国青少年网球城市挑战赛（锦绣太原杯）太原卫星赛第二站（CTJ-G600）",
-      "level": "CTJ-G600",
-      "date": "2026-05-16",
-      "location": "山西太原网球中心",
-      "city": "太原",
-      "province": "山西",
-      "first_seen": "2026-04-30 17:56",
-      "items": [
-        {
-          "item_name": "U12女团",
-          "item_type": "TEAM",
-          "current_count": 0,
-          "max_count": 6,
-          "is_full": false,
-          "remaining": 6,
-          "reg_end": "2026-05-12 10:00"
+          "remaining": 8,
+          "reg_end": "2026-05-14 14:00"
         }
       ]
     },
@@ -597,7 +576,7 @@
       "location": "超越阳光草地网球中心",
       "city": "上海",
       "province": "上海",
-      "first_seen": "2026-05-03 18:55",
+      "first_seen": "2026-05-06 14:56",
       "items": [
         {
           "item_name": "U10女子单打",
@@ -638,23 +617,44 @@
       ]
     },
     {
-      "id": "6987386016794865b1ead6f0633d939a",
-      "name": "“橙子杯” 2026年吉林省青少年网球团体公开赛第一站（CTJ-G1200）",
+      "id": "a1637940412d43e6911ef666cb1be784",
+      "name": "第三届中国青少年网球城市挑战赛河南城市赛洛阳站（CTJ-G1200）",
       "level": "CTJ-G1200",
       "date": "2026-05-16",
-      "location": "橙子网球中心 （长春市南关区生态大街9242号）",
-      "city": "长春",
-      "province": "吉林",
-      "first_seen": "2026-05-06 12:55",
+      "location": "洛阳市洛龙区引力网球运动公园",
+      "city": "洛阳",
+      "province": "河南",
+      "first_seen": "2026-05-06 14:56",
       "items": [
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 8,
-          "max_count": 16,
+          "current_count": 11,
+          "max_count": 12,
           "is_full": false,
-          "remaining": 8,
-          "reg_end": "2026-05-14 14:00"
+          "remaining": 1,
+          "reg_end": "2026-05-10 12:00"
+        }
+      ]
+    },
+    {
+      "id": "f513a87074724595ae99dbf1c91e9bdc",
+      "name": "第三届中国青少年网球城市挑战赛（锦绣太原杯）太原卫星赛第二站（CTJ-G600）",
+      "level": "CTJ-G600",
+      "date": "2026-05-16",
+      "location": "山西太原网球中心",
+      "city": "太原",
+      "province": "山西",
+      "first_seen": "2026-05-06 14:56",
+      "items": [
+        {
+          "item_name": "U12女团",
+          "item_type": "TEAM",
+          "current_count": 0,
+          "max_count": 6,
+          "is_full": false,
+          "remaining": 6,
+          "reg_end": "2026-05-12 10:00"
         }
       ]
     },
@@ -666,7 +666,7 @@
       "location": "上海市体育运动学校",
       "city": "上海",
       "province": "上海",
-      "first_seen": "2026-05-07 14:55",
+      "first_seen": "2026-05-07 19:55",
       "items": [
         {
           "item_name": "U12女子",
@@ -708,7 +708,7 @@
       "location": "周浦体育中心",
       "city": "上海",
       "province": "上海",
-      "first_seen": "2026-05-05 12:55",
+      "first_seen": "2026-05-06 14:56",
       "items": [
         {
           "item_name": "U12女团",
@@ -734,10 +734,10 @@
         {
           "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 8,
+          "current_count": 7,
           "max_count": 16,
           "is_full": false,
-          "remaining": 8,
+          "remaining": 9,
           "reg_end": "2026-05-16 00:00"
         }
       ]
@@ -824,10 +824,10 @@
         {
           "item_name": "U10女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 35,
+          "current_count": 34,
           "max_count": 48,
           "is_full": false,
-          "remaining": 13,
+          "remaining": 14,
           "reg_end": "2026-05-19 18:00"
         },
         {
@@ -879,15 +879,15 @@
       "location": "济宁骏搏网球俱乐部新体育馆店\\高新区体育公园店",
       "city": "济宁",
       "province": "山东",
-      "first_seen": "2026-04-29 12:55",
+      "first_seen": "2026-04-29 14:56",
       "items": [
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
           "current_count": 26,
-          "max_count": 24,
-          "is_full": true,
-          "remaining": 0,
+          "max_count": 36,
+          "is_full": false,
+          "remaining": 10,
           "reg_end": "2026-05-19 12:00"
         },
         {
@@ -903,9 +903,9 @@
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
           "current_count": 29,
-          "max_count": 24,
-          "is_full": true,
-          "remaining": 0,
+          "max_count": 36,
+          "is_full": false,
+          "remaining": 7,
           "reg_end": "2026-05-19 12:00"
         },
         {
@@ -927,7 +927,7 @@
       "location": "岳阳市奥体中心网球场",
       "city": "岳阳",
       "province": "湖南",
-      "first_seen": "2026-04-29 17:55",
+      "first_seen": "2026-04-30 12:56",
       "items": [
         {
           "item_name": "U12女子团体",
@@ -941,6 +941,36 @@
       ]
     },
     {
+      "id": "2482a0ca677f484d8311481ec1e201be",
+      "name": "“星启杯”2026四川省青少年网球精英赛第一站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-05-23",
+      "location": "星启网球学院(青羊网球中心)",
+      "city": "成都",
+      "province": "四川",
+      "first_seen": "2026-05-06 14:56",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 61,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 3,
+          "reg_end": "2026-05-18 18:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 41,
+          "max_count": 64,
+          "is_full": false,
+          "remaining": 23,
+          "reg_end": "2026-05-18 18:00"
+        }
+      ]
+    },
+    {
       "id": "fac44d7f78ec421798313f00737b5c08",
       "name": "2026HEAD超新星网球冠军赛太原站第三站(CTJ-B500)",
       "level": "CTJ-B500",
@@ -948,7 +978,7 @@
       "location": "太原市滨河体育中心",
       "city": "太原",
       "province": "山西",
-      "first_seen": "2026-04-30 21:55",
+      "first_seen": "2026-05-06 14:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -967,36 +997,6 @@
           "is_full": false,
           "remaining": -1,
           "reg_end": null
-        }
-      ]
-    },
-    {
-      "id": "2482a0ca677f484d8311481ec1e201be",
-      "name": "“星启杯”2026四川省青少年网球精英赛赛第一站(CTJ-B600)",
-      "level": "CTJ-B600",
-      "date": "2026-05-23",
-      "location": "星启网球学院(青羊网球中心)",
-      "city": "成都",
-      "province": "四川",
-      "first_seen": "2026-05-04 14:55",
-      "items": [
-        {
-          "item_name": "U10女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 64,
-          "max_count": 64,
-          "is_full": true,
-          "remaining": 0,
-          "reg_end": "2026-05-18 18:00"
-        },
-        {
-          "item_name": "U12女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 38,
-          "max_count": 64,
-          "is_full": false,
-          "remaining": 26,
-          "reg_end": "2026-05-18 18:00"
         }
       ]
     },
@@ -1022,41 +1022,11 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 26,
+          "current_count": 24,
           "max_count": 32,
           "is_full": false,
-          "remaining": 6,
+          "remaining": 8,
           "reg_end": "2026-05-21 18:00"
-        }
-      ]
-    },
-    {
-      "id": "977fbea8acec49cf882ca5f2bcaeebf7",
-      "name": "2026年“星际杯”青少年网球巡回赛（CTJ-B600）第二站",
-      "level": "CTJ-B600",
-      "date": "2026-05-23",
-      "location": "合肥星际网球俱乐部",
-      "city": "合肥",
-      "province": "安徽",
-      "first_seen": "2026-05-06 20:55",
-      "items": [
-        {
-          "item_name": "U10女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 23,
-          "max_count": 28,
-          "is_full": false,
-          "remaining": 5,
-          "reg_end": "2026-05-20 12:00"
-        },
-        {
-          "item_name": "U12女单",
-          "item_type": "INDIVIDUAL",
-          "current_count": 24,
-          "max_count": 28,
-          "is_full": false,
-          "remaining": 4,
-          "reg_end": "2026-05-20 12:00"
         }
       ]
     },
@@ -1066,9 +1036,9 @@
       "level": "CTJ-B500",
       "date": "2026-05-23",
       "location": "北京市朝阳区温榆河公园二期网球中心",
-      "city": "北京",
-      "province": "北京",
-      "first_seen": "2026-05-07 17:55",
+      "city": "",
+      "province": null,
+      "first_seen": "2026-05-07 19:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -1087,6 +1057,36 @@
           "is_full": true,
           "remaining": 0,
           "reg_end": "2026-05-18 18:00"
+        }
+      ]
+    },
+    {
+      "id": "977fbea8acec49cf882ca5f2bcaeebf7",
+      "name": "2026年“星际杯”青少年网球巡回赛第二站(CTJ-B600)",
+      "level": "CTJ-B600",
+      "date": "2026-05-23",
+      "location": "合肥星际网球俱乐部",
+      "city": "合肥",
+      "province": "安徽",
+      "first_seen": "2026-05-07 19:56",
+      "items": [
+        {
+          "item_name": "U10女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 26,
+          "max_count": 28,
+          "is_full": false,
+          "remaining": 2,
+          "reg_end": "2026-05-20 12:00"
+        },
+        {
+          "item_name": "U12女单",
+          "item_type": "INDIVIDUAL",
+          "current_count": 25,
+          "max_count": 28,
+          "is_full": false,
+          "remaining": 3,
+          "reg_end": "2026-05-20 12:00"
         }
       ]
     },
@@ -1098,33 +1098,33 @@
       "location": "贵港市体育中心网球场",
       "city": "贵港",
       "province": "广西",
-      "first_seen": "2026-05-10 18:55",
+      "first_seen": "2026-05-12 10:11",
       "items": [
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 26,
+          "current_count": 28,
           "max_count": 60,
           "is_full": false,
-          "remaining": 34,
+          "remaining": 32,
           "reg_end": "2026-05-18 18:00"
         },
         {
           "item_name": "U10女双",
           "item_type": "INDIVIDUAL",
-          "current_count": 8,
+          "current_count": 9,
           "max_count": 16,
           "is_full": false,
-          "remaining": 8,
+          "remaining": 7,
           "reg_end": "2026-05-18 18:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 32,
+          "current_count": 33,
           "max_count": 60,
           "is_full": false,
-          "remaining": 28,
+          "remaining": 27,
           "reg_end": "2026-05-18 18:00"
         },
         {
@@ -1151,10 +1151,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 63,
+          "current_count": 64,
           "max_count": 64,
-          "is_full": false,
-          "remaining": 1,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-05-22 12:00"
         },
         {
@@ -1169,19 +1169,19 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 61,
+          "current_count": 62,
           "max_count": 64,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 2,
           "reg_end": "2026-05-22 12:00"
         },
         {
           "item_name": "U12女双",
           "item_type": "INDIVIDUAL",
-          "current_count": 15,
+          "current_count": 16,
           "max_count": 32,
           "is_full": false,
-          "remaining": 17,
+          "remaining": 16,
           "reg_end": "2026-05-22 12:00"
         }
       ]
@@ -1242,7 +1242,7 @@
       "location": "金满贯网球中心（琶洲保利世贸店）",
       "city": "广州",
       "province": "广东",
-      "first_seen": "2026-04-28 16:55",
+      "first_seen": "2026-04-28 21:56",
       "items": [
         {
           "item_name": "U12女团",
@@ -1256,36 +1256,6 @@
       ]
     },
     {
-      "id": "fc811cb7c1bb404aa7ed558368f1b1f0",
-      "name": "2026ROGT青少年网球团体积分赛马鞍山站第一站(CTJ-G1200)",
-      "level": "CTJ-G1200",
-      "date": "2026-05-30",
-      "location": "ROGT网球赛事中心",
-      "city": "马鞍山",
-      "province": "安徽",
-      "first_seen": "2026-05-04 16:55",
-      "items": [
-        {
-          "item_name": "U10女子团体",
-          "item_type": "TEAM",
-          "current_count": 11,
-          "max_count": 8,
-          "is_full": true,
-          "remaining": 0,
-          "reg_end": "2026-05-27 18:00"
-        },
-        {
-          "item_name": "U12女子团体",
-          "item_type": "TEAM",
-          "current_count": 13,
-          "max_count": 8,
-          "is_full": true,
-          "remaining": 0,
-          "reg_end": "2026-05-27 18:00"
-        }
-      ]
-    },
-    {
       "id": "ef481e92fc924a02a0198ff70f9e086c",
       "name": "第三届中国青少年网球城市挑战赛江苏城市赛（CTJ-G1200）",
       "level": "CTJ-G1200",
@@ -1293,7 +1263,7 @@
       "location": "南京体育学院（灵谷寺校区）中国网球学院",
       "city": "南京",
       "province": "江苏",
-      "first_seen": "2026-05-06 12:55",
+      "first_seen": "2026-05-06 14:56",
       "items": [
         {
           "item_name": "女子团体丙组（U12）",
@@ -1303,6 +1273,36 @@
           "is_full": false,
           "remaining": 61,
           "reg_end": "2026-05-24 12:00"
+        }
+      ]
+    },
+    {
+      "id": "fc811cb7c1bb404aa7ed558368f1b1f0",
+      "name": "2026ROGT青少年网球团体积分赛马鞍山站第一站(CTJ-G1200)",
+      "level": "CTJ-G1200",
+      "date": "2026-05-30",
+      "location": "ROGT网球赛事中心",
+      "city": "马鞍山",
+      "province": "安徽",
+      "first_seen": "2026-05-06 14:56",
+      "items": [
+        {
+          "item_name": "U10女子团体",
+          "item_type": "TEAM",
+          "current_count": 11,
+          "max_count": 0,
+          "is_full": false,
+          "remaining": -1,
+          "reg_end": "2026-05-27 18:00"
+        },
+        {
+          "item_name": "U12女子团体",
+          "item_type": "TEAM",
+          "current_count": 13,
+          "max_count": 0,
+          "is_full": false,
+          "remaining": -1,
+          "reg_end": "2026-05-27 18:00"
         }
       ]
     },
@@ -1337,27 +1337,6 @@
       ]
     },
     {
-      "id": "b7a28d15a0924bccad498ae6a29c99a4",
-      "name": "第三届中国青少年网球城市挑战赛（永承杯）北京经开卫星赛第三站（CTJ-G600）",
-      "level": "CTJ-G600",
-      "date": "2026-05-30",
-      "location": "永承网球亦庄东区红土网球场",
-      "city": "北京市",
-      "province": "北京",
-      "first_seen": "2026-05-07 11:55",
-      "items": [
-        {
-          "item_name": "U12女团",
-          "item_type": "TEAM",
-          "current_count": 6,
-          "max_count": 6,
-          "is_full": true,
-          "remaining": 0,
-          "reg_end": "2026-05-25 18:00"
-        }
-      ]
-    },
-    {
       "id": "822489c4904f4c9996451d1286f4acda",
       "name": "2026年“湖北自由时刻杯”青少年网球积分赛（CTJ-B500）",
       "level": "CTJ-B500",
@@ -1365,15 +1344,15 @@
       "location": "好燃时刻洪山网球体育公园",
       "city": "武汉",
       "province": "湖北",
-      "first_seen": "2026-05-07 12:55",
+      "first_seen": "2026-05-07 19:55",
       "items": [
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 48,
+          "current_count": 47,
           "max_count": 48,
-          "is_full": true,
-          "remaining": 0,
+          "is_full": false,
+          "remaining": 1,
           "reg_end": "2026-05-28 18:00"
         },
         {
@@ -1395,7 +1374,7 @@
       "location": "京山市全国网球训练基地",
       "city": "荆门",
       "province": "湖北",
-      "first_seen": "2026-05-07 18:55",
+      "first_seen": "2026-05-07 19:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -1418,62 +1397,74 @@
       ]
     },
     {
-      "id": "ecd3ef66597e4508bc1f1a276dcc7a0a",
-      "name": "2026年李宁杯青少年网球挑战赛哈尔滨站（CTJ-B500）",
-      "level": "CTJ-B500",
+      "id": "b7a28d15a0924bccad498ae6a29c99a4",
+      "name": "第三届中国青少年网球城市挑战赛（永承杯）北京经开卫星赛第三站（CTJ-G600）",
+      "level": "CTJ-G600",
       "date": "2026-05-30",
-      "location": "哈尔滨商业大学北校区（B区）网球场",
-      "city": "哈尔滨",
-      "province": "黑龙江",
-      "first_seen": "2026-05-08 10:55",
+      "location": "永承网球亦庄东区红土网球场",
+      "city": "北京市",
+      "province": "北京",
+      "first_seen": "2026-05-07 19:56",
       "items": [
         {
-          "item_name": "U10女子单打",
-          "item_type": "INDIVIDUAL",
-          "current_count": 3,
-          "max_count": 32,
-          "is_full": false,
-          "remaining": 29,
-          "reg_end": "2026-05-27 20:00"
-        },
-        {
-          "item_name": "U12女子单打",
+          "item_name": "U12女团",
           "item_type": "TEAM",
-          "current_count": 13,
-          "max_count": 32,
+          "current_count": 6,
+          "max_count": 6,
+          "is_full": true,
+          "remaining": 0,
+          "reg_end": "2026-05-25 18:00"
+        }
+      ]
+    },
+    {
+      "id": "6bf7a508f3254fd3b286c92d1506093f",
+      "name": "第三届中国青少年网球城市挑战赛（安安杯）安徽城市赛宿州站（CTJ-G1200）",
+      "level": "CTJ-G1200",
+      "date": "2026-05-30",
+      "location": "安徽省宿州国际网球中心",
+      "city": "宿州",
+      "province": "安徽",
+      "first_seen": "2026-05-12 10:11",
+      "items": [
+        {
+          "item_name": "U12女团",
+          "item_type": "TEAM",
+          "current_count": 5,
+          "max_count": 12,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 7,
           "reg_end": "2026-05-27 20:00"
         }
       ]
     },
     {
-      "id": "4082b8e617ea4c849085601c9bee60cb",
-      "name": "2026 YONEX“郑洁杯”青少年网球巡回赛第三站成都站(CTJ-B600)",
+      "id": "d1338dfd9d474c4f95c21f7b6118cde3",
+      "name": "2026年第28届“将军杯、木兰杯” 青少年网球赛(CTJ-B600) 第一站",
       "level": "CTJ-B600",
       "date": "2026-05-30",
-      "location": "天府国际网球中心",
-      "city": "成都",
-      "province": "四川",
-      "first_seen": "2026-05-08 10:55",
+      "location": "北京市网球运动管理中心",
+      "city": "北京",
+      "province": "北京",
+      "first_seen": "2026-05-12 10:11",
       "items": [
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
           "current_count": 0,
-          "max_count": 48,
+          "max_count": 64,
           "is_full": false,
-          "remaining": 48,
-          "reg_end": null
+          "remaining": 64,
+          "reg_end": "2026-05-26 12:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
           "current_count": 0,
-          "max_count": 48,
+          "max_count": 64,
           "is_full": false,
-          "remaining": 48,
-          "reg_end": null
+          "remaining": 64,
+          "reg_end": "2026-05-26 12:00"
         }
       ]
     },
@@ -1485,7 +1476,7 @@
       "location": "莱安网球俱乐部",
       "city": "南昌",
       "province": "江西",
-      "first_seen": "2026-05-08 11:55",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
           "item_name": "U10女单",
@@ -1508,10 +1499,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 13,
+          "current_count": 14,
           "max_count": 32,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 18,
           "reg_end": "2026-05-27 12:00"
         },
         {
@@ -1533,7 +1524,7 @@
       "location": "江苏南京江心洲E³PARK体育公园",
       "city": "南京",
       "province": "江苏",
-      "first_seen": "2026-05-08 13:55",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
           "item_name": "U10女单",
@@ -1547,62 +1538,71 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 0,
+          "current_count": 1,
           "max_count": 48,
           "is_full": false,
-          "remaining": 48,
+          "remaining": 47,
           "reg_end": "2026-05-27 12:00"
         }
       ]
     },
     {
-      "id": "6bf7a508f3254fd3b286c92d1506093f",
-      "name": "第三届中国青少年网球城市挑战赛（安安杯）安徽城市赛宿州站（CTJ-G1200）",
-      "level": "CTJ-G1200",
+      "id": "ecd3ef66597e4508bc1f1a276dcc7a0a",
+      "name": "2026年李宁杯青少年网球挑战赛哈尔滨站（CTJ-B500）",
+      "level": "CTJ-B500",
       "date": "2026-05-30",
-      "location": "安徽省宿州国际网球中心",
-      "city": "宿州",
-      "province": "安徽",
-      "first_seen": "2026-05-11 12:55",
+      "location": "哈尔滨商业大学北校区（B区）网球场",
+      "city": "哈尔滨",
+      "province": "黑龙江",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
-          "item_name": "U12女团",
-          "item_type": "TEAM",
+          "item_name": "U10女子单打",
+          "item_type": "INDIVIDUAL",
           "current_count": 3,
-          "max_count": 12,
+          "max_count": 32,
           "is_full": false,
-          "remaining": 9,
+          "remaining": 29,
+          "reg_end": "2026-05-27 20:00"
+        },
+        {
+          "item_name": "U12女子单打",
+          "item_type": "INDIVIDUAL",
+          "current_count": 13,
+          "max_count": 32,
+          "is_full": false,
+          "remaining": 19,
           "reg_end": "2026-05-27 20:00"
         }
       ]
     },
     {
-      "id": "d1338dfd9d474c4f95c21f7b6118cde3",
-      "name": "2026年第28届“将军杯、木兰杯” 青少年网球赛(CTJ-B600) 第一站",
+      "id": "4082b8e617ea4c849085601c9bee60cb",
+      "name": "2026 YONEX“郑洁杯”青少年网球巡回赛第三站成都站(CTJ-B600)",
       "level": "CTJ-B600",
       "date": "2026-05-30",
-      "location": "北京市网球运动管理中心",
-      "city": "北京",
-      "province": "北京",
-      "first_seen": "2026-05-11 12:55",
+      "location": "天府国际网球中心",
+      "city": "成都",
+      "province": "四川",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
           "current_count": 0,
-          "max_count": 64,
+          "max_count": 48,
           "is_full": false,
-          "remaining": 64,
-          "reg_end": "2026-05-26 12:00"
+          "remaining": 48,
+          "reg_end": null
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
           "current_count": 0,
-          "max_count": 64,
+          "max_count": 48,
           "is_full": false,
-          "remaining": 64,
-          "reg_end": "2026-05-26 12:00"
+          "remaining": 48,
+          "reg_end": null
         }
       ]
     },
@@ -1614,7 +1614,7 @@
       "location": "唛恩网球中心",
       "city": "上海",
       "province": "上海",
-      "first_seen": "2026-04-30 16:55",
+      "first_seen": "2026-05-06 14:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -1644,7 +1644,7 @@
       "location": "赛点网球松山湖校区",
       "city": "东莞市",
       "province": "广东",
-      "first_seen": "2026-05-08 10:56",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
           "item_name": "U12女团",
@@ -1658,52 +1658,31 @@
       ]
     },
     {
-      "id": "47f84179fdf84e2b85a06c7040e117ea",
-      "name": "第三届中国青少年网球城市挑战赛（星宸杯）福建城市赛 （CTJ-G1200）",
-      "level": "CTJ-G1200",
-      "date": "2026-06-06",
-      "location": "厦门国博星宸网球馆",
-      "city": "厦门",
-      "province": "福建",
-      "first_seen": "2026-05-08 06:55",
-      "items": [
-        {
-          "item_name": "U12女子",
-          "item_type": "TEAM",
-          "current_count": 9,
-          "max_count": 24,
-          "is_full": false,
-          "remaining": 15,
-          "reg_end": "2026-05-29 12:00"
-        }
-      ]
-    },
-    {
       "id": "7a250a94009a42eeaa513eb0fbabe184",
-      "name": "2026年济南市青少年网球排名赛第二站(CTJ-B500)",
+      "name": "2026年济南市“龙商杯”青少年网球排名赛第二站(CTJ-B500)",
       "level": "CTJ-B500",
       "date": "2026-06-06",
       "location": "山东济南飓风网球公园；济南全民健身中心",
       "city": "济南",
       "province": "山东",
-      "first_seen": "2026-05-10 10:55",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 22,
+          "current_count": 26,
           "max_count": 36,
           "is_full": false,
-          "remaining": 14,
+          "remaining": 10,
           "reg_end": "2026-06-02 12:00"
         },
         {
           "item_name": "U10女双",
           "item_type": "INDIVIDUAL",
-          "current_count": 6,
+          "current_count": 8,
           "max_count": 8,
-          "is_full": false,
-          "remaining": 2,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-06-02 12:00"
         },
         {
@@ -1727,6 +1706,27 @@
       ]
     },
     {
+      "id": "47f84179fdf84e2b85a06c7040e117ea",
+      "name": "第三届中国青少年网球城市挑战赛（星宸杯）福建城市赛 （CTJ-G1200）",
+      "level": "CTJ-G1200",
+      "date": "2026-06-06",
+      "location": "厦门国博星宸网球馆",
+      "city": "厦门",
+      "province": "福建",
+      "first_seen": "2026-05-12 10:12",
+      "items": [
+        {
+          "item_name": "U12女子",
+          "item_type": "TEAM",
+          "current_count": 9,
+          "max_count": 24,
+          "is_full": false,
+          "remaining": 15,
+          "reg_end": "2026-05-29 12:00"
+        }
+      ]
+    },
+    {
       "id": "68deff93af2d45b3afd6cdfbe2f5952a",
       "name": "“网聚宝山“长三角青少年网球团体赛CTJ-G600(第二站)",
       "level": "CTJ-G600",
@@ -1734,7 +1734,7 @@
       "location": "唛恩网球中心东馆",
       "city": "上海",
       "province": "上海",
-      "first_seen": "2026-05-07 12:55",
+      "first_seen": "2026-05-07 19:56",
       "items": [
         {
           "item_name": "U10女团",
@@ -1764,7 +1764,7 @@
       "location": "唛恩网球中心",
       "city": "上海",
       "province": "上海",
-      "first_seen": "2026-05-11 17:55",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
           "item_name": "U10女团",
@@ -1794,7 +1794,7 @@
       "location": "青岛城阳区青春网球场；市北区辰星网球中心",
       "city": "青岛",
       "province": "山东",
-      "first_seen": "2026-05-10 10:55",
+      "first_seen": "2026-05-12 10:12",
       "items": [
         {
           "item_name": "U10女单",
@@ -1818,7 +1818,7 @@
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
           "current_count": 48,
-          "max_count": 36,
+          "max_count": 48,
           "is_full": true,
           "remaining": 0,
           "reg_end": "2026-06-15 12:00"
