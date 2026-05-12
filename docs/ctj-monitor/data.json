@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-12 11:03",
+  "generated_at": "2026-05-12 14:58",
   "total_count": 58,
   "api_calls_this_refresh": 58,
-  "api_calls_total": 18907,
+  "api_calls_total": 19184,
   "tournaments": [
     {
       "id": "ac3a9bedd35c425a9b6328c2b61fb8f3",
@@ -113,19 +113,19 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 29,
+          "current_count": 28,
           "max_count": 48,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 20,
           "reg_end": "2026-05-14 00:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 45,
+          "current_count": 40,
           "max_count": 48,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 8,
           "reg_end": "2026-05-14 00:00"
         }
       ]
@@ -161,7 +161,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 48,
+          "current_count": 47,
           "max_count": 36,
           "is_full": true,
           "remaining": 0,
@@ -359,19 +359,19 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 10,
+          "current_count": 9,
           "max_count": 32,
           "is_full": false,
-          "remaining": 22,
+          "remaining": 23,
           "reg_end": "2026-05-15 12:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 13,
+          "current_count": 12,
           "max_count": 32,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 20,
           "reg_end": "2026-05-15 12:00"
         }
       ]
@@ -449,10 +449,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 45,
+          "current_count": 46,
           "max_count": 48,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 2,
           "reg_end": "2026-05-12 18:00"
         }
       ]
@@ -833,10 +833,10 @@
         {
           "item_name": "U12女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 44,
+          "current_count": 43,
           "max_count": 48,
           "is_full": false,
-          "remaining": 4,
+          "remaining": 5,
           "reg_end": "2026-05-19 18:00"
         }
       ]
@@ -1103,10 +1103,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 28,
+          "current_count": 31,
           "max_count": 60,
           "is_full": false,
-          "remaining": 32,
+          "remaining": 29,
           "reg_end": "2026-05-18 18:00"
         },
         {
@@ -1169,10 +1169,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 62,
+          "current_count": 63,
           "max_count": 64,
           "is_full": false,
-          "remaining": 2,
+          "remaining": 1,
           "reg_end": "2026-05-22 12:00"
         },
         {
@@ -1358,10 +1358,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 35,
+          "current_count": 34,
           "max_count": 48,
           "is_full": false,
-          "remaining": 13,
+          "remaining": 14,
           "reg_end": "2026-05-28 18:00"
         }
       ]
@@ -1529,10 +1529,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 8,
+          "current_count": 7,
           "max_count": 48,
           "is_full": false,
-          "remaining": 40,
+          "remaining": 41,
           "reg_end": "2026-05-27 12:00"
         },
         {
@@ -1568,10 +1568,10 @@
         {
           "item_name": "U12女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 13,
+          "current_count": 12,
           "max_count": 32,
           "is_full": false,
-          "remaining": 19,
+          "remaining": 20,
           "reg_end": "2026-05-27 20:00"
         }
       ]
