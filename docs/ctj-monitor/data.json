@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-12 10:58",
+  "generated_at": "2026-05-12 11:03",
   "total_count": 58,
   "api_calls_this_refresh": 58,
-  "api_calls_total": 18918,
+  "api_calls_total": 18907,
   "tournaments": [
     {
       "id": "ac3a9bedd35c425a9b6328c2b61fb8f3",
@@ -1098,7 +1098,7 @@
       "location": "贵港市体育中心网球场",
       "city": "贵港",
       "province": "广西",
-      "first_seen": "2026-05-12 10:11",
+      "first_seen": "2026-05-12 10:55",
       "items": [
         {
           "item_name": "U10女单",
@@ -1425,7 +1425,7 @@
       "location": "安徽省宿州国际网球中心",
       "city": "宿州",
       "province": "安徽",
-      "first_seen": "2026-05-12 10:11",
+      "first_seen": "2026-05-12 10:55",
       "items": [
         {
           "item_name": "U12女团",
@@ -1446,7 +1446,7 @@
       "location": "北京市网球运动管理中心",
       "city": "北京",
       "province": "北京",
-      "first_seen": "2026-05-12 10:11",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -1476,7 +1476,7 @@
       "location": "莱安网球俱乐部",
       "city": "南昌",
       "province": "江西",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -1524,7 +1524,7 @@
       "location": "江苏南京江心洲E³PARK体育公园",
       "city": "南京",
       "province": "江苏",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -1554,7 +1554,7 @@
       "location": "哈尔滨商业大学北校区（B区）网球场",
       "city": "哈尔滨",
       "province": "黑龙江",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女子单打",
@@ -1584,7 +1584,7 @@
       "location": "天府国际网球中心",
       "city": "成都",
       "province": "四川",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女单",
@@ -1644,7 +1644,7 @@
       "location": "赛点网球松山湖校区",
       "city": "东莞市",
       "province": "广东",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U12女团",
@@ -1665,15 +1665,15 @@
       "location": "山东济南飓风网球公园；济南全民健身中心",
       "city": "济南",
       "province": "山东",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 26,
+          "current_count": 27,
           "max_count": 36,
           "is_full": false,
-          "remaining": 10,
+          "remaining": 9,
           "reg_end": "2026-06-02 12:00"
         },
         {
@@ -1713,7 +1713,7 @@
       "location": "厦门国博星宸网球馆",
       "city": "厦门",
       "province": "福建",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U12女子",
@@ -1764,7 +1764,7 @@
       "location": "唛恩网球中心",
       "city": "上海",
       "province": "上海",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女团",
@@ -1794,7 +1794,7 @@
       "location": "青岛城阳区青春网球场；市北区辰星网球中心",
       "city": "青岛",
       "province": "山东",
-      "first_seen": "2026-05-12 10:12",
+      "first_seen": "2026-05-12 10:56",
       "items": [
         {
           "item_name": "U10女单",
