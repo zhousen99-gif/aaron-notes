@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-15 20:02",
+  "generated_at": "2026-05-15 21:02",
   "total_count": 70,
   "api_calls_this_refresh": 70,
-  "api_calls_total": 23908,
+  "api_calls_total": 23992,
   "tournaments": [
     {
       "id": "e0c166fcd592473ba97067e4e3c13a83",
@@ -374,10 +374,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 32,
+          "current_count": 31,
           "max_count": 32,
-          "is_full": true,
-          "remaining": 0,
+          "is_full": false,
+          "remaining": 1,
           "reg_end": "2026-05-13 17:00"
         },
         {
@@ -767,10 +767,10 @@
         {
           "item_name": "U12女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 40,
+          "current_count": 41,
           "max_count": 48,
           "is_full": false,
-          "remaining": 8,
+          "remaining": 7,
           "reg_end": "2026-05-19 18:00"
         }
       ]
@@ -818,10 +818,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 25,
+          "current_count": 24,
           "max_count": 36,
           "is_full": false,
-          "remaining": 11,
+          "remaining": 12,
           "reg_end": "2026-05-19 12:00"
         },
         {
@@ -836,10 +836,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 32,
+          "current_count": 31,
           "max_count": 36,
           "is_full": false,
-          "remaining": 4,
+          "remaining": 5,
           "reg_end": "2026-05-19 12:00"
         },
         {
@@ -866,10 +866,10 @@
         {
           "item_name": "U12女子团体",
           "item_type": "TEAM",
-          "current_count": 11,
+          "current_count": 12,
           "max_count": 12,
-          "is_full": false,
-          "remaining": 1,
+          "is_full": true,
+          "remaining": 0,
           "reg_end": "2026-05-18 16:00"
         }
       ]
@@ -896,10 +896,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 48,
+          "current_count": 49,
           "max_count": 64,
           "is_full": false,
-          "remaining": 16,
+          "remaining": 15,
           "reg_end": "2026-05-18 18:00"
         }
       ]
@@ -956,10 +956,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 24,
+          "current_count": 23,
           "max_count": 32,
           "is_full": false,
-          "remaining": 8,
+          "remaining": 9,
           "reg_end": "2026-05-21 18:00"
         }
       ]
@@ -1055,10 +1055,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 39,
+          "current_count": 40,
           "max_count": 60,
           "is_full": false,
-          "remaining": 21,
+          "remaining": 20,
           "reg_end": "2026-05-18 18:00"
         },
         {
@@ -1094,10 +1094,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 16,
+          "current_count": 14,
           "max_count": 48,
           "is_full": false,
-          "remaining": 32,
+          "remaining": 34,
           "reg_end": "2026-05-21 20:00"
         }
       ]
@@ -1343,10 +1343,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 2,
+          "current_count": 1,
           "max_count": 32,
           "is_full": false,
-          "remaining": 30,
+          "remaining": 31,
           "reg_end": "2026-05-28 18:00"
         },
         {
@@ -1931,10 +1931,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 29,
+          "current_count": 30,
           "max_count": 32,
           "is_full": false,
-          "remaining": 3,
+          "remaining": 2,
           "reg_end": "2026-06-03 17:00"
         },
         {
