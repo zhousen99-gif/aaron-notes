@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-16 20:02",
+  "generated_at": "2026-05-16 22:02",
   "total_count": 70,
   "api_calls_this_refresh": 70,
-  "api_calls_total": 25239,
+  "api_calls_total": 25407,
   "tournaments": [
     {
       "id": "e0c166fcd592473ba97067e4e3c13a83",
@@ -413,10 +413,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 34,
+          "current_count": 35,
           "max_count": 46,
           "is_full": false,
-          "remaining": 12,
+          "remaining": 11,
           "reg_end": "2026-05-08 23:00"
         }
       ]
@@ -1007,10 +1007,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 20,
+          "current_count": 21,
           "max_count": 28,
           "is_full": false,
-          "remaining": 8,
+          "remaining": 7,
           "reg_end": "2026-05-20 12:00"
         },
         {
@@ -1313,7 +1313,7 @@
         {
           "item_name": "U10女子团体",
           "item_type": "TEAM",
-          "current_count": 11,
+          "current_count": 12,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
@@ -1322,7 +1322,7 @@
         {
           "item_name": "U12女子团体",
           "item_type": "TEAM",
-          "current_count": 10,
+          "current_count": 11,
           "max_count": 0,
           "is_full": false,
           "remaining": -1,
@@ -1673,10 +1673,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 9,
+          "current_count": 10,
           "max_count": 64,
           "is_full": false,
-          "remaining": 55,
+          "remaining": 54,
           "reg_end": "2026-05-28 21:00"
         }
       ]
@@ -1712,10 +1712,10 @@
         {
           "item_name": "U10女子单打",
           "item_type": "INDIVIDUAL",
-          "current_count": 22,
+          "current_count": 23,
           "max_count": 24,
           "is_full": false,
-          "remaining": 2,
+          "remaining": 1,
           "reg_end": "2026-05-25 23:59"
         }
       ]
@@ -1910,10 +1910,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 7,
+          "current_count": 8,
           "max_count": 46,
           "is_full": false,
-          "remaining": 39,
+          "remaining": 38,
           "reg_end": "2026-06-03 12:00"
         }
       ]
