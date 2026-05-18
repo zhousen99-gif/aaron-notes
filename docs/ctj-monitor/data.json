@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-18 13:01",
+  "generated_at": "2026-05-18 14:02",
   "total_count": 73,
   "api_calls_this_refresh": 73,
-  "api_calls_total": 27403,
+  "api_calls_total": 27490,
   "tournaments": [
     {
       "id": "e0c166fcd592473ba97067e4e3c13a83",
@@ -1007,16 +1007,16 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 23,
+          "current_count": 22,
           "max_count": 28,
           "is_full": false,
-          "remaining": 5,
+          "remaining": 6,
           "reg_end": "2026-05-20 12:00"
         },
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 28,
+          "current_count": 29,
           "max_count": 28,
           "is_full": true,
           "remaining": 0,
@@ -1037,10 +1037,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 42,
+          "current_count": 41,
           "max_count": 60,
           "is_full": false,
-          "remaining": 18,
+          "remaining": 19,
           "reg_end": "2026-05-18 18:00"
         },
         {
@@ -1085,10 +1085,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 22,
+          "current_count": 24,
           "max_count": 48,
           "is_full": false,
-          "remaining": 26,
+          "remaining": 24,
           "reg_end": "2026-05-21 20:00"
         },
         {
@@ -1193,19 +1193,19 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 60,
+          "current_count": 59,
           "max_count": 64,
           "is_full": false,
-          "remaining": 4,
+          "remaining": 5,
           "reg_end": "2026-05-22 12:00"
         },
         {
           "item_name": "U12女双",
           "item_type": "INDIVIDUAL",
-          "current_count": 16,
+          "current_count": 15,
           "max_count": 32,
           "is_full": false,
-          "remaining": 16,
+          "remaining": 17,
           "reg_end": "2026-05-22 12:00"
         }
       ]
@@ -1850,7 +1850,7 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 43,
+          "current_count": 42,
           "max_count": 36,
           "is_full": true,
           "remaining": 0,
@@ -1910,10 +1910,10 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 13,
+          "current_count": 14,
           "max_count": 46,
           "is_full": false,
-          "remaining": 33,
+          "remaining": 32,
           "reg_end": "2026-06-03 12:00"
         }
       ]
@@ -1931,10 +1931,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 30,
+          "current_count": 31,
           "max_count": 32,
           "is_full": false,
-          "remaining": 2,
+          "remaining": 1,
           "reg_end": "2026-06-03 17:00"
         },
         {
@@ -2021,10 +2021,10 @@
         {
           "item_name": "U10女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 0,
+          "current_count": 2,
           "max_count": 30,
           "is_full": false,
-          "remaining": 30,
+          "remaining": 28,
           "reg_end": "2026-06-02 18:00"
         },
         {
@@ -2039,19 +2039,19 @@
         {
           "item_name": "U12女单",
           "item_type": "INDIVIDUAL",
-          "current_count": 9,
+          "current_count": 14,
           "max_count": 30,
           "is_full": false,
-          "remaining": 21,
+          "remaining": 16,
           "reg_end": "2026-06-02 18:00"
         },
         {
           "item_name": "U12女双",
           "item_type": "INDIVIDUAL",
-          "current_count": 3,
+          "current_count": 5,
           "max_count": 8,
           "is_full": false,
-          "remaining": 5,
+          "remaining": 3,
           "reg_end": "2026-06-02 18:00"
         }
       ]
