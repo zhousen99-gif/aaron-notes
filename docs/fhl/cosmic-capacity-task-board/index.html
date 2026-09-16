@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>FHL 3-Day MVP Task Tracker</title>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--text:#1f2328;--muted:#667085;--line:#d0d7de;--blue:#0969da;--green:#1a7f37;--red:#cf222e;--yellow:#9a6700}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",Microsoft YaHei,Arial,sans-serif;font-size:13px}header{padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:2}h1{font-size:18px;margin:0 12px 0 0}.meta{color:var(--muted);font-size:12px}.progress{display:flex;align-items:center;gap:6px;margin-left:auto}.bar{width:120px;height:8px;background:#eaeef2;border:1px solid var(--line);border-radius:10px;overflow:hidden}.fill{height:100%;background:var(--green);width:0%}button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:4px;padding:3px 7px;cursor:pointer}button:hover{background:#f3f4f6}button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button.danger{color:var(--red)}select,input,textarea{font:inherit;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--text)}main{padding:10px 14px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}.toolbar input{padding:4px 6px;min-width:260px}.toolbar select{padding:4px 6px}.grid{display:grid;grid-template-columns:repeat(3,minmax(280px,1fr));gap:10px}.day{background:var(--panel);border:1px solid var(--line);border-radius:6px;min-height:260px}.dayHead{padding:7px 9px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:#f6f8fa}.dayTitle{font-weight:700}.dayCount{color:var(--muted);font-size:12px}.tasks{padding:6px}.task{display:grid;grid-template-columns:20px 1fr auto;gap:6px;align-items:start;padding:5px 4px;border-bottom:1px solid #edf0f2}.task:last-child{border-bottom:0}.task.done .text{text-decoration:line-through;color:var(--muted)}.task input[type=checkbox]{margin-top:2px}.text{line-height:1.35;outline:none;min-height:18px}.text:focus{background:#fff8c5}.tag{font-size:11px;color:var(--muted);white-space:nowrap;margin-top:1px}.actions{display:flex;gap:4px}.add{display:grid;grid-template-columns:76px 1fr auto;gap:5px;padding:7px;border-top:1px solid var(--line);background:#fafbfc}.add input,.add select{padding:4px 5px;width:100%}.notes{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:6px}.notesHead{padding:7px 9px;border-bottom:1px solid var(--line);font-weight:700;background:#f6f8fa}.notes textarea{width:100%;height:80px;border:0;border-radius:0;padding:8px;resize:vertical}.hidden{display:none}@media(max-width:980px){.grid{grid-template-columns:1fr}header{align-items:flex-start}.progress{margin-left:0}.toolbar input{min-width:160px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>FHL 3-Day MVP Task Tracker</h1>
+  <span class="meta">纯任务跟踪页 · 自动本地保存 · 可增删改查</span>
+  <div class="progress"><span id="progressText">0/0</span><div class="bar"><div class="fill" id="progressFill"></div></div></div>
+  <button onclick="exportState()">导出</button>
+  <button onclick="document.getElementById('importFile').click()">导入</button>
+  <input id="importFile" class="hidden" type="file" accept="application/json" onchange="importState(event)">
+  <button class="danger" onclick="resetDefault()">重置</button>
+</header>
+<main>
+  <div class="toolbar">
+    <input id="search" placeholder="搜索任务..." oninput="render()" />
+    <select id="status" onchange="render()"><option value="all">全部</option><option value="open">未完成</option><option value="done">已完成</option></select>
+    <select id="stream" onchange="render()"><option value="all">所有类型</option><option>Product</option><option>Research</option><option>Data</option><option>Engineering</option><option>UX</option><option>Demo</option><option>Submission</option></select>
+    <span class="meta" id="saveState">Saved locally</span>
+  </div>
+  <div class="grid" id="board"></div>
+  <section class="notes">
+    <div class="notesHead">Notes / Decisions / Open Questions</div>
+    <textarea id="notes" oninput="save()"></textarea>
+  </section>
+</main>
+<script>
+const KEY='fhl_compact_task_tracker_v2';
+const defaultState={
+notes:'Day 1重点：确定input、任务范围、数据接口调研、向Shaochen学习Substrate scale onboarding做法。\nDay 2重点：实现可运行MVP骨架和核心check逻辑。\nDay 3重点：补齐数据、打磨demo、准备提交材料。',
+tasks:[
+{day:'Day 1',stream:'Product',text:'锁定MVP范围：仅做dashboard-first容量申请验证，不做开放式agentic chat',done:false},
+{day:'Day 1',stream:'Product',text:'确定核心输入字段：service/namespace、region、ring、SKU/VM family、requested cores、IPS/RPS、timeline',done:false},
+{day:'Day 1',stream:'UX',text:'确定页面信息结构：输入区、验证结果、核心检查项、建议文字，不做复杂mockup',done:false},
+{day:'Day 1',stream:'Research',text:'向Shaochen学习Substrate scale onboarding做法：输入字段、流程节点、gate信号、可复用经验',done:false},
+{day:'Day 1',stream:'Data',text:'研究数据接口并列出可用性：budget、footprint、utilization、IPS/RPS、SKU/region fit',done:false},
+{day:'Day 1',stream:'Engineering',text:'确定MVP技术方案和数据contract：哪些接真实接口，哪些先用sample/mock数据',done:false},
+{day:'Day 2',stream:'Engineering',text:'实现本地MVP页面骨架：输入表单、检查项区域、整体状态、建议文字区域',done:false},
+{day:'Day 2',stream:'Data',text:'实现核心数据模型和sample data：capacity ask、budget、footprint、utilization、traffic',done:false},
+{day:'Day 2',stream:'Data',text:'接入或模拟核心检查项：Budget Check、Footprint/Utilization、IPS/RPS Sanity',done:false},
+{day:'Day 2',stream:'Engineering',text:'实现规则逻辑：Approve / Review / Gate / Optimize First，以及每项检查的pass/warn/gate状态',done:false},
+{day:'Day 2',stream:'Engineering',text:'实现建议文字生成：基于检查结果输出结论、解释、风险/缺口、下一步',done:false},
+{day:'Day 2',stream:'UX',text:'补齐source/freshness/mock标记，避免真实数据和sample数据混淆',done:false},
+{day:'Day 3',stream:'Data',text:'确认并替换尽可能多的真实数据接口；无法接入的部分明确标记为sample/mock',done:false},
+{day:'Day 3',stream:'UX',text:'压缩和打磨页面：一屏看清输入、检查结果、总体结论和建议文字',done:false},
+{day:'Day 3',stream:'Demo',text:'准备并演练一个端到端demo scenario：从capacity ask到dashboard检查再到建议文字',done:false},
+{day:'Day 3',stream:'Submission',text:'准备FHL提交材料：项目简介、问题、方案、价值、demo截图/录屏、后续计划',done:false},
+{day:'Day 3',stream:'Product',text:'整理post-MVP backlog：真实数据接入、权限、官方流程集成、阈值配置、生产化风险',done:false}
+]};
+let state=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||structuredClone(defaultState)}catch(e){return structuredClone(defaultState)}}
+function save(){state.notes=document.getElementById('notes')?.value??state.notes;localStorage.setItem(KEY,JSON.stringify(state));const s=document.getElementById('saveState');if(s)s.textContent='Saved '+new Date().toLocaleTimeString();}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function passFilter(t){const q=document.getElementById('search').value.trim().toLowerCase();const st=document.getElementById('status').value;const stream=document.getElementById('stream').value;return (!q||t.text.toLowerCase().includes(q)||t.stream.toLowerCase().includes(q)||t.day.toLowerCase().includes(q))&&(st==='all'||(st==='open'&&!t.done)||(st==='done'&&t.done))&&(stream==='all'||t.stream===stream)}
+function render(){document.getElementById('notes').value=state.notes||'';const board=document.getElementById('board');board.innerHTML='';['Day 1','Day 2','Day 3'].forEach(day=>{const all=state.tasks.map((t,i)=>({...t,i})).filter(t=>t.day===day);const show=all.filter(passFilter);const done=all.filter(t=>t.done).length;const sec=document.createElement('section');sec.className='day';sec.innerHTML=`<div class="dayHead"><span class="dayTitle">${day}</span><span class="dayCount">${done}/${all.length}</span></div><div class="tasks"></div><div class="add"><select id="s-${day}"><option>Product</option><option>Research</option><option>Data</option><option>Engineering</option><option>UX</option><option>Demo</option><option>Submission</option></select><input id="n-${day}" placeholder="新增任务" onkeydown="if(event.key==='Enter') addTask('${day}')"><button class="primary" onclick="addTask('${day}')">Add</button></div>`;board.appendChild(sec);const list=sec.querySelector('.tasks');show.forEach(t=>{const row=document.createElement('div');row.className='task '+(t.done?'done':'');row.innerHTML=`<input type="checkbox" ${t.done?'checked':''} onchange="toggle(${t.i})"><div><div class="text" contenteditable="true" onblur="edit(${t.i},this.innerText)">${esc(t.text)}</div><div class="tag">${esc(t.stream)}</div></div><div class="actions"><button class="danger" onclick="del(${t.i})">×</button></div>`;list.appendChild(row);});});const total=state.tasks.length,done=state.tasks.filter(t=>t.done).length;document.getElementById('progressText').textContent=`${done}/${total}`;document.getElementById('progressFill').style.width=(total?done*100/total:0)+'%';save();}
+function toggle(i){state.tasks[i].done=!state.tasks[i].done;render();}
+function edit(i,text){const v=text.trim();if(v)state.tasks[i].text=v;render();}
+function del(i){if(confirm('删除这个任务？')){state.tasks.splice(i,1);render();}}
+function addTask(day){const inp=document.getElementById('n-'+day);const sel=document.getElementById('s-'+day);const text=inp.value.trim();if(!text)return;state.tasks.push({day,stream:sel.value,text,done:false});inp.value='';render();}
+function exportState(){save();const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fhl-task-tracker-state.json';a.click();URL.revokeObjectURL(a.href);}
+function importState(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=JSON.parse(r.result);localStorage.setItem(KEY,JSON.stringify(state));render();}catch(err){alert('JSON格式不正确')}};r.readAsText(f);}
+function resetDefault(){if(confirm('重置会覆盖当前本地修改，是否继续？')){state=structuredClone(defaultState);localStorage.setItem(KEY,JSON.stringify(state));render();}}
+render();
+</script>
+</body>
+</html>
+
